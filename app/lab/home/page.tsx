@@ -179,7 +179,7 @@ const SmallBox = styled.div`
   padding: 20px;
   border-radius: 5px; /* Optional: abgerundete Ecken */
   margin: 10px; /* Abstand zu den Rändern */
-  height: 220px; /* Höhe der kleinen Boxen leicht erhöht */
+  height: 270px; /* Höhe der kleinen Boxen leicht erhöht */
   color: white;
   position: relative;
 `;

@@ -1,15 +1,17 @@
 "use client";
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import Image from 'next/image';
-import pic from './pic.svg';
+import pic from './pic.svg';  // Stellen Sie sicher, dass der Pfad korrekt ist
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  background-color: #2b272a; /* Gleiche Hintergrundfarbe */
+  background-color: #2b272a;
   overflow-x: hidden;
 `;
 
@@ -19,7 +21,7 @@ const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
   border-bottom: 1px solid #444;
-  background-color: #2b272a; /* Gleiche Hintergrundfarbe */
+  background-color: #2b272a;
 `;
 
 const Title = styled.a`
@@ -41,7 +43,7 @@ const BoldText = styled.span`
 const Main = styled.main`
   flex: 1;
   display: flex;
-  justify-content: flex-start; /* Positionierung des Inhalts von links nach rechts */
+  justify-content: flex-start;
   align-items: flex-start;
   padding: 20px;
   position: relative;
@@ -49,12 +51,12 @@ const Main = styled.main`
 
 const FooterContainer = styled.footer`
   width: 100%;
-  padding: 20px 20px; /* Etwas weniger hoch durch weniger Padding */
+  padding: 20px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-top: 1px solid #444;
-  background-color: #2b272a; /* Gleiche Hintergrundfarbe */
+  background-color: #2b272a;
   color: #bbb;
   font-size: 14px;
 `;
@@ -64,23 +66,23 @@ const LoginBox = styled.div`
   flex-direction: column;
   max-width: 400px;
   width: 100%;
-  background-color: transparent; /* Unsichtbare Box */
+  background-color: transparent;
   padding: 10px;
   position: relative;
 `;
 
 const PageTitle = styled.h1`
-  font-size: 28px; /* Größere Schriftgröße */
+  font-size: 28px;
   color: #bbb;
-  font-weight: 300; /* Schmalere Schrift */
-  margin-bottom: 20px; /* Größerer Abstand */
+  font-weight: 300;
+  margin-bottom: 20px;
 `;
 
-const FormContainer = styled.div`
+const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: calc(100vh - 140px); /* Header (60px) + Footer (80px) Höhe berücksichtigen */
+  max-height: calc(100vh - 140px);
 `;
 
 const InputBox = styled.input`
@@ -96,7 +98,7 @@ const InputBox = styled.input`
 const Button = styled.button`
   width: 106%;
   padding: 10px;
-  margin: 20px 0; /* Größerer Abstand nach oben und unten */
+  margin: 20px 0;
   border: 1px solid #0f62fe;
   background-color: #0f62fe;
   color: #fff;
@@ -138,15 +140,15 @@ const ShortDivider = styled.hr`
   width: 106%;
   border: 0;
   border-top: 1px solid #444;
-  margin: 20px 0; /* Größerer Abstand */
+  margin: 20px 0;
 `;
 
 const VerticalDivider = styled.div`
   width: 1px;
   background-color: #444;
-  height: calc(100vh - 250px); /* Höhe von Header und Footer berücksichtigen */
-  margin: 60px 0; /* Abstand von Header und Footer */
-  margin-left: 50px; /* Abstand vom Login-Container */
+  height: calc(100vh - 250px);
+  margin: 60px 0;
+  margin-left: 50px;
 `;
 
 const ImageContainer = styled.div`
@@ -154,11 +156,36 @@ const ImageContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  max-height: calc(100vh - 160px); /* Header (60px) + Footer (80px) Höhe berücksichtigen */
-  margin-left: 40px; /* Abstand vom InfoContainer */
+  max-height: calc(100vh - 160px);
+  margin-left: 40px;
 `;
 
 export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/app/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        router.push('/lab/home'); // Weiterleitung auf die Seite /lab/home
+      } else {
+        console.error('Anmeldung fehlgeschlagen', response.statusText);
+      }
+    } catch (error) {
+      console.error('Anmeldung fehlgeschlagen', error);
+    }
+  };
+
   return (
     <Container>
       <HeaderContainer>
@@ -171,10 +198,22 @@ export default function LoginPage() {
         <LoginBox>
           <PageTitle>LOGIN to LILY</PageTitle>
           <ShortDivider />
-          <FormContainer>
-            <InputBox type="email" placeholder="Email" />
-            <InputBox type="password" placeholder="Password" />
-            <Button>Login</Button>
+          <FormContainer onSubmit={handleSubmit}>
+            <InputBox
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <InputBox
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <Button type="submit">Login</Button>
           </FormContainer>
           <ShortDivider />
           <SmallText>Don't have an account?</SmallText>
@@ -186,7 +225,7 @@ export default function LoginPage() {
         </LoginBox>
         <VerticalDivider />
         <ImageContainer>
-          <Image src={pic} alt="Picture" layout="intrinsic" objectFit="contain" />
+          <Image src={pic} alt="Picture" width={400} height={400} />
         </ImageContainer>
       </Main>
       <FooterContainer>

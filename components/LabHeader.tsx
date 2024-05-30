@@ -190,8 +190,8 @@ export default function Header({ activeOption, onOptionClick }) {
           </Title>
           <VerticalLine />
           <BannerOptions>
-            <NavLink href="/" isActive={activeOption === 'home'}>Home</NavLink>
-            <NavLink href="/jobs" isActive={activeOption === 'jobs'}>Jobs</NavLink>
+            <NavLink href="/home" isActive={activeOption === 'home'}>Home</NavLink>
+            <NavLink href="lab/jobs" isActive={activeOption === 'jobs'}>Jobs</NavLink>
             <NavLink href="/configuration" isActive={activeOption === 'configuration'}>Configuration</NavLink>
             <NavLink href="/monitoring" isActive={activeOption === 'monitoring'}>Monitoring</NavLink>
           </BannerOptions>
