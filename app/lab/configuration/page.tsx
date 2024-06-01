@@ -41,6 +41,8 @@ const RightSide = styled.div`
 const TopRightSegment = styled.div`
   height: 33.33%; /* Ein Drittel der Höhe */
   border-bottom: 0.25px solid #444; /* Dünnere Trennlinie */
+  display: flex;
+  padding: 20px;
 `;
 
 const BottomRightSegment = styled.div`
@@ -129,6 +131,33 @@ const Arrow = styled.div`
   margin: 10px 0;
 `;
 
+const VerificationList = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+`;
+
+const VerificationItems = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+`;
+
+const VerificationDots = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 5px; /* Weniger Abstand zwischen den Spalten */
+`;
+
+const Item = styled.div`
+  font-size: 14px;
+  color: #bbb;
+  margin-bottom: 10px;
+`;
+
 export default function HomePage() {
   return (
     <Container>
@@ -213,7 +242,22 @@ export default function HomePage() {
         </LeftSide>
         <RightSide>
           <TopRightSegment>
-            {/* Inhalt des oberen Segments */}
+            <VerificationList>
+              <VerificationItems>
+                <Item>Verify Model Configuration</Item>
+                <Item>Verify Training set</Item>
+                <Item>Verify Backend</Item>
+                <Item>Verify Values</Item>
+                <Item>Complete Verification</Item>
+              </VerificationItems>
+              <VerificationDots>
+                <Item>...</Item>
+                <Item>...</Item>
+                <Item>...</Item>
+                <Item>...</Item>
+                <Item>...</Item>
+              </VerificationDots>
+            </VerificationList>
           </TopRightSegment>
           <BottomRightSegment>
             {/* Inhalt des unteren Segments */}
