@@ -3,13 +3,18 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import pic from './pic.svg';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import Footer from '@/components/Footer';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  background-color: #2b272a; /* Same background color */
+  // background-color: #2b272a; /* Same background color */
+  
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};
   overflow-x: hidden;
 `;
 
@@ -18,8 +23,10 @@ const HeaderContainer = styled.header`
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #444;
-  background-color: #2b272a; /* Same background color */
+  border-bottom: 1px solid  ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};;
+  
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};
+  // background-color: #2b272a; /* Same background color */
 `;
 
 const Title = styled.a`
@@ -71,7 +78,8 @@ const LoginBox = styled.div`
 
 const PageTitle = styled.h1`
   font-size: 28px; /* Larger font size */
-  color: #bbb;
+ 
+  color:  ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};;
   font-weight: 300; /* Lighter font weight */
   margin-bottom: 20px; /* Larger margin */
 `;
@@ -88,8 +96,10 @@ const InputBox = styled.input`
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #444;
-  background-color: #2b272a;
-  color: #bbb;
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};;
+  
+  color:  ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};;
+
   font-size: 16px;
 `;
 
@@ -137,13 +147,14 @@ const LinkText = styled.a`
 const ShortDivider = styled.hr`
   width: 106%;
   border: 0;
-  border-top: 1px solid #444;
+  border-top: 1px solid  ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};;
   margin: 20px 0; /* Larger margin */
 `;
 
 const VerticalDivider = styled.div`
   width: 1px;
-  background-color: #444;
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};;
+
   height: calc(100vh - 250px); /* Consider height of header and footer */
   margin: 60px 0; /* Margin from header and footer */
   margin-left: 50px; /* Margin from login container */
@@ -159,9 +170,15 @@ const ImageContainer = styled.div`
 `;
 
 export default function LoginPage() {
+  const router=useRouter()
+  const theme = useSelector((state)=>state.theme.theme);
+  const handleLogin=()=>{
+    console.log('login')
+    router.push('/login')
+  }
   return (
-    <Container>
-      <HeaderContainer>
+    <Container theme={theme}>
+      <HeaderContainer theme={theme}>
         <Title href="/">
           <NormalText>LILY </NormalText>
           <BoldText>QML</BoldText>
@@ -169,31 +186,32 @@ export default function LoginPage() {
       </HeaderContainer>
       <Main>
         <LoginBox>
-          <PageTitle>Sign in to LILY</PageTitle>
+          <PageTitle theme={theme}>Sign in to LILY</PageTitle>
           <ShortDivider />
           <FormContainer>
-            <InputBox type="text" placeholder="Name" />
-            <InputBox type="email" placeholder="Email" />
-            <InputBox type="password" placeholder="Password" />
-            <InputBox type="text" placeholder="Key" />
-            <Button>Sign In</Button>
+            <InputBox type="text" placeholder="Name" theme={theme} />
+            <InputBox type="email" placeholder="Email" theme={theme} />
+            <InputBox type="password" placeholder="Password"  theme={theme}/>
+            <InputBox type="text" placeholder="Key" theme={theme} />
+            <Button onClick={()=>{router.push('/lab/home')}}>Sign In</Button>
           </FormContainer>
-          <ShortDivider />
+          <ShortDivider theme={theme} />
           <SmallText>Already signed?</SmallText>
-          <TransparentButton>Login</TransparentButton>
+          <TransparentButton onClick={handleLogin}>Login</TransparentButton>
           <ShortDivider />
           <SmallText>
             Forgot Password? <LinkText href="#">Contact LILY Help Desk</LinkText>
           </SmallText>
         </LoginBox>
-        <VerticalDivider />
+        <VerticalDivider  theme={theme}/>
         <ImageContainer>
           <Image src={pic} alt="Picture" layout="intrinsic" objectFit="contain" />
         </ImageContainer>
       </Main>
-      <FooterContainer>
+      <Footer/>
+      {/* <FooterContainer>
         © 2024 LILY QML
-      </FooterContainer>
+      </FooterContainer> */}
     </Container>
   );
 }

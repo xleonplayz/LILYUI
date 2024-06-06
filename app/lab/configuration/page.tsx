@@ -3,13 +3,17 @@
 import styled from 'styled-components';
 import Header from '../../../components/LabHeader';
 import Footer from '../../../components/Footer';
+import { useState } from 'react';
 
+import {  useSelector } from 'react-redux';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  background-color: #181818; /* Noch dunklerer Grauton */
+  // background-color: #121619; /* Noch dunklerer Grauton */
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#121619' : '#f4f4f4')};
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   overflow-x: hidden;
 `;
 
@@ -26,16 +30,21 @@ const LeftSide = styled.div`
   padding: 20px;
   box-sizing: border-box;
   position: relative;
+  
+  border-left: 0.25px solid  ${({ theme }) => (theme === 'dark' ? '#121619' : '#f4f4f4')}; /* Dünnerer und dunklerer grauer Trennstrich */
 `;
 
 const RightSide = styled.div`
   width: 55%; /* Angepasst, um den Platz auszugleichen */
   padding: 20px;
   box-sizing: border-box;
-  border-left: 0.25px solid #444; /* Dünnerer und dunklerer grauer Trennstrich */
+  border-left: 0.25px solid  ${({ theme }) => (theme === 'dark' ? '#444' : '#ffff')}; /* Dünnerer und dunklerer grauer Trennstrich */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#121619' : '#f4f4f4')};
+  // background-color:#121619;
 `;
 
 const TopRightSegment = styled.div`
@@ -53,8 +62,11 @@ const Box = styled.div`
   width: 65%; /* Etwas breiter */
   height: 140px; /* Etwas höhere Boxen */
   margin: 20px 0;
-  background-color: #2b272a; /* Neuer Grauton für die Boxen */
-  color: #fff;
+  
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  // background-color: #21272a; /* Neuer Grauton für die Boxen */
+  // color: #fff;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   font-size: 18px;
   position: relative;
   padding: 10px;
@@ -71,13 +83,19 @@ const BoxHeader = styled.div`
 
 const Label = styled.div`
   font-size: 14px;
-  color: #bbb; /* Farbe der Beschriftung */
+  // color: #bbb; /* Farbe der Beschriftung */
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};
+
 `;
 
 const HorizontalLine = styled.div`
   width: 100%;
   height: 0.25px;
-  background-color: #444; /* Dünnerer und dunklerer grauer Strich */
+  // background-color: #444; /* Dünnerer und dunklerer grauer Strich */
+  
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#444' : '#fff')};
+
   margin: 10px 0;
 `;
 
@@ -104,18 +122,21 @@ const RightSegment = styled.div`
 
 const VerticalLine = styled.div`
   width: 0.25px;
-  background-color: #444; /* Dünnerer und dunklerer grauer vertikaler Strich */
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};
+
 `;
 
 const Description = styled.div`
   font-size: 12px;
-  color: #bbb;
+  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};
+
   margin-bottom: 10px;
 `;
 
 const UploadButton = styled.button`
   background-color: transparent; /* Transparenter Button */
-  color: #fff;
+
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   border: 1px solid #888;
   padding: 5px 20px; /* Angepasste Button-Größe */
   font-size: 14px;
@@ -159,91 +180,107 @@ const Item = styled.div`
 `;
 
 export default function HomePage() {
+  const theme = useSelector((state) => state.theme.theme);
+  const [activeTopNav, setActiveTopNav] = useState('home');
+  const [activeSidebar, setActiveSidebar] = useState('lab');
+
+  const handleTopNavClick = (option: string) => {
+    setActiveTopNav(option);
+  };
+
+  const handleSidebarClick = (option: string) => {
+    setActiveSidebar(option);
+  };
   return (
-    <Container>
-      <Header activeOption="home" onOptionClick={() => {}} />
+    <Container theme={theme}>
+      <Header
+        activeTopNav={activeTopNav}
+        activeSidebar={activeSidebar}
+        onTopNavClick={handleTopNavClick}
+        onSidebarClick={handleSidebarClick}
+      />
       <MainContent>
-        <LeftSide>
-          <Box>
+        <LeftSide theme={theme}>
+          <Box theme={theme}>
             <BoxHeader>
-              <Label>Model Type</Label>
+              <Label theme={theme}>Model Type</Label>
             </BoxHeader>
             <HorizontalLine />
             <Segment>
               <LeftSegment>
-                <Description>
+                <Description theme={theme}>
                   <p>Please select the model type</p>
                   <p>and upload your file.</p>
                 </Description>
               </LeftSegment>
               <VerticalLine />
               <RightSegment>
-                <UploadButton>Upload</UploadButton>
+                <UploadButton theme={theme}>Upload</UploadButton>
               </RightSegment>
             </Segment>
           </Box>
           <Arrow />
-          <Box>
+          <Box theme={theme}>
             <BoxHeader>
-              <Label>Box 2</Label>
+              <Label theme={theme}>Box 2</Label>
             </BoxHeader>
             <HorizontalLine />
             <Segment>
               <LeftSegment>
-                <Description>
+                <Description theme={theme}>
                   <p>Description for Box 2</p>
                   <p>Additional information.</p>
                 </Description>
               </LeftSegment>
               <VerticalLine />
               <RightSegment>
-                <UploadButton>Upload</UploadButton>
+                <UploadButton theme={theme}>Upload</UploadButton>
               </RightSegment>
             </Segment>
           </Box>
           <Arrow />
-          <Box>
+          <Box theme={theme}>
             <BoxHeader>
-              <Label>Box 3</Label>
+              <Label theme={theme}>Box 3</Label>
             </BoxHeader>
             <HorizontalLine />
             <Segment>
               <LeftSegment>
-                <Description>
+                <Description theme={theme}>
                   <p>Description for Box 3</p>
                   <p>Additional information.</p>
                 </Description>
               </LeftSegment>
               <VerticalLine />
               <RightSegment>
-                <UploadButton>Upload</UploadButton>
+                <UploadButton theme={theme}>Upload</UploadButton>
               </RightSegment>
             </Segment>
           </Box>
           <Arrow />
-          <Box>
-            <BoxHeader>
-              <Label>Box 4</Label>
+          <Box theme={theme}>
+            <BoxHeader >
+              <Label theme={theme}>Box 4</Label>
             </BoxHeader>
             <HorizontalLine />
             <Segment>
               <LeftSegment>
-                <Description>
+                <Description theme={theme}>
                   <p>Description for Box 4</p>
                   <p>Additional information.</p>
                 </Description>
               </LeftSegment>
               <VerticalLine />
               <RightSegment>
-                <UploadButton>Upload</UploadButton>
+                <UploadButton theme={theme}>Upload</UploadButton>
               </RightSegment>
             </Segment>
           </Box>
         </LeftSide>
-        <RightSide>
+        <RightSide theme={theme}>
           <TopRightSegment>
             <VerificationList>
-              <VerificationItems>
+              <VerificationItems theme={theme}>
                 <Item>Verify Model Configuration</Item>
                 <Item>Verify Training set</Item>
                 <Item>Verify Backend</Item>

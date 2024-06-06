@@ -5,13 +5,17 @@ import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import Image from 'next/image';
 import pic from './pic.svg';  // Stellen Sie sicher, dass der Pfad korrekt ist
+import Link from 'next/link';
+import Footer from '@/components/Footer';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  background-color: #2b272a;
+ 
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};
   overflow-x: hidden;
 `;
 
@@ -20,8 +24,9 @@ const HeaderContainer = styled.header`
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #444;
-  background-color: #2b272a;
+  border-bottom: 1px solid  ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};;
+  
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};
 `;
 
 const Title = styled.a`
@@ -73,7 +78,8 @@ const LoginBox = styled.div`
 
 const PageTitle = styled.h1`
   font-size: 28px;
-  color: #bbb;
+ 
+  color:  ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};;
   font-weight: 300;
   margin-bottom: 20px;
 `;
@@ -90,8 +96,10 @@ const InputBox = styled.input`
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #444;
-  background-color: #2b272a;
-  color: #bbb;
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};;
+  
+  color:  ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};;
+
   font-size: 16px;
 `;
 
@@ -139,13 +147,13 @@ const LinkText = styled.a`
 const ShortDivider = styled.hr`
   width: 106%;
   border: 0;
-  border-top: 1px solid #444;
+  border-top: 1px solid  ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};;
   margin: 20px 0;
 `;
 
 const VerticalDivider = styled.div`
   width: 1px;
-  background-color: #444;
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};;
   height: calc(100vh - 250px);
   margin: 60px 0;
   margin-left: 50px;
@@ -186,9 +194,15 @@ export default function LoginPage() {
     }
   };
 
+  const handleCreate=()=>{
+    router.push('/create')
+    console.log('create')
+  }
+  const theme =useSelector((state)=>state.theme.theme)
+
   return (
-    <Container>
-      <HeaderContainer>
+    <Container theme={theme}>
+      <HeaderContainer theme={theme}>
         <Title href="/">
           <NormalText>LILY </NormalText>
           <BoldText>QML</BoldText>
@@ -196,17 +210,17 @@ export default function LoginPage() {
       </HeaderContainer>
       <Main>
         <LoginBox>
-          <PageTitle>LOGIN to LILY</PageTitle>
-          <ShortDivider />
+          <PageTitle theme={theme}>LOGIN to LILY</PageTitle>
+          <ShortDivider theme={theme} />
           <FormContainer onSubmit={handleSubmit}>
-            <InputBox
+            <InputBox  theme={theme}
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <InputBox
+            <InputBox theme={theme}
               type="password"
               placeholder="Password"
               value={password}
@@ -215,22 +229,20 @@ export default function LoginPage() {
             />
             <Button type="submit">Login</Button>
           </FormContainer>
-          <ShortDivider />
+          <ShortDivider theme={theme} />
           <SmallText>Don't have an account?</SmallText>
-          <TransparentButton>Create Account</TransparentButton>
-          <ShortDivider />
+           <TransparentButton onClick={handleCreate}>Create Account</TransparentButton> 
+          <ShortDivider theme={theme} />
           <SmallText>
             Forgot Password? <LinkText href="#">Contact LILY Help Desk</LinkText>
           </SmallText>
         </LoginBox>
-        <VerticalDivider />
+        <VerticalDivider  theme={theme}/>
         <ImageContainer>
-          <Image src={pic} alt="Picture" width={400} height={400} />
+          <Image src={pic} alt="Picture" layout="intrinsic" objectFit="contain" />
         </ImageContainer>
       </Main>
-      <FooterContainer>
-        © 2024 LILY QML
-      </FooterContainer>
+      <Footer/>
     </Container>
   );
 }

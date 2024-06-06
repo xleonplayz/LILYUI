@@ -5,14 +5,17 @@ import Header from '../../../components/LabHeader';
 import Footer from '../../../components/Footer';
 import { useState } from 'react';
 import { FaCopy, FaCheck, FaSync, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'; // Häkchen und Kreuze
-
+import { useSelector } from 'react-redux';
+import { setLightTheme, setDarkTheme } from '../../../redux/slices/themesSlice';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  background-color: #2b272a; /* Neue Hintergrundfarbe für Konsistenz */
+  // background-color: #121619; /* Neue Hintergrundfarbe für Konsistenz */
   overflow-x: hidden;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#121619' : '#f4f4f4')};
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#bbb')};
 `;
 
 const Main = styled.main`
@@ -49,25 +52,33 @@ const BoxContainer = styled.div`
 
 const BoxLeft = styled.div`
   flex: 3;
-  background-color: #3a3a3a; /* Ein wenig heller als der Hintergrund */
-  padding: 20px;
+  // background-color: #21272a; 
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  // color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#bbb')};
+  padding:15px  20px;
   border-radius: 5px; /* Optional: abgerundete Ecken */
   margin: 10px; /* Abstand zu den Rändern und anderen Boxen */
-  height: 120px; /* Höhe leicht erhöht */
+  height: auto; /* Höhe leicht erhöht */
 `;
 
 const BoxRight = styled.div`
   flex: 7;
-  background-color: #3a3a3a; /* Ein wenig heller als der Hintergrund */
+  background-color: #21272a; /* Ein wenig heller als der Hintergrund */
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  // color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#bbb')};
   padding: 20px;
   border-radius: 5px; /* Optional: abgerundete Ecken */
   margin: 10px; /* Abstand zu den Rändern und anderen Boxen */
-  height: 120px; /* Höhe leicht erhöht */
+  height: auto; /* Höhe leicht erhöht */
   position: relative;
 `;
 
 const LargeBox = styled.div`
-  background-color: #3a3a3a; /* Ein wenig heller als der Hintergrund */
+  // background-color: #21272a; /* Ein wenig heller als der Hintergrund */
+    
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#bbb')};
   padding: 20px;
   border-radius: 5px; /* Optional: abgerundete Ecken */
   margin: 10px; /* Abstand zu den Rändern */
@@ -82,15 +93,20 @@ const JobSectionTitle = styled.h4`
   position: absolute;
   top: 5px; /* Etwas höher */
   left: 20px; /* Mehr nach rechts */
-  font-weight: 300;
-  color: white;
+  font-size: .875rem;
+  font-weight: 600;
+  letter-spacing: .16px;
+  // color:white
+    
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 `;
 
 const ViewAll = styled.span`
   position: absolute;
   top: 30px; /* Etwas tiefer */
   right: 30px; /* Mehr nach links */
-  color: #0f62fe;
+  // color: #0f62fe;
+  color: ${({ theme }) => (theme === 'dark' ? '#0f62fe' : '#000')};
   cursor: pointer;
 `;
 
@@ -104,66 +120,83 @@ const JobInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: white;
+  // color: white;
+  
+  color: ${({ theme }) => (theme === 'dark' ? 'white' : '#000')};
   margin-right: 10px; /* Weniger Abstand zwischen den Job-Infos */
 `;
 
 const JobNumber = styled.span`
   font-size: 2rem; /* Kleinere Zahl */
   font-weight: 300; /* Dünnerer Text */
+  
+  color: ${({ theme }) => (theme === 'dark' ? 'white' : '#000')};
 `;
 
 const JobStatus = styled.span`
   font-size: 0.875rem; /* Kleinere Schrift */
-  color: grey;
+  // color: grey;
+  
+  color: ${({ theme }) => (theme === 'dark' ? 'grey' : '#000')};
   margin-top: 5px; /* Weniger Abstand zwischen Zahl und Text */
 `;
 
 const HeaderBar = styled.div`
   width: 100%; /* Vollständige Breite */
-  background-color: #4a4a4a; /* Leicht hellerer Grauton */
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#c6c6c6')};
   padding: 5px 0; /* Weniger hohe Leiste und keinen Abstand zu den Rändern */
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
-  color: white; /* Weiße Schrift */
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#FFF' : '#000')};
   font-weight: 300;
   font-size: 0.875rem; /* Kleinere Schrift */
 `;
 
 const HeaderItem = styled.div`
   flex: 1;
-  text-align: center;
+  text-align: left;
+  font-weight:bold;
   &:first-child {
     text-align: left;
     padding-left: 20px; /* Abstand zum linken Rand */
   }
   &:last-child {
-    text-align: right;
+    text-align: left;
     padding-right: 20px; /* Abstand zum rechten Rand */
   }
 `;
 
 const DataRow = styled.div`
   width: 100%;
-  background-color: #3a3a3a;
+  // background-color: #21272a;
+
   display: flex;
+  flex: 1;
   justify-content: space-between;
-  color: white;
+  color: ${({ theme }) => (theme === 'dark' ? '#FFF' : '#000')};
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   padding: 10px 0;
   border-top: 1px solid #4a4a4a; /* Trennstrich */
   font-size: 0.875rem; /* Kleinere Schrift */
+ 
 `;
 
 const DataItem = styled.div`
   flex: 1;
-  text-align: center;
+  text-align: left;
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#FFF' : '#000')};
   &:first-child {
     text-align: left;
     padding-left: 20px; /* Abstand zum linken Rand */
   }
   &:last-child {
-    text-align: right;
+    text-align: left;
+    
     padding-right: 20px; /* Abstand zum rechten Rand */
   }
 `;
@@ -175,13 +208,15 @@ const SmallBoxContainer = styled.div`
 
 const SmallBox = styled.div`
   flex: 1;
-  background-color: #3a3a3a; /* Ein wenig heller als der Hintergrund */
-  padding: 20px;
+  // background-color: #21272a; /* Ein wenig heller als der Hintergrund */
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   border-radius: 5px; /* Optional: abgerundete Ecken */
   margin: 10px; /* Abstand zu den Rändern */
-  height: 270px; /* Höhe der kleinen Boxen leicht erhöht */
-  color: white;
+  height: 300px; /* Höhe der kleinen Boxen leicht erhöht */
+  color: ${({ theme }) => (theme === 'dark' ? '#FFF' : '#000')};
+  // padding:10px 0px ;
   position: relative;
+
 `;
 
 const HalfBox = styled.div`
@@ -196,7 +231,7 @@ const Divider = styled.div`
   width: 100%;
   height: 1px;
   background-color: #4a4a4a;
-  margin: 10px 0;
+  
 `;
 
 const FooterSpacing = styled.div`
@@ -207,24 +242,28 @@ const Banner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 70px;
-  background: linear-gradient(90deg, rgba(58,73,214,1) 0%, rgba(160,50,196,1) 100%);
+  padding: 90px 70px 40px 70px;
+  // padding-top:70px
+  background: linear-gradient(25deg, #0f62fe 25%, #a56eff 80%, #ff7eb6 100%);
+  background-attachment: fixed;
   color: white;
   margin-top: 0px;
 `;
 
 const UserInfo = styled.div`
   position: absolute;
-  top: 8%;
-  left: 1.5%;
-  font-size: 12px;
-  font-weight: 300;
+  top: 9%;
+  left: 1.7%;
+  color:white;
+  font-size: .875rem;
+  letter-spacing: .16px;
+  line-height: 1.28572;
 `;
 
 const BannerText = styled.div`
   position: absolute;
   display: flex;
-  top: 18%;
+  // top: 18%;
   left: 1.5%;
   flex-direction: column;
   font-size: 12px;
@@ -233,7 +272,7 @@ const BannerText = styled.div`
 
 const BannerTitle = styled.h1`
   margin: 0;
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 300;
 `;
 
@@ -243,12 +282,12 @@ const APIToken = styled.div`
   align-items: flex-start;
   font-weight: 300;
   margin-left: 75%; /* Schiebt das Element nach rechts */
-  margin-top: 20px; /* Setzt den Bereich nach unten */
+
 `;
 
 const APILabel = styled.label`
-  margin-bottom: 5px;
-  font-size: 0.875rem;
+  margin-bottom: 10px;
+  font-size: 0.75rem;
   font-weight: 300;
 `;
 
@@ -261,14 +300,16 @@ const APIInputContainer = styled.div`
 
 const APIInput = styled.input`
   padding: 10px;
-  border: 1px solid #bbb;
+  border: 1px solid transparent;
   border-radius: 0; /* Eckige Kanten */
   font-size: 0.875rem;
-  width: 250px;
+  width: 300px;
   max-width: 500px; /* Länger */
-  background-color: rgba(255, 255, 255, 0.3); /* Viel transparenter */
-  color: white;
+  background-color: rgba(255, 255, 255, 0.7); /* Viel transparenter */
+  color: black;
   padding-right: 80px; /* Platz für die Symbole */
+
+ 
 `;
 
 const Button = styled.button`
@@ -279,12 +320,14 @@ const Button = styled.button`
   border: none;
   background: transparent;
   cursor: pointer;
-  color: white;
+  color: #161616;
+  font-weight: normal ;
   font-size: 1rem; /* Kleinere Symbole */
 `;
 
 const CopyButton = styled(Button)`
   right: 40px; /* Platz für das Aktualisierungssymbol */
+  font-weight: 300;
 `;
 
 const RefreshButton = styled(Button)`
@@ -295,13 +338,15 @@ const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  color: white;
+
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 `;
 
 const Title = styled.h3`
   margin: 0;
-  font-weight: 300; /* Dünnerer Text für "Monthly usage" */
-  font-size: 1.25rem; /* Kleinere Schrift */
+  font-size: .875rem;
+  font-weight: 600;
+  letter-spacing: .16px;
 `;
 
 const InlineContainer = styled.div`
@@ -311,8 +356,9 @@ const InlineContainer = styled.div`
 `;
 
 const BlueText = styled.span`
-  color: #0f62fe;
-  font-size: 0.875rem;
+  color: #0f62fe;font-size: .775rem;
+  font-weight: 600;
+  letter-spacing: .16px;
   cursor: pointer;
 `;
 
@@ -325,7 +371,9 @@ const VerticalDivider = styled.div`
 
 const SmallText = styled.p`
   margin: 0;
-  color: grey;
+  // color: rgba(255,255,255,0.7);
+  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};
+  font-size: .775rem;
 `;
 
 const ProgressBarContainer = styled.div`
@@ -347,9 +395,13 @@ const UsageContainer = styled.div`
   display: flex;
   justify-content: space-between;
   position: absolute;
-  top: 40px; /* Tiefer gesetzt */
+  top: 20px; /* Tiefer gesetzt */
   right: 20px;
   color: #a9a9a9; /* Etwas grauer */
+  font-size:.875rem;
+  .span-sec{
+    color:white
+  }
 `;
 
 const UsageInfo = styled.div`
@@ -360,38 +412,51 @@ const UsageInfo = styled.div`
 `;
 
 const SmallBoxTitle = styled.h4`
-  margin: 0;
-  font-weight: 300;
-  font-size: 1rem; /* Kleinere Schrift */
+  margin: 20px;
+  font-size: .875rem;
+  font-weight: 600;
+  letter-spacing: .16px;
+   color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};
+  
+
 `;
 
 const OpenAppLink = styled.span`
   position: absolute;
   top: 20px; /* Etwas höher */
   right: 20px;
-  color: #0f62fe;
+  color: #6f9ae8;
   font-size: 0.875rem;
   cursor: pointer;
+  
+  padding:10px 0px ;
 `;
 
 const SmallBoxSegment = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Abstand zwischen Überschrift und Text */
-  margin-top: 20px; /* Abstand zwischen Segmenten */
+
+padding: 15px 20px;
+  
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#000')};
+  }
 `;
 
 const SegmentTitle = styled.h5`
   margin: 0;
-  font-weight: 300;
-  font-size: 0.875rem;
+  font-size: .75rem;
+  letter-spacing: .32px;
+  line-height: 1.33333;
   color: grey;
 `;
 
 const SegmentText = styled.p`
   margin: 0;
   font-weight: 300;
-  font-size: 0.875rem;
+  font-size: .875rem;
+  
+  line-height: 2.73333;
 `;
 
 const WhatsNewContainer = styled.div`
@@ -452,6 +517,77 @@ const BulletLink = styled.span`
   cursor: pointer;
 `;
 
+
+const InstaSystem = styled.div`
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  height:100%;
+div{
+  margin:1PX 0px;
+  // padding:20px
+}
+`;
+
+const SysLower = styled.div`
+display:flex;
+flex-direction:row;
+justify-content:space-between;
+
+
+
+`;
+const SysUpper = styled.div`
+width:100%;
+display:flex;
+flex-direction:column;
+
+
+
+`
+
+
+const SysUpperIns = styled.div`
+width:100%;
+display:flex;
+height:100%;
+flex-direction:column;
+// background-color:#343a3f;
+border-radius:10px;
+background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#fff')};
+  
+border:1px solid none;
+
+padding:0;
+&:hover{
+  background-color:rgb(138 ,63 ,252)
+}
+
+
+`
+
+const BigBoxTitle = styled.h2`
+  margin: 0px 20px;
+  font-size: 3.575rem;
+  font-weight: 300;
+  letter-spacing: .16px;
+  
+
+`;
+
+const AppLink = styled.span`
+
+  color: #ffff;
+  font-size: 0.875rem;
+  cursor: pointer;
+  
+  padding:20px ;
+  
+`;
+
+
+
+
 export default function HomePage() {
   const [apiToken, setApiToken] = useState('••••••••••••••••');
   const [copied, setCopied] = useState(false);
@@ -472,9 +608,31 @@ export default function HomePage() {
     setApiToken(newToken);
   };
 
+  const [activeTopNav, setActiveTopNav] = useState('home');
+  const [activeSidebar, setActiveSidebar] = useState('lab');
+
+  const handleTopNavClick = (option: string) => {
+    setActiveTopNav(option);
+  };
+
+  const handleSidebarClick = (option: string) => {
+    setActiveSidebar(option);
+  };
+
+  const theme = useSelector((state) => state.theme.theme);
+
+  // useEffect(() => {
+  //   document.body.className = theme;
+  // }, [theme]);
+
   return (
-    <Container>
-      <Header activeOption="home" onOptionClick={handleOptionClick} />
+    <Container theme={theme}>
+      <Header
+        activeTopNav={activeTopNav}
+        activeSidebar={activeSidebar}
+        onTopNavClick={handleTopNavClick}
+        onSidebarClick={handleSidebarClick}
+      />
       <UserInfo>
         Name Surname
       </UserInfo>
@@ -498,28 +656,28 @@ export default function HomePage() {
       <Main>
         <LeftSection>
           <BoxContainer>
-            <BoxLeft>
-              <ContentBox>
-                <Title>Open Plan</Title>
+            <BoxLeft theme={theme}>
+              <ContentBox theme={theme}>
+                <Title >Open Plan</Title>
                 <InlineContainer>
                   <BlueText>View Details</BlueText>
                   <VerticalDivider />
                   <BlueText>Upgrade</BlueText>
                 </InlineContainer>
-                <SmallText>Up to 10 Minutes a Month.</SmallText>
+                <SmallText theme={theme}>Up to 10 Minutes a Month.</SmallText>
               </ContentBox>
             </BoxLeft>
-            <BoxRight>
-              <ContentBox>
+            <BoxRight theme={theme}>
+              <ContentBox theme={theme}>
                 <Title>Monthly usage</Title>
                 <UsageContainer>
-                  <UsageInfo>
+                  <UsageInfo >
                     <span>Used</span>
-                    <span>10ms</span>
+                    <span className='span-sec'>10ms</span>
                   </UsageInfo>
                   <UsageInfo>
                     <span>Remaining</span>
-                    <span>9m</span>
+                    <span className='span-sec'>9m</span>
                   </UsageInfo>
                 </UsageContainer>
                 <ProgressBarContainer>
@@ -528,20 +686,20 @@ export default function HomePage() {
               </ContentBox>
             </BoxRight>
           </BoxContainer>
-          <LargeBox>
-            <JobSectionTitle>Recent Jobs</JobSectionTitle>
-            <ViewAll>View All</ViewAll>
+          <LargeBox theme={theme}>
+            <JobSectionTitle theme={theme}>Recent Jobs</JobSectionTitle>
+            <ViewAll theme={theme}>View All</ViewAll>
             <JobInfoContainer>
-              <JobInfo>
-                <JobNumber>0</JobNumber>
-                <JobStatus>Pending</JobStatus>
+              <JobInfo theme={theme}>
+                <JobNumber theme={theme}>0</JobNumber>
+                <JobStatus theme={theme}>Pending</JobStatus>
               </JobInfo>
               <JobInfo>
-                <JobNumber>9</JobNumber>
-                <JobStatus>Completed Jobs</JobStatus>
+                <JobNumber theme={theme}>9</JobNumber>
+                <JobStatus theme={theme}>Completed Jobs</JobStatus>
               </JobInfo>
             </JobInfoContainer>
-            <HeaderBar>
+            <HeaderBar theme={theme}>
               <HeaderItem>Job Id</HeaderItem>
               <HeaderItem>Status</HeaderItem>
               <HeaderItem>Created</HeaderItem>
@@ -549,57 +707,121 @@ export default function HomePage() {
               <HeaderItem>Compute Resource</HeaderItem>
             </HeaderBar>
             {[...Array(5)].map((_, index) => (
-              <DataRow key={index}>
-                <DataItem>Job {index + 1}</DataItem>
-                <DataItem>
+              <DataRow key={index} theme={theme}>
+                <DataItem theme={theme}>Job {index + 1}</DataItem>
+                <DataItem theme={theme}>
                   {index % 2 === 0 ? <FaCheckCircle /> : <FaTimesCircle />}
                 </DataItem>
-                <DataItem>2024-05-20</DataItem>
-                <DataItem>2024-05-21</DataItem>
-                <DataItem>{100 + index}</DataItem>
+                <DataItem theme={theme}>2024-05-20</DataItem>
+                <DataItem theme={theme}>2024-05-21</DataItem>
+                <DataItem theme={theme}>{100 + index}</DataItem>
               </DataRow>
             ))}
           </LargeBox>
           <SmallBoxContainer>
-            <SmallBox>
-              <SmallBoxTitle>Documentation</SmallBoxTitle>
+            <SmallBox style={{ background: "transparent" }} theme={theme}>
+
+
+              <InstaSystem>
+
+                <SysUpperIns theme={theme}>
+                  <SysLower >
+
+                    <SmallBoxTitle theme={theme}>Instance</SmallBoxTitle>
+
+                    <AppLink><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    </AppLink>
+                  </SysLower>
+
+
+                  <BigBoxTitle theme={theme}>4</BigBoxTitle>
+
+                </SysUpperIns>
+
+
+                <div style={{ display: 'flex', gap: '5px', justifyContent: 'space-between' }}>
+
+                  <div style={{ width: "51%" }}> <SysUpperIns theme={theme}>
+                    <SysLower >
+
+                      <SmallBoxTitle theme={theme}>All System</SmallBoxTitle>
+
+                      <AppLink><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      </AppLink>
+                    </SysLower>
+
+
+                    <BigBoxTitle theme={theme}>12</BigBoxTitle>
+
+                  </SysUpperIns>
+                  </div >
+                  <div style={{ width: "48%" }}> <SysUpperIns theme={theme}>
+                    <SysLower>
+
+                      <SmallBoxTitle theme={theme}>All System</SmallBoxTitle>
+
+                      <AppLink><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      </AppLink>
+                    </SysLower>
+
+
+                    <BigBoxTitle theme={theme}>12</BigBoxTitle>
+
+                  </SysUpperIns>
+                  </div >
+                </div>
+
+              </InstaSystem>
+
+            </SmallBox>
+
+
+
+
+            <SmallBox theme={theme}>
+
+              <SmallBoxTitle theme={theme}>Documentation</SmallBoxTitle>
               <OpenAppLink>Open App</OpenAppLink>
-              <Divider />
-              <SmallBoxSegment>
+
+              <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 1</SegmentTitle>
                 <SegmentText>Details for section 1</SegmentText>
               </SmallBoxSegment>
               <Divider />
-              <SmallBoxSegment>
+              <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 2</SegmentTitle>
                 <SegmentText>Details for section 2</SegmentText>
-              </SmallBoxSegment>
+              </SmallBoxSegment >
               <Divider />
-              <SmallBoxSegment>
+              <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 3</SegmentTitle>
                 <SegmentText>Details for section 3</SegmentText>
               </SmallBoxSegment>
             </SmallBox>
-            <SmallBox>
-              <ContentBox>
-                {/* Leere Box */}
-              </ContentBox>
-            </SmallBox>
-            <SmallBox>
-              <SmallBoxTitle>Lab</SmallBoxTitle>
+            <SmallBox theme={theme}>
+              <SmallBoxTitle theme={theme}>Lab</SmallBoxTitle>
               <OpenAppLink>Open App</OpenAppLink>
               <Divider />
-              <SmallBoxSegment>
+              <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 1</SegmentTitle>
                 <SegmentText>Details for section 1</SegmentText>
               </SmallBoxSegment>
               <Divider />
-              <SmallBoxSegment>
+              <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 2</SegmentTitle>
                 <SegmentText>Details for section 2</SegmentText>
               </SmallBoxSegment>
               <Divider />
-              <SmallBoxSegment>
+              <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 3</SegmentTitle>
                 <SegmentText>Details for section 3</SegmentText>
               </SmallBoxSegment>

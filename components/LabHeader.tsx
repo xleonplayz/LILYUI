@@ -1,19 +1,26 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLightTheme, setDarkTheme } from '../redux/slices/themesSlice';
 
 const HeaderContainer = styled.header`
   width: 100%;
-  padding: 10px 20px;
+  padding: 15px 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #444;
-  background-color: #2b272a; /* Neue Hintergrundfarbe */
+  
+  border-bottom: 1px solid  ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};
+
+  background-color: ${({ theme }) => (theme === 'dark' ? '#121619' : '#fff')};
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#bbb')};
+  position: relative;
+  z-index: 1001;
 `;
 
 const TitleContainer = styled.div`
@@ -44,24 +51,27 @@ const VerticalLine = styled.div`
   margin: 0 10px;
 `;
 
-const NavLink = styled(Link)<{ isActive: boolean }>`
-  margin-left: 20px;
-  color: #bbb;
+const NavLink = styled(({ isActive, children, ...props }: { isActive: boolean; href: string; children: React.ReactNode }) => (
+  <Link {...props}>{children}</Link>
+))`
+  margin-left: 30px;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   text-decoration: none;
   position: relative;
-  &:hover {
-    color: #fff;
+  &:hover,
+  &:focus,
+  &:active {
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   }
-
   &:after {
     content: "";
     display: ${({ isActive }) => (isActive ? 'block' : 'none')};
     position: absolute;
-    bottom: -10px; /* Positionieren unter dem Text */
+    bottom: -17px;
     left: 0;
     right: 0;
     height: 3px;
-    background-color: #0f62fe; /* Blaue Farbe */
+    background-color: #0f62fe;
   }
 `;
 
@@ -85,15 +95,15 @@ const InvisibleText = styled.div`
 
 const Sidebar = styled.div<{ $isOpen: boolean }>`
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 46px;
+  right: 0px;
   height: 100%;
   width: 300px;
-  background-color: #333;
-  color: #fff;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#121619' : '#fff')};
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 0px;
   transform: ${({ $isOpen }) => ($isOpen ? 'translateX(0)' : 'translateX(100%)')};
   transition: transform 0.3s ease-in-out;
   z-index: 1000;
@@ -102,36 +112,32 @@ const Sidebar = styled.div<{ $isOpen: boolean }>`
 const SidebarOption = styled.div<{ $isActive: boolean }>`
   display: flex;
   align-items: flex-start;
-  margin-bottom: 20px;
+  padding: 10px;
   position: relative;
-`;
-
-const ActiveIndicator = styled.div`
-  width: 5px;
-  background-color: #0f62fe; /* Blau aus dem Bild */
-  position: absolute;
-  left: -10px;
-  top: 0;
-  bottom: 0;
-  display: ${({ isActive }) => (isActive ? 'block' : 'none')};
-`;
-
-const SidebarLink = styled(Link)`
-  color: #bbb;
-  text-decoration: none;
-  font-size: 18px;
-  margin: 10px 0;
-  cursor: pointer;
+  padding-left: 10px;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  border-left: ${({ $isActive }) => ($isActive ? '5px solid #0f62fe' : '5px solid transparent')};
   &:hover {
-    color: #fff;
+    background-color: rgba(255, 255, 255, 0.3);
   }
 `;
 
+const SidebarLink = styled(Link)`
+
+color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 10px 0;
+  cursor: pointer;
+`;
+
 const SidebarDescription = styled.p`
-  color: #bbb;
-  font-size: 14px;
+
+  font-size: 11px;
   margin: 5px 0 15px 0;
   text-align: left;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 `;
 
 const HorizontalLine = styled.hr`
@@ -151,8 +157,17 @@ const Overlay = styled.div<{ $isOpen: boolean }>`
   z-index: 999;
 `;
 
-export default function Header({ activeOption, onOptionClick }) {
+interface HeaderProps {
+  activeTopNav: string;
+  activeSidebar: string;
+  onTopNavClick: (option: string) => void;
+  onSidebarClick: (option: string) => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavClick, onSidebarClick }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const theme = useSelector((state) => state.theme.theme);
+  const dispatch = useDispatch();
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -164,7 +179,10 @@ export default function Header({ activeOption, onOptionClick }) {
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-      if ((event.target as HTMLElement).closest('.sidebar') === null) {
+      if (
+        (event.target as HTMLElement).closest('.sidebar') === null &&
+        (event.target as HTMLElement).closest('.icon') === null
+      ) {
         closeSidebar();
       }
     };
@@ -180,9 +198,13 @@ export default function Header({ activeOption, onOptionClick }) {
     };
   }, [isSidebarOpen]);
 
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
+
   return (
     <>
-      <HeaderContainer>
+      <HeaderContainer theme={theme}>
         <TitleContainer>
           <Title href="/">
             <NormalText>LILY </NormalText>
@@ -190,43 +212,45 @@ export default function Header({ activeOption, onOptionClick }) {
           </Title>
           <VerticalLine />
           <BannerOptions>
-            <NavLink href="/home" isActive={activeOption === 'home'}>Home</NavLink>
-            <NavLink href="lab/jobs" isActive={activeOption === 'jobs'}>Jobs</NavLink>
-            <NavLink href="/configuration" isActive={activeOption === 'configuration'}>Configuration</NavLink>
-            <NavLink href="/monitoring" isActive={activeOption === 'monitoring'}>Monitoring</NavLink>
+            <NavLink href="/lab/home" isActive={activeTopNav === 'home'} onClick={() => onTopNavClick('home')} theme={theme}>Home</NavLink>
+            <NavLink href="/lab/jobs" isActive={activeTopNav === 'jobs'} onClick={() => onTopNavClick('jobs')} theme={theme}>Jobs</NavLink>
+            <NavLink href="/lab/configuration" isActive={activeTopNav === 'configuration'} onClick={() => onTopNavClick('configuration')} theme={theme}>Configuration</NavLink>
+            <NavLink href="/lab/monitoring" isActive={activeTopNav === 'monitoring'} onClick={() => onTopNavClick('monitoring')} theme={theme}>Monitoring</NavLink>
           </BannerOptions>
         </TitleContainer>
-        <Icon onClick={toggleSidebar}>
-          <FontAwesomeIcon icon={faBars} />
-          <InvisibleText>Se</InvisibleText>
-        </Icon>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+         
+          <Icon className="icon" onClick={toggleSidebar}>
+            <FontAwesomeIcon icon={faBars} />
+            <InvisibleText>Se</InvisibleText>
+          </Icon>
+        </div>
       </HeaderContainer>
-      <Sidebar className="sidebar" $isOpen={isSidebarOpen}>
-        <SidebarOption $isActive={activeOption === 'lab'}>
-          <ActiveIndicator isActive={activeOption === 'lab'} />
+      <Sidebar className="sidebar" $isOpen={isSidebarOpen} theme={theme}>
+        <SidebarOption $isActive={activeSidebar === 'lab'} >
           <div>
-            <SidebarLink href="/home" onClick={() => onOptionClick('lab')}>LAB</SidebarLink>
-            <SidebarDescription>Development environment for Quantum Machine Learning models</SidebarDescription>
+            <SidebarLink href="/lab/home" onClick={() => onSidebarClick('lab')}  theme={theme}>LAB</SidebarLink>
+            <SidebarDescription theme={theme}>Development environment for Quantum Machine Learning models</SidebarDescription>
           </div>
           <HorizontalLine />
         </SidebarOption>
-        <SidebarOption $isActive={activeOption === 'docs'}>
-          <ActiveIndicator isActive={activeOption === 'docs'} />
+        <SidebarOption $isActive={activeSidebar === 'docs'}>
           <div>
-            <SidebarLink href="#docs" onClick={() => onOptionClick('docs')}>DOCS</SidebarLink>
-            <SidebarDescription>Documentation about LILY and using the platform</SidebarDescription>
+            <SidebarLink href="#docs" onClick={() => onSidebarClick('docs')} theme={theme}>DOCS</SidebarLink>
+            <SidebarDescription theme={theme}>Documentation about LILY and using the platform</SidebarDescription>
           </div>
           <HorizontalLine />
         </SidebarOption>
-        <SidebarOption $isActive={activeOption === 'road'}>
-          <ActiveIndicator isActive={activeOption === 'road'} />
+        <SidebarOption $isActive={activeSidebar === 'road'}>
           <div>
-            <SidebarLink href="#road" onClick={() => onOptionClick('road')}>ROAD</SidebarLink>
-            <SidebarDescription>Roadmap of the LILY QML project, information, contact, etc.</SidebarDescription>
+            <SidebarLink href="#road" onClick={() => onSidebarClick('road')} theme={theme}>ROAD</SidebarLink>
+            <SidebarDescription theme={theme}>Roadmap of the LILY QML project, information, contact, etc.</SidebarDescription>
           </div>
         </SidebarOption>
       </Sidebar>
       <Overlay $isOpen={isSidebarOpen} onClick={closeSidebar} />
     </>
   );
-}
+};
+
+export default Header;

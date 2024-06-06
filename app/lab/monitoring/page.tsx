@@ -5,39 +5,50 @@ import Header from '../../../components/LabHeader';
 import Footer from '../../../components/Footer';
 import { useState } from 'react';
 import { FaSearch, FaDownload } from 'react-icons/fa';
-
+import { useSelector } from 'react-redux';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  background-color: #181818; /* Noch dunklerer Grauton */
+  // background-color: #121619; /* Added semicolon here */
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#121619' : '#f4f4f4')};
   overflow-x: hidden;
 `;
 
 const Content = styled.div`
   display: flex;
   flex: 1;
+  overflow-x: hidden;
 `;
 
 const Sidebar = styled.div`
   flex: 1;
   max-width: 25%; /* Ursprüngliche Breite der Sidebar */
-  background-color: #2b272a; /* Ursprünglicher Grauton der Seite */
+  // background-color: #21272a; /* Ursprünglicher Grauton der Seite */
   display: flex;
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')}; 
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')}; 
   flex-direction: column;
+  overflow-x: hidden;
 `;
 
 const Divider = styled.div`
   width: 1px;
-  background-color: #4a4a4a; /* Vertikaler Trennstrich */
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')}; /* Vertikaler Trennstrich */
 `;
 
 const ThinSidebar = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1.5%; /* Sehr dünne Sidebar */
-  background-color: #2b272a;
+  width: 1.0%; /* Sehr dünne Sidebar */
+  // background-color: #21272a;
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')}; 
+  //  padding: 20px;
   justify-content: space-between;
   padding: 10px;
 `;
@@ -48,7 +59,9 @@ const ThinSidebarSegment = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #4a4a4a;
+  border-bottom: 1px solid ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')};
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')}; 
   position: relative;
   cursor: pointer;
 
@@ -58,43 +71,52 @@ const ThinSidebarSegment = styled.div`
 `;
 
 const ThinSidebarText = styled.span`
-  color: white;
+
+color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')}; 
   font-size: 1rem;
 `;
 
 const ActiveIndicator = styled.div`
   position: absolute;
-  left: -5px; /* Positioniert den Strich links vom Segment */
-  height: 100%;
+  left: -8px; /* Positioniert den Strich links vom Segment */
+  height: 98%;
   width: 2px; /* Dünnerer Strich */
   background-color: #0f62fe; /* Blau */
 `;
 
 const MainContent = styled.div`
   flex: 3;
-  background-color: #181818; /* Noch dunklerer Grauton */
-  padding: 20px;
+  // background-color: #121619;
+
+
+  background-color: ${({ theme }) => (theme === 'dark' ? '#121619' : '#f4f4f4')}; 
+   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow-x: hidden;
 `;
 
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')}; 
   gap: 10px;
   height: 100%;
+  width: 100%;
 `;
 
 const GridItem = styled.div`
-  background-color: #2b272a;
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')}; 
   padding: 20px;
   position: relative;
 `;
 
 const GridTitle = styled.h3`
-  color: white;
+  color:  ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')}; ;
   font-weight: 300;
   position: absolute;
   top: 10px;
@@ -106,7 +128,9 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-around;
   margin-bottom: 10px;
-  background-color: #4a4a4a;
+  // background-color: #4a4a4a;
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')}; 
   padding: 10px;
   border-radius: 5px;
   position: absolute;
@@ -116,7 +140,7 @@ const HeaderContainer = styled.div`
 `;
 
 const HeaderOption = styled.div`
-  color: white;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')}; ;
   cursor: pointer;
   padding: 5px 10px;
   position: relative;
@@ -141,36 +165,43 @@ const HeaderOption = styled.div`
 `;
 
 const HorizontalSection = styled.div`
-  flex: ${props => props.flex || 1};
+  flex: ${(props) => props.flex || 1};
   padding: 20px;
 `;
 
 const HorizontalDivider = styled.div`
   height: 1px;
   width: 80%; /* Die Breite des Trennstrichs, so dass es die Seiten nicht berührt */
-  background-color: #4a4a4a;
+  // background-color: #4a4a4a;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')}; 
   margin: 10px auto; /* Zentriert den Trennstrich */
 `;
 
 const Title = styled.h3`
-  color: white;
+  // color: white;
   margin-bottom: 20px;
   font-weight: 300; /* Dünnerer Text */
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')}; 
 `;
 
 const JobTable = styled.div`
   width: 100%;
-  color: white;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')}; 
   margin-bottom: 20px;
-  max-height: 200px; /* Maximale Höhe der Tabelle */
+  max-height: 300px; /* Maximale Höhe der Tabelle */
   overflow-y: auto; /* Scrollbar, falls Inhalte zu groß sind */
 `;
 
 const JobTableHeader = styled.div`
   display: flex;
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')}; 
   justify-content: space-between;
   padding: 10px 0;
-  background-color: #4a4a4a;
+  // background-color: #4a4a4a;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')}; 
+  
 `;
 
 const JobTableRow = styled.div`
@@ -181,7 +212,7 @@ const JobTableRow = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: #3a3a3a; /* Hintergrundfarbe beim Mouse-Over */
+    background-color:  ${({ theme }) => (theme === 'dark' ? '#3a3a3a' : '#e0e0e0')}; /* Hintergrundfarbe beim Mouse-Over */
   }
 `;
 
@@ -206,8 +237,10 @@ const SearchContainer = styled.div`
 
 const SearchInputContainer = styled.div`
   position: relative;
+  left:10px;
   width: 100%;
-  max-width: 200px; /* Reduzierte Breite des Eingabefelds */
+   z-index:0;
+  max-width: 400px; /* Reduzierte Breite des Eingabefelds */
 `;
 
 const SearchIcon = styled(FaSearch)`
@@ -217,24 +250,30 @@ const SearchIcon = styled(FaSearch)`
   transform: translateY(-50%);
   color: #a9a9a9; /* Graueres Icon */
   font-size: 1rem;
+  z-index:1;
 `;
 
 const SearchInput = styled.input`
-  background-color: #2b272a; /* Gleiche Farbe wie die Box */
-  color: white;
+  // background-color: #2b272a; /* Gleiche Farbe wie die Box */
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#ffff')}; 
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   border: none;
   padding: 10px 10px 10px 30px; /* Platz für die Lupe */
   font-size: 1rem;
   width: 100%;
   border-radius: 0;
+    z-index:1;
   &::placeholder {
     color: #a9a9a9; /* Graue Schrift für Platzhaltertext */
   }
 `;
 
 const SearchButton = styled.button`
-  background-color: #4a4a4a;
-  color: white;
+
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e')}; 
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -244,6 +283,7 @@ const SearchButton = styled.button`
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s;
+    z-index:1;
 
   &:hover {
     background-color: #0f62fe; /* Blau bei Hover */
@@ -252,17 +292,17 @@ const SearchButton = styled.button`
 
 const SearchButtonIcon = styled(FaSearch)`
   font-size: 1rem;
-  color: white;
+  // color: white;
 `;
 
 const SelectedJobTitle = styled.h3`
-  color: white;
+color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   margin-top: 0px; /* Höher gesetzt */
   font-weight: 300; /* Dünnerer Text */
 `;
 
 const JobDetails = styled.div`
-  color: white;
+color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -287,11 +327,12 @@ const DownloadButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 `;
 
 const DownloadButton = styled.button`
-  background-color: #4a4a4a;
-  color: white;
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#fff')};;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -308,11 +349,13 @@ const DownloadButton = styled.button`
 
 const DownloadButtonIcon = styled(FaDownload)`
   font-size: 1rem;
-  color: white;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   margin-left: 10px;
 `;
 
 export default function HomePage() {
+
+  const theme = useSelector((state) => state.theme.theme);
   const [selectedJob, setSelectedJob] = useState(null);
   const [inputJob, setInputJob] = useState("");
   const [activeSegment, setActiveSegment] = useState(null);
@@ -334,41 +377,60 @@ export default function HomePage() {
     setActiveSegment(segment);
   };
 
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option: string) => {
     setActiveOption(option);
   };
 
+  const [activeTopNav, setActiveTopNav] = useState('home');
+  const [activeSidebar, setActiveSidebar] = useState('lab');
+
+  const handleTopNavClick = (option: string) => {
+    setActiveTopNav(option);
+  };
+
+  const handleSidebarClick = (option: string) => {
+    setActiveSidebar(option);
+  };
+
   return (
-    <Container>
-      <Header activeOption="home" onOptionClick={() => {}} />
-      <Content>
-        <Sidebar>
+    <Container theme={theme}>
+      <Header
+        theme={theme}
+        activeTopNav={activeTopNav}
+        activeSidebar={activeSidebar}
+        onTopNavClick={handleTopNavClick}
+        onSidebarClick={handleSidebarClick}
+      />
+      <Content
+        theme={theme}>
+        <Sidebar theme={theme}>
           <HorizontalSection flex={1}>
-            <Title>Recent Jobs</Title>
-            <JobTable>
-              <JobTableHeader>
-                <JobTableHeaderItem>Job Id</JobTableHeaderItem>
-              </JobTableHeader>
+            <Title theme={theme}>Recent Jobs</Title>
+            <JobTable theme={theme}>
+              <JobTableHeader theme={theme}>
+                <JobTableHeaderItem theme={theme}>Job Id</JobTableHeaderItem>
+              </JobTableHeader >
               {[...Array(5)].map((_, index) => (
-                <JobTableRow key={index} onClick={() => handleJobClick(`Job ${index + 1}`)}>
-                  <JobTableDataItem>Job {index + 1}</JobTableDataItem>
+                <JobTableRow key={index} onClick={() => handleJobClick(`Job ${index + 1}`)} theme={theme}>
+                  <JobTableDataItem theme={theme}>Job {index + 1}</JobTableDataItem>
                 </JobTableRow>
               ))}
             </JobTable>
             <SearchContainer>
               <SearchInputContainer>
                 <SearchIcon />
-                <SearchInput placeholder="Enter Job Id" value={inputJob} onChange={handleInputChange} />
+                <SearchInput placeholder="Enter Job Id" value={inputJob} onChange={handleInputChange} theme={theme} />
               </SearchInputContainer>
-              <SearchButton onClick={handleSearchClick}>
-                <SearchButtonIcon />
+              <SearchButton onClick={handleSearchClick} theme={theme}>
+                <SearchButtonIcon theme={theme} />
               </SearchButton>
             </SearchContainer>
           </HorizontalSection>
           <HorizontalDivider />
           <HorizontalSection flex={2}>
-            <SelectedJobTitle>{selectedJob ? selectedJob : "Select a job"}</SelectedJobTitle>
-            <JobDetails>
+            <SelectedJobTitle
+              theme={theme}>{selectedJob ? selectedJob : "Select a job"}</SelectedJobTitle>
+            <JobDetails theme={theme}>
               <JobDetailRow>
                 <JobDetailLabel>Start</JobDetailLabel>
                 <JobDetailValue>2023-06-01</JobDetailValue>
@@ -392,106 +454,122 @@ export default function HomePage() {
               </JobDetailRow>
               <HorizontalDivider />
               <DownloadButtonsContainer>
-                <DownloadButton>
+                <DownloadButton theme={theme}>
                   Model Data
-                  <DownloadButtonIcon />
+                  <DownloadButtonIcon theme={theme} />
                 </DownloadButton>
-                <DownloadButton>
+                <DownloadButton theme={theme}>
                   Training Data
-                  <DownloadButtonIcon />
+                  <DownloadButtonIcon theme={theme} />
                 </DownloadButton>
               </DownloadButtonsContainer>
             </JobDetails>
           </HorizontalSection>
         </Sidebar>
         <Divider />
-        <ThinSidebar>
-          <ThinSidebarSegment onClick={() => handleSegmentClick('ML')}>
+        <ThinSidebar
+          theme={theme}>
+          <ThinSidebarSegment onClick={() => handleSegmentClick('ML')} theme={theme}>
             {activeSegment === 'ML' && <ActiveIndicator />}
-            <ThinSidebarText>M</ThinSidebarText>
-            <ThinSidebarText>L</ThinSidebarText>
+            <ThinSidebarText theme={theme}>M</ThinSidebarText>
+            <ThinSidebarText
+              theme={theme}>L</ThinSidebarText>
           </ThinSidebarSegment>
           <ThinSidebarSegment onClick={() => handleSegmentClick('QML')}>
             {activeSegment === 'QML' && <ActiveIndicator />}
-            <ThinSidebarText>Q</ThinSidebarText>
-            <ThinSidebarText>M</ThinSidebarText>
-            <ThinSidebarText>L</ThinSidebarText>
+            <ThinSidebarText
+              theme={theme}>Q</ThinSidebarText>
+            <ThinSidebarText
+              theme={theme}>M</ThinSidebarText>
+            <ThinSidebarText
+              theme={theme}>L</ThinSidebarText>
           </ThinSidebarSegment>
           <ThinSidebarSegment onClick={() => handleSegmentClick('QML2')}>
             {activeSegment === 'QML2' && <ActiveIndicator />}
-            <ThinSidebarText>Q</ThinSidebarText>
-            <ThinSidebarText>M</ThinSidebarText>
-            <ThinSidebarText>L</ThinSidebarText>
+            <ThinSidebarText
+              theme={theme}>Q</ThinSidebarText>
+            <ThinSidebarText
+              theme={theme}>M</ThinSidebarText>
+            <ThinSidebarText
+              theme={theme}>L</ThinSidebarText>
+            <ThinSidebarText
+              theme={theme}>2</ThinSidebarText>
           </ThinSidebarSegment>
         </ThinSidebar>
         <Divider />
-        <MainContent>
+        <MainContent
+          theme={theme}>
           {activeSegment === 'ML' && (
-            <GridContainer>
-              <GridItem>
-                <GridTitle>Heatmap</GridTitle>
+            <GridContainer theme={theme}>
+              <GridItem theme={theme}>
+                <GridTitle theme={theme}>Heatmap</GridTitle>
                 {/* Inhalt des ersten Segments */}
               </GridItem>
-              <GridItem>
-                <GridTitle>SHAP</GridTitle>
+              <GridItem
+                theme={theme}>
+                <GridTitle theme={theme}>SHAP</GridTitle>
                 {/* Inhalt des zweiten Segments */}
               </GridItem>
-              <GridItem>
-                <HeaderContainer>
-                  <HeaderOption className={activeOption === 'accuracy' ? 'active' : ''} onClick={() => handleOptionClick('accuracy')}>
+              <GridItem
+                theme={theme}>
+                <HeaderContainer
+                  theme={theme}>
+                  <HeaderOption theme={theme} className={activeOption === 'accuracy' ? 'active' : ''} onClick={() => handleOptionClick('accuracy')}>
                     Accuracy
                   </HeaderOption>
-                  <HeaderOption className={activeOption === 'precision' ? 'active' : ''} onClick={() => handleOptionClick('precision')}>
+                  <HeaderOption theme={theme} className={activeOption === 'precision' ? 'active' : ''} onClick={() => handleOptionClick('precision')}>
                     Precision
                   </HeaderOption>
-                  <HeaderOption className={activeOption === 'recall' ? 'active' : ''} onClick={() => handleOptionClick('recall')}>
+                  <HeaderOption theme={theme} className={activeOption === 'recall' ? 'active' : ''} onClick={() => handleOptionClick('recall')}>
                     Recall
                   </HeaderOption>
                 </HeaderContainer>
                 {/* Inhalt des dritten Segments */}
               </GridItem>
-              <GridItem>
-                <GridTitle>Hyperparameter Tuning</GridTitle>
+              <GridItem
+                theme={theme}>
+                <GridTitle
+                  theme={theme}>Hyperparameter Tuning</GridTitle>
                 {/* Inhalt des vierten Segments */}
               </GridItem>
             </GridContainer>
           )}
           {activeSegment === 'QML' && (
-            <GridContainer>
-              <GridItem>
-                <GridTitle>Quantum Heatmap</GridTitle>
+            <GridContainer theme={theme}>
+              <GridItem theme={theme}>
+                <GridTitle theme={theme}>Quantum Heatmap</GridTitle>
                 {/* Inhalt des ersten Segments */}
               </GridItem>
-              <GridItem>
-                <GridTitle>Quantum SHAP</GridTitle>
+              <GridItem theme={theme}>
+                <GridTitle theme={theme}>Quantum SHAP</GridTitle>
                 {/* Inhalt des zweiten Segments */}
               </GridItem>
-              <GridItem>
-                <GridTitle>Quantum Header</GridTitle>
+              <GridItem theme={theme}>
+                <GridTitle theme={theme}>Quantum Header</GridTitle>
                 {/* Inhalt des dritten Segments */}
               </GridItem>
-              <GridItem>
-                <GridTitle>Quantum Hyperparameter Tuning</GridTitle>
+              <GridItem theme={theme}>
+                <GridTitle theme={theme}>Quantum Hyperparameter Tuning</GridTitle>
                 {/* Inhalt des vierten Segments */}
               </GridItem>
             </GridContainer>
           )}
           {activeSegment === 'QML2' && (
-            <GridContainer>
-              <GridItem>
-                <GridTitle>Advanced Quantum Heatmap</GridTitle>
+            <GridContainer theme={theme}>
+              <GridItem theme={theme}>
+                <GridTitle theme={theme}>Advanced Quantum Heatmap</GridTitle>
                 {/* Inhalt des ersten Segments */}
               </GridItem>
-              <GridItem>
-                <GridTitle>Advanced Quantum SHAP</GridTitle>
+              <GridItem theme={theme}>
+                <GridTitle theme={theme}>Advanced Quantum SHAP</GridTitle>
                 {/* Inhalt des zweiten Segments */}
               </GridItem>
-              <GridItem>
-                <GridTitle>Advanced Quantum Header</GridTitle>
+              <GridItem theme={theme}>
+                <GridTitle theme={theme}>Advanced Quantum Header</GridTitle>
                 {/* Inhalt des dritten Segments */}
               </GridItem>
-              <GridItem>
-                <GridTitle>Advanced Quantum Hyperparameter Tuning</GridTitle>
+              <GridItem theme={theme}>
+                <GridTitle theme={theme}>Advanced Quantum Hyperparameter Tuning</GridTitle>
                 {/* Inhalt des vierten Segments */}
               </GridItem>
             </GridContainer>

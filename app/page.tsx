@@ -1,7 +1,7 @@
 "use client";
 
 import styled from 'styled-components';
-import Header from '../components/Header';
+// import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Link from 'next/link';
 
@@ -25,7 +25,9 @@ const Main = styled.main`
 
 const LeftSection = styled.div`
   width: 66.67%;
-  background-color: #2b272a; /* Farbe der linken Seite */
+  // background-color: #2b272a; /* Farbe der linken Seite */
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#fff')};
   border-right: 1px solid #444;
   display: flex;
   flex-direction: column;
@@ -38,7 +40,9 @@ const LeftSection = styled.div`
 
 const RightSection = styled.div`
   width: 33.33%;
-  background-color: #353a3e; /* Belassen wie es ist */
+  // background-color: #353a3e; /* Belassen wie es ist */
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#353a3e' : '#f4f4f4')};
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -54,11 +58,15 @@ const SignInContainer = styled.div`
   left: 48%;
   transform: translate(-50%, -50%);
   text-align: left;
-  color: #bbb;
+
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};
 `;
 
 const SignInTitle = styled.h2`
-  color: #bbb;
+  // color: #bbb;
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#e0e0e0')};
   font-size: 24px;
   margin-bottom: 25px; /* Abstand zum Button */
   margin-left: 5px; /* Links ausgerichtet an die linke Ecke des Buttons */
@@ -112,22 +120,12 @@ const HelpDesk = styled.a`
   cursor: pointer;
 `;
 
-const FooterContainer = styled.footer`
-  width: 100%;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top: 1px solid #444;
-  background-color: #2b272a; /* Neue Hintergrundfarbe */
-  color: #bbb;
-  font-size: 14px;
-`;
 
 const HorizontalLine = styled.hr`
-  border: none;
-  border-top: 1px solid #444;
+  border: none; 
   width: 80%; /* Breiter */
+  
+  border-top: 1px solid  ${({ theme }) => (theme === 'dark' ? '#bbb' : '#e0e0e0')};
   margin: 0 auto; /* Zentriert im linken Segment */
   position: absolute;
   top: 55%; /* Höhe der Linie etwas höher */
@@ -137,7 +135,9 @@ const HorizontalLine = styled.hr`
 
 const Title = styled.h1`
   font-size: 50pt; /* Noch größer */
-  color: #bbb;
+  // color: #bbb;
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#e0e0e0')};
   font-weight: 300; /* Dünnere Schriftart */
   margin-bottom: 20px;
   position: absolute;
@@ -148,7 +148,10 @@ const Title = styled.h1`
 
 const Description = styled.div`
   font-size: 10pt; /* Noch kleinere Schriftgröße */
-  color: #bbb;
+  // color: #bbb;
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#525252')};
+
   font-weight: 300; /* Dünnere Schriftart */
   margin-top: 10px; /* Abstand nach unten vom Titel */
   margin-left: calc(8% + 5px); /* Gleicher Seitenabstand wie der Titel */
@@ -157,32 +160,35 @@ const Description = styled.div`
   top: 38%; /* Zwischen Titel und Trennstrich */
 `;
 
+import { useSelector } from 'react-redux';
 export default function HomePage() {
+  
+  const theme = useSelector((state) => state.theme.theme);
   const handleOptionClick = (option: string) => {
     // Option click handler
   };
 
   return (
     <Container>
-      <Header activeOption="home" onOptionClick={handleOptionClick} />
+      {/* <Header activeOption="home" onOptionClick={handleOptionClick} /> */}
       <Main>
-        <LeftSection>
-          <Title>LILY QML</Title>
-          <Description>
-            LILY is a model that classifies text and images using metric machine learning.<br/>
+        <LeftSection theme={theme}>
+          <Title theme={theme}>LILY QML</Title>
+          <Description theme={theme}>
+            LILY is a model that classifies text and images using metric machine learning.<br />
             It provides robust classification capabilities for various applications.
           </Description>
-          <HorizontalLine />
+          <HorizontalLine theme={theme} />
           {/* Inhalte für den unteren Bereich */}
         </LeftSection>
-        <RightSection>
-          <SignInContainer>
-            <SignInTitle>Sign in to LILY QML</SignInTitle>
-            <SignInButton href="/login">Continue with Login</SignInButton>
-            <AdditionalInfo>
+        <RightSection theme={theme}>
+          <SignInContainer theme={theme}>
+            <SignInTitle theme={theme}>Sign in to LILY QML</SignInTitle>
+            <SignInButton href="/login" theme={theme}>Continue with Login</SignInButton>
+            <AdditionalInfo theme={theme}>
               <NewToLily>New to LILY QML?</NewToLily>
-              <CreateAccount href="#">Create a LILY QML Account</CreateAccount>
-              <TroubleSigningIn>
+              <CreateAccount href="/create">Create a LILY QML Account</CreateAccount>
+              <TroubleSigningIn theme={theme}>
                 Having trouble signing in? Try signing in with a LILY QML Account. If you are still having issues, contact the <HelpDesk href="#">LILY QML Help Desk</HelpDesk>.
               </TroubleSigningIn>
             </AdditionalInfo>

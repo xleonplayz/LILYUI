@@ -1,16 +1,20 @@
 "use client";
 
+import { useState } from 'react';
 import styled from 'styled-components';
 import Header from '../../../components/LabHeader';
 import Footer from '../../../components/Footer';
 import { FaSearch, FaSync, FaFileExport } from 'react-icons/fa';
-
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  background-color: #181818; /* Noch dunklerer Grauton */
+
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#121619' : '#f4f4f4')};
   overflow-x: hidden;
 `;
 
@@ -18,6 +22,8 @@ const Main = styled.main`
   flex: 1;
   display: flex;
   flex-direction: column; /* Vertikale Anordnung */
+  align-items:center;
+  justify-content:center;
   padding: 20px;
   gap: 20px; /* Abstand zwischen den Elementen */
 `;
@@ -26,30 +32,40 @@ const Banner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 70px 5vw; /* Padding links und rechts relativ zur Bildschirmbreite */
-  background-color: #2b272a; /* Ursprünglicher Grauton der Seite */
-  color: white;
+  padding: 50px 3vw; /* Padding links und rechts relativ zur Bildschirmbreite */
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  // background-color:#21272a; /* Ursprünglicher Grauton der Seite */
+  // color: white;
+  
+  color: ${({ theme }) => (theme === 'dark' ? 'white' : '#000')};
   margin-top: 0px;
   position: relative;
-  border-bottom: 1px solid #4a4a4a; /* Trennstrich am Ende des Banners */
+  
+  border-bottom: 1px solid  ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')};
+ 
 `;
 
 const BannerText = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 20px; /* Mehr nach links verschieben */
 `;
 
 const BannerTitle = styled.h1`
   margin: 0;
-  font-size: 2.5rem; /* Große dünne Schrift */
-  font-weight: 300;
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.28572;
+}
 `;
 
 const BannerSubtitle = styled.p`
-  margin: 0;
-  font-size: 1rem;
-  color: #a9a9a9; /* Grauerer kleinerer Text */
+font-size: .875rem;
+letter-spacing: .16px;
+line-height: 1.28572;
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#c1c7cd' : '#000')};
 `;
 
 const VerticalDivider = styled.div`
@@ -59,52 +75,64 @@ const VerticalDivider = styled.div`
   margin: 0 20px;
 `;
 
+
 const UsageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  // align-items: flex-end;
   color: white; /* Weiße Schrift für "Monthly usage" */
 `;
 
 const UsageTitle = styled.span`
-  font-size: 1rem; /* Kleine Schrift */
+font-size: .75rem;
+letter-spacing: .32px;
+line-height: 1.33333;
   margin-bottom: 5px;
+  text-align:left;
+  color:#a9a9a9
 `;
 
 const UsageDetail = styled.span`
-  font-size: 0.875rem; /* Kleinere Schrift */
-  color: #a9a9a9; /* Graue Schrift für die Details */
+font-size: .75rem;
+    letter-spacing: .32px;
+    line-height: 1.33333;
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  
+  span {
+    
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  }
 `;
 
 const UsageWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+   align-items: center;
+  justify-content:center;
 `;
 
 const ContentBox = styled.div`
-  background-color: #2b272a; /* Gleiche Farbe wie der Banner */
-  padding: 20px;
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  padding:0px;
+  margin:0;
   border-radius: 0; /* Spitz an den Ecken */
-  margin: 20px 20px 40px; /* Abstand oben, links, rechts und unten */
-  height: 700px; /* Größere Höhe */
+  height: auto; /* Größere Höhe */
   display: flex;
+  width:100%;
   flex-direction: column;
-  position: relative;
 `;
 
 const SearchContainer = styled.div`
   display: flex;
-  align-items: center;
   width: 100%;
-  margin-top: -20px; /* Weiter nach oben verschieben */
-  margin-left: -20px; /* Weiter nach links verschieben */
 `;
 
 const SearchInputContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 800px; /* Maximale Breite des Eingabefelds */
+  padding:10px 0px ;
 `;
 
 const SearchIcon = styled(FaSearch)`
@@ -117,8 +145,11 @@ const SearchIcon = styled(FaSearch)`
 `;
 
 const SearchInput = styled.input`
-  background-color: #2b272a; /* Gleiche Farbe wie die Box */
-  color: white;
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+
   border: none;
   padding: 10px 10px 10px 30px; /* Platz für die Lupe */
   font-size: 0.875rem; /* Kleinere Schrift */
@@ -131,34 +162,40 @@ const SearchInput = styled.input`
 
 const ButtonContainer = styled.div`
   display: flex;
-  align-items: center;
-  position: absolute;
-  top: 5px; /* Weiter nach oben verschieben */
-  right: 5px; /* Weiter nach rechts verschieben */
+  color:white;
+  justify-content:center;
+  width:100%;
+  height:100%;
+
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
-  align-items: center;
-  background-color: #2b272a;
+
+  // background-color: #2b272a;
+ 
+  height:100%
 `;
 
 const Divider = styled.div`
   width: 1px;
-  height: 30px;
-  background-color: #4a4a4a;
+  height: 100%;
+  // background-color: #4a4a4a;
 `;
 
 const Button = styled.button`
   background-color: inherit;
   color: white;
+
   border: none;
   padding: 10px 20px; /* Breitere Schaltflächen */
   cursor: pointer;
-  font-size: 0.875rem; /* Kleinere Schrift */
+  font-size: 4.875rem; /* Kleinere Schrift */
   display: flex;
   align-items: center;
   justify-content: center;
+  border-left:1px solid  #e0e0e0;
+  
   transition: background-color 0.3s;
 
   &:hover {
@@ -172,74 +209,77 @@ const Button = styled.button`
 
 const RefreshIcon = styled(FaSync)`
   font-size: 0.875rem; /* Kleinere Schrift */
+  // color:#f2f4f8;
+  
+  color: ${({ theme }) => (theme === 'dark' ? '#f2f4f8' : '#000')};
 `;
 
 const ExportIcon = styled(FaFileExport)`
   font-size: 0.875rem; /* Kleinere Schrift */
+  // color:#f2f4f8';
+  color: ${({ theme }) => (theme === 'dark' ? '#f2f4f8' : '#000')};
 `;
 
 const TableHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #4a4a4a; /* Hellerer Grauton */
-  padding: 15px; /* Etwas höherer Balken */
-  margin-top: 0.3%; /* Abstand zur Suchleiste */
-  color: white;
-  font-weight: 300;
-  width: 102.8%; /* Breite auf 100% setzen */
-  box-sizing: border-box; /* Beinhaltet Padding in der Breite */
-  margin-left: -1.4%; /* Verschiebt den TableHeader nach links */
+display: flex;
+justify-content:space-around;
+align-items: center;
+padding:15px 0px;
+// background-color:#343a3f
+background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#e0e0e0')};
+  
+color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+
 `;
 
 const HeaderItem = styled.span`
-  flex: 1;
+display: flex;
+justify-content:space-around;
+align-items: center;
   text-align: center;
-  font-size: 0.875rem; /* Kleinere Schrift */
-  &:first-child {
-    text-align: left;
-    flex: 0.5; /* Weniger Platz für die Checkbox */
-  }
-
-  &:nth-child(2) {
-    text-align: left; /* Job Id direkt hinter der Checkbox */
-  }
-
-  &:nth-child(3) {
-    text-align: left; /* Session Id weiter nach links */
-    padding-left: 20px; /* Mehr Abstand nach links */
-  }
-
-  &:nth-child(8) {
-    text-align: left; /* Tags weiter nach links */
-    padding-left: 40px; /* Mehr Abstand nach links */
-  }
-
-  &:last-child {
-    text-align: right;
-  }
+  font-size: 0.875rem; 
+  font-weight:bold;
+  margin:auto;
+  flex: 1;
 `;
 
 const Checkbox = styled.input.attrs({ type: 'checkbox' })`
-  margin-right: 10px; /* Abstand zur linken Seite */
-  width: 20px; /* Größere Checkbox */
-  height: 20px; /* Größere Checkbox */
-  border: 2px solid white; /* Weißer Umriss */
-  background-color: transparent; /* Transparente Checkbox */
+  width: 20px;
+  height: 20px;
+  border: 2px solid  ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+
+  border-radius:2px;
+  background-color: transparent; /* Make background transparent */
+  -webkit-appearance: none; /* Remove default checkbox style */
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+
+  &:checked {
+    background-color: white; /* White box when checked */
+    border: 2px solid white; /* Ensure border remains white */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M20.285 6.277c-.39-.39-1.024-.39-1.414 0L9 16.148l-4.871-4.87c-.39-.39-1.024-.39-1.414 0-.39.39-.39 1.024 0 1.414l5.585 5.586c.39.39 1.024.39 1.414 0L20.285 7.69c.39-.39.39-1.024 0-1.414z"/></svg>'); /* Black tick */
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const TableRow = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content:space-around;
   align-items: center;
-  background-color: #2b272a; /* Gleiche Farbe wie der Banner */
-  padding: 15px;
-  margin-top: 2px; /* Abstand zwischen den Zeilen */
-  color: white;
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};  
+
+  padding: 15px 0px;
+  color:  ${({ theme }) => (theme === 'dark' ? ' rgba(255,255,2255,0.6)' : '#000')};
   font-size: 0.875rem;
 
   &:not(:first-child) {
-    border-top: 1px solid #4a4a4a; /* Trennstrich oben, außer bei der ersten Zeile */
+    border-top: 1px solid  ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')} ;
   }
 `;
 
@@ -247,78 +287,238 @@ const TableDataItem = styled.span`
   flex: 1;
   text-align: center;
   font-size: 0.875rem;
-  &:nth-child(3) {
-    padding-left: 20px; /* Mehr Abstand nach links für Session Id */
-  }
+  // &:not(:first-child) {
+  //   border-left: 1px solid #4a4a4a; /* Vertikale Trennlinie zwischen den Elementen */
+  // }
+`;
 
-  &:not(:first-child) {
-    border-left: 1px solid #4a4a4a; /* Vertikale Trennlinie zwischen den Elementen */
+
+
+const PaginationButton = styled.button`
+  
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#21272a' : '#e0e0e0')};  
+
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 0 5px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  
+  border-left: 1px solid #4a4a4a;  // Adding left border to match the image
+
+  padding-left: 10px;  // Adding padding to ensure space between text and border
+  .icon{
+
+    color:  ${({ theme }) => (theme === 'dark' ? ' rgba(255,255,2255,0.6)' : '#000')};
+  }
+  
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 `;
 
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};  
+  // border-top: 1px solid #4a4a4a;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom:30px;
+  color:  ${({ theme }) => (theme === 'dark' ? ' rgba(255, 255, 255, 0.6)' : '#000')}; 
+  font-size: 0.875rem;
+
+  border-top: 1px solid  ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')} ;
+`;
+
+const PaginationInfo = styled.div`
+  display: flex;
+  align-items: center;
+  // color: rgba(255, 255, 255, 0.6);
+  
+  color:  ${({ theme }) => (theme === 'dark' ? ' rgba(255, 255, 255, 0.6)' : '#000')}; 
+  font-size: 0.875rem;
+  border-left: 1px solid ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')} ;
+  // border-right: 1px solid #4a4a4a;
+  padding: 0px 10px;
+  text-align: center;
+`;
+
+const PaginationControls = styled.div`
+  display: flex;
+  align-items: center;
+  
+  color:  ${({ theme }) => (theme === 'dark' ? ' rgba(255, 255, 255, 0.6)' : '#000')}; 
+  // color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  border-left: 1px solid ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')} ;  // Adding left border to match the image
+
+  padding-left: 10px;  // Adding padding to ensure space between text and border
+  span{
+    
+  padding-right: 5px;  // Adding padding to ensure space between text and border
+  }
+`;
+
+const ItemsPerPage = styled.span`
+  margin-right: 10px;
+  // color: rgba(255, 255, 255, 0.6);
+  
+  color:  ${({ theme }) => (theme === 'dark' ? ' rgba(255, 255, 255, 0.6)' : '#000')}; 
+  font-size: 0.875rem;
+  border-right: 1px solid ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')} ;  // Adding right border to match the image
+  padding-right: 10px;  // Adding padding to ensure space between text and border
+`;
+
+
+
+
+
+
+
+const ITEMS_PER_PAGE = 10;
+
 export default function HomePage() {
+
+  const theme = useSelector((state) => state.theme.theme);
+  const [currentPage, setCurrentPage] = useState(1);
+  const items = Array.from({ length: 30 }).map((_, index) => ({
+    id: index + 1,
+    session: `Session${index + 1}`,
+    status: index % 2 === 0 ? 'Running' : 'Completed',
+    completed: index % 2 === 0 ? 'No' : 'Yes',
+    program: `Program${index + 1}`,
+    resource: `Resource${index + 1}`,
+    usage: `${(index + 1) * 5}ms`,
+    tags: `Tag${index + 1}`,
+  }));
+
+  const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentItems = items.slice(startIndex, endIndex);
+  const [activeTopNav, setActiveTopNav] = useState('home');
+  const [activeSidebar, setActiveSidebar] = useState('lab');
+
+  const handleTopNavClick = (option: string) => {
+    setActiveTopNav(option);
+  };
+
+  const handleSidebarClick = (option: string) => {
+    setActiveSidebar(option);
+  };
   return (
-    <Container>
-      <Header activeOption="home" onOptionClick={() => {}} />
-      <Banner>
+    <Container theme={theme}>
+      <Header
+        activeTopNav={activeTopNav}
+        activeSidebar={activeSidebar}
+        onTopNavClick={handleTopNavClick}
+        onSidebarClick={handleSidebarClick}
+      />
+      <Banner theme={theme}>
         <BannerText>
           <BannerTitle>Jobs</BannerTitle>
-          <BannerSubtitle>Manage your jobs and monitor their progress</BannerSubtitle>
+          <BannerSubtitle theme={theme}>Manage your jobs and monitor their progress</BannerSubtitle>
         </BannerText>
         <UsageWrapper>
           <VerticalDivider />
           <UsageContainer>
             <UsageTitle>Monthly usage</UsageTitle>
-            <UsageDetail>0ms / 10m used</UsageDetail>
+            <UsageDetail theme={theme}>0ms  used / <span > 10m </span></UsageDetail>
           </UsageContainer>
         </UsageWrapper>
       </Banner>
-      <Main>
-        <ContentBox>
-          <SearchContainer>
-            <SearchInputContainer>
-              <SearchIcon />
-              <SearchInput placeholder="Search for Jobs by ID, name or tag" />
-            </SearchInputContainer>
-          </SearchContainer>
-          <ButtonContainer>
-            <ButtonGroup>
-              <Button>
-                <RefreshIcon />
-              </Button>
-              <Divider />
-              <Button>
-                <ExportIcon />
-              </Button>
-            </ButtonGroup>
-          </ButtonContainer>
-          <TableHeader>
-            <HeaderItem>
-              <Checkbox />
+      <Main theme={theme}>
+        <ContentBox theme={theme}>
+          <div style={{ display: 'flex', width: "100%" }}>
+            <div style={{ width: '90%' }}>
+              <SearchContainer>
+                <SearchInputContainer>
+                  <SearchIcon />
+                  <SearchInput placeholder="Search for Jobs by ID, name or tag" theme={theme} />
+                </SearchInputContainer>
+              </SearchContainer>
+            </div>
+            <div style={{ width: '10%' }}>
+              <ButtonContainer>
+                <ButtonGroup>
+                  <Button>
+                    <RefreshIcon theme={theme} />
+                  </Button>
+                  <Divider />
+                  <Button>
+                    <ExportIcon theme={theme} />
+                  </Button>
+                </ButtonGroup>
+              </ButtonContainer>
+            </div>
+          </div>
+          <TableHeader theme={theme}>
+            <HeaderItem theme={theme}>
+              <Checkbox theme={theme} />
             </HeaderItem>
             <HeaderItem>Job Id</HeaderItem>
             <HeaderItem>Session Id</HeaderItem>
             <HeaderItem>Status</HeaderItem>
+            <HeaderItem>Created</HeaderItem>
             <HeaderItem>Completed</HeaderItem>
             <HeaderItem>Program</HeaderItem>
             <HeaderItem>Compute Resource</HeaderItem>
             <HeaderItem>Usage</HeaderItem>
             <HeaderItem>Tags</HeaderItem>
           </TableHeader>
-          {Array.from({ length: 10 }).map((_, index) => (
-            <TableRow key={index}>
-              <TableDataItem><Checkbox /></TableDataItem>
-              <TableDataItem>{index + 1}</TableDataItem>
-              <TableDataItem>Session{index + 1}</TableDataItem>
-              <TableDataItem>{index % 2 === 0 ? 'Running' : 'Completed'}</TableDataItem>
-              <TableDataItem>{index % 2 === 0 ? 'No' : 'Yes'}</TableDataItem>
-              <TableDataItem>Program{index + 1}</TableDataItem>
-              <TableDataItem>Resource{index + 1}</TableDataItem>
-              <TableDataItem>{(index + 1) * 5}ms</TableDataItem>
-              <TableDataItem>Tag{index + 1}</TableDataItem>
+          {currentItems.map((item) => (
+            <TableRow key={item.id} theme={theme}>
+              <TableDataItem theme={theme}><Checkbox theme={theme} /></TableDataItem>
+              <TableDataItem>{item.id}</TableDataItem>
+              <TableDataItem>{item.session}</TableDataItem>
+              <TableDataItem>{item.status}</TableDataItem>
+              <TableDataItem>{new Date().toLocaleDateString()}</TableDataItem>
+              <TableDataItem>{item.completed}</TableDataItem>
+              <TableDataItem>{item.program}</TableDataItem>
+              <TableDataItem>{item.resource}</TableDataItem>
+              <TableDataItem>{item.usage}</TableDataItem>
+              <TableDataItem>{item.tags}</TableDataItem>
             </TableRow>
           ))}
+
+          <PaginationContainer theme={theme}>
+            <PaginationInfo theme={theme}>
+              <ItemsPerPage theme={theme}>Items per page: {ITEMS_PER_PAGE}</ItemsPerPage>
+              0-0 of 0 items
+            </PaginationInfo>
+            <PaginationControls theme={theme}>
+              <span >
+                Page {currentPage} of {totalPages}
+              </span>
+              <PaginationButton
+              theme={theme}
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                <FaChevronLeft   className='icon'/> {/* Left arrow icon */}
+              </PaginationButton>
+              <PaginationButton
+                theme={theme}
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                <FaChevronRight  className='icon'/> {/* Right arrow icon */}
+              </PaginationButton>
+            </PaginationControls>
+          </PaginationContainer>
+
         </ContentBox>
+
         <div style={{ marginBottom: '40px' }} /> {/* Abstand nach der ContentBox */}
       </Main>
       <Footer />

@@ -1,9 +1,9 @@
 "use client";
 
 import styled from 'styled-components';
-import Header from '../../components/Header';
+import Header from '../../components/LabHeader';
 import Footer from '../../components/Footer';
-
+import { useState } from 'react';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -224,14 +224,31 @@ const WhiteCircle = styled.div`
   margin-left: 5px;
 `;
 
+
 export default function HomePage() {
   const handleOptionClick = (option: string) => {
     // Option click handler
   };
 
+
+  const [activeTopNav, setActiveTopNav] = useState('home');
+const [activeSidebar, setActiveSidebar] = useState('lab');
+
+const handleTopNavClick = (option: string) => {
+  setActiveTopNav(option);
+};
+
+const handleSidebarClick = (option: string) => {
+  setActiveSidebar(option);
+};
   return (
     <Container>
-      <Header activeOption="home" onOptionClick={handleOptionClick} />
+   <Header 
+        activeTopNav={activeTopNav} 
+        activeSidebar={activeSidebar} 
+        onTopNavClick={handleTopNavClick} 
+        onSidebarClick={handleSidebarClick} 
+      />
       <TitleContainer>
         <LeftContainer>
           <Title>Development Roadmap</Title>
