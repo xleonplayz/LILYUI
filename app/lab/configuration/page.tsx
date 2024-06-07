@@ -175,7 +175,8 @@ const VerificationDots = styled.div`
 
 const Item = styled.div`
   font-size: 14px;
-  color: #bbb;
+
+  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};
   margin-bottom: 10px;
 `;
 
@@ -281,18 +282,18 @@ export default function HomePage() {
           <TopRightSegment>
             <VerificationList>
               <VerificationItems theme={theme}>
-                <Item>Verify Model Configuration</Item>
-                <Item>Verify Training set</Item>
-                <Item>Verify Backend</Item>
-                <Item>Verify Values</Item>
-                <Item>Complete Verification</Item>
+                <Item theme={theme}>Verify Model Configuration</Item>
+                <Item theme={theme}>Verify Training set</Item>
+                <Item theme={theme}>Verify Backend</Item>
+                <Item theme={theme}>Verify Values</Item>
+                <Item theme={theme}>Complete Verification</Item>
               </VerificationItems>
               <VerificationDots>
-                <Item>...</Item>
-                <Item>...</Item>
-                <Item>...</Item>
-                <Item>...</Item>
-                <Item>...</Item>
+                <Item theme={theme}>...</Item>
+                <Item theme={theme}>...</Item>
+                <Item theme={theme}>...</Item>
+                <Item theme={theme}>...</Item>
+                <Item theme={theme}>...</Item>
               </VerificationDots>
             </VerificationList>
           </TopRightSegment>

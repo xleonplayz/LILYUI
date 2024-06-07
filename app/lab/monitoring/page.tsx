@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { FaSearch, FaDownload } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import Scat  from './scatter'
+import HeatmapComponent from './heatmap'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -103,8 +104,8 @@ const GridContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   
-  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')}; 
-  gap: 10px;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')}; 
+  gap: 20px;
   height: 100%;
   width: 100%;
 `;
@@ -114,6 +115,9 @@ const GridItem = styled.div`
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')}; 
   padding: 20px;
   position: relative;
+  // gap:20px;
+  // margin:20px;
+ 
 `;
 
 const GridTitle = styled.h3`
@@ -238,8 +242,8 @@ const SearchContainer = styled.div`
 
 const SearchInputContainer = styled.div`
   position: relative;
-  left:10px;
-  width: 80%;
+  left:0px;
+  width:92%;
    z-index:0;
   // max-width: 300px; /* Reduzierte Breite des Eingabefelds */
   // margin:auto;

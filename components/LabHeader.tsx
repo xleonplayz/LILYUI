@@ -3,20 +3,18 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSun, faMoon, faFlask, faBook, faRoad } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLightTheme, setDarkTheme } from '../redux/slices/themesSlice';
 
 const HeaderContainer = styled.header`
   width: 100%;
-    padding: 10px 20px;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
-  border-bottom: 1px solid  ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};
-
+  border-bottom: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};
   background-color: ${({ theme }) => (theme === 'dark' ? '#121619' : '#fff')};
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#bbb')};
   position: relative;
@@ -51,7 +49,7 @@ const VerticalLine = styled.div`
   margin: 0 10px;
 `;
 
-const NavLink = styled(({ isActive, children, ...props }: { isActive: boolean; href: string; children: React.ReactNode }) => (
+const NavLink = styled(({ isActive, children, ...props }) => (
   <Link {...props}>{children}</Link>
 ))`
   margin-left: 30px;
@@ -93,7 +91,7 @@ const InvisibleText = styled.div`
   visibility: hidden;
 `;
 
-const Sidebar = styled.div<{ $isOpen: boolean }>`
+const Sidebar = styled.div`
   position: fixed;
   top: 46px;
   right: 0px;
@@ -109,31 +107,47 @@ const Sidebar = styled.div<{ $isOpen: boolean }>`
   z-index: 1000;
 `;
 
-const SidebarOption = styled.div<{ $isActive: boolean }>`
+const SidebarOption = styled.div`
   display: flex;
   align-items: flex-start;
   padding: 10px;
   position: relative;
-  padding-left: 10px;
+  padding-left: 20px;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   border-left: ${({ $isActive }) => ($isActive ? '5px solid #0f62fe' : '5px solid transparent')};
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);
   }
+    div{
+    display:flex;
+    
+    flex-direction:column;
+    }
+`;
+
+const SidebarOptionz = styled.div`
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+  font-size: 13px;
+  position: relative;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 `;
 
 const SidebarLink = styled(Link)`
-
-color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   text-decoration: none;
   font-size: 13px;
   font-weight: bold;
   margin: 10px 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  
 `;
 
 const SidebarDescription = styled.p`
-
   font-size: 11px;
   margin: 5px 0 15px 0;
   text-align: left;
@@ -146,7 +160,7 @@ const HorizontalLine = styled.hr`
   margin: 10px 0;
 `;
 
-const Overlay = styled.div<{ $isOpen: boolean }>`
+const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -156,6 +170,8 @@ const Overlay = styled.div<{ $isOpen: boolean }>`
   display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
   z-index: 999;
 `;
+
+
 
 interface HeaderProps {
   activeTopNav: string;
@@ -219,7 +235,6 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
           </BannerOptions>
         </TitleContainer>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-         
           <Icon className="icon" onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faBars} />
             <InvisibleText>Se</InvisibleText>
@@ -227,23 +242,30 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
         </div>
       </HeaderContainer>
       <Sidebar className="sidebar" $isOpen={isSidebarOpen} theme={theme}>
-        <SidebarOption $isActive={activeSidebar === 'lab'} >
+        <SidebarOptionz theme={theme}>Switch Application</SidebarOptionz>
+        <SidebarOption $isActive={activeSidebar === 'lab'}>
           <div>
-            <SidebarLink href="/lab/home" onClick={() => onSidebarClick('lab')}  theme={theme}>LAB</SidebarLink>
+            <SidebarLink href="/lab/home" onClick={() => onSidebarClick('lab')} theme={theme}>
+              <FontAwesomeIcon icon={faFlask} style={{ marginRight: '10px',position:'absolute',right:'20px' }} /> LAB
+            </SidebarLink>
             <SidebarDescription theme={theme}>Development environment for Quantum Machine Learning models</SidebarDescription>
           </div>
           <HorizontalLine />
         </SidebarOption>
         <SidebarOption $isActive={activeSidebar === 'docs'}>
           <div>
-            <SidebarLink href="#docs" onClick={() => onSidebarClick('docs')} theme={theme}>DOCS</SidebarLink>
+            <SidebarLink href="#docs" onClick={() => onSidebarClick('docs')} theme={theme}>
+              <FontAwesomeIcon icon={faBook} style={{ marginRight: '10px',position:'absolute',right:'20px' }} /> DOCS
+            </SidebarLink>
             <SidebarDescription theme={theme}>Documentation about LILY and using the platform</SidebarDescription>
           </div>
           <HorizontalLine />
         </SidebarOption>
         <SidebarOption $isActive={activeSidebar === 'road'}>
           <div>
-            <SidebarLink href="#road" onClick={() => onSidebarClick('road')} theme={theme}>ROAD</SidebarLink>
+            <SidebarLink href="#road" onClick={() => onSidebarClick('road')} theme={theme}>
+              <FontAwesomeIcon icon={faRoad} style={{ marginRight: '10px',position:'absolute',right:'20px' }} /> ROAD
+            </SidebarLink>
             <SidebarDescription theme={theme}>Roadmap of the LILY QML project, information, contact, etc.</SidebarDescription>
           </div>
         </SidebarOption>
@@ -254,3 +276,4 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
 };
 
 export default Header;
+

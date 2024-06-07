@@ -342,6 +342,11 @@ const ContentBox = styled.div`
   align-items: flex-start;
 
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  .content-inner{
+  display:flex;
+  justify-content:space-between;
+  width:100%;
+  }
 `;
 
 const Title = styled.h3`
@@ -384,7 +389,7 @@ const ProgressBarContainer = styled.div`
   border-radius: 5px;
   overflow: hidden;
   height: 10px; /* Dünnerer Balken */
-  margin-top: 50px; /* Balken noch tiefer gesetzt */
+  margin-top:25px; /* Balken noch tiefer gesetzt */
 `;
 
 const ProgressBar = styled.div`
@@ -694,7 +699,7 @@ export default function HomePage() {
             </BoxLeft>
             <BoxRight theme={theme}>
               <ContentBox theme={theme}>
-                <div style={{display:'flex',justifyContent:'space-between'}}>
+                <div  className='content-inner' style={{display:'flex',justifyContent:'space-between'}}>
                 <div>
                 <Title theme={theme}>Monthly usage</Title>
                 </div>
