@@ -9,20 +9,41 @@ import { setLightTheme, setDarkTheme } from '../redux/slices/themesSlice';
 
 const FooterContainer = styled.div`
   width: 100%;
-  padding: 20px 20px;
+  padding: 10px 0px;
   background-color: ${({ theme }) => (theme === 'dark' ? '#121619' : '#fff')};
   border-top: 1px solid   ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: fixed;
+  
   bottom: 0;
   z-index: 1000;
   color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};
   div {
-    padding-right: 30px;
+  
   }
+  .outlined-icon {
+  color: transparent;
+  stroke:   ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  stroke-width: 15; /* Adjust the width of the outline as needed */
+  
+}
+  .box{
+  border:1px solid   ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};;; ;
+  border-radius:32px;
+  width:100px;
+  padding:5px;
+  align-item:center;
+  // margin-left:50px;
+  justify-content:space-between;
+  }
+
+  .left{
+  padding-left:30px;}
 `;
+
+
 
 export default function Footer() {
   const theme = useSelector((state) => state.theme.theme);
@@ -30,31 +51,37 @@ export default function Footer() {
 
   return (
     <FooterContainer theme={theme}>
-      <div>© 2024 Your Company Name</div>
-      <div style={{ display: 'flex', gap: '10px' }}>
+      <div  className ='left'>© 2024 Your Company Name</div>
+      <div style={{ display: 'flex', gap: '0px' }} className='box'>
         <div
           onClick={() => dispatch(setLightTheme())}
           style={{
             cursor: 'pointer',
-            padding: '8px 10px',
-            height: '20px',
-            border: '1px solid  #343a3f',
-            backgroundColor: theme === 'light' ? '#bbb' : 'transparent',
+            paddingRight: '0px',
+            
+            paddingLeft: '15px',
+            // height: '20px',
+            // border: '1px solid  #343a3f',
+            // backgroundColor: theme === 'light' ? '#bbb' : 'transparent',
+            // borderRight:'1px solid black'
           }}
         >
-          <FaSun size={22} />
+          <FaSun className="outlined-icon"  size={15}/>
         </div>
         <div
           onClick={() => dispatch(setDarkTheme())}
           style={{
             cursor: 'pointer',
-            padding: '8px 10px',
-            height: '20px',
-            border: '1px solid  #343a3f',
-            backgroundColor: theme === 'dark' ? '#343a3f' : 'transparent',
+            paddingRight: '20px',
+            
+            paddingLeft: '15px',
+            // height: '20px',
+            // border: '1px solid  #343a3f',
+            // backgroundColor: theme === 'light' ? '#bbb' : 'transparent',
+              borderLeft:'1px solid #343a3f'
           }}
         >
-          <FaMoon size={22} />
+          <FaMoon size={15}  className='  outlined-icon '/>
         </div>
       </div>
     </FooterContainer>

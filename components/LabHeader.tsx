@@ -10,7 +10,7 @@ import { setLightTheme, setDarkTheme } from '../redux/slices/themesSlice';
 
 const HeaderContainer = styled.header`
   width: 100%;
-  padding: 15px 30px;
+    padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -67,7 +67,7 @@ const NavLink = styled(({ isActive, children, ...props }: { isActive: boolean; h
     content: "";
     display: ${({ isActive }) => (isActive ? 'block' : 'none')};
     position: absolute;
-    bottom: -17px;
+    bottom: -10px;
     left: 0;
     right: 0;
     height: 3px;

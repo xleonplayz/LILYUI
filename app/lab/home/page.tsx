@@ -51,27 +51,28 @@ const BoxContainer = styled.div`
 `;
 
 const BoxLeft = styled.div`
-  flex: 3;
+  flex: 2;
   // background-color: #21272a; 
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   // color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#bbb')};
-  padding:15px  20px;
+  padding:12px  20px;
   border-radius: 5px; /* Optional: abgerundete Ecken */
   margin: 10px; /* Abstand zu den Rändern und anderen Boxen */
-  height: auto; /* Höhe leicht erhöht */
+  height: 80px; /* Höhe leicht erhöht */
 `;
 
 const BoxRight = styled.div`
-  flex: 7;
+  flex: 8;
   background-color: #21272a; /* Ein wenig heller als der Hintergrund */
   
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   // color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#bbb')};
-  padding: 20px;
+ padding:12px  20px;
   border-radius: 5px; /* Optional: abgerundete Ecken */
   margin: 10px; /* Abstand zu den Rändern und anderen Boxen */
-  height: auto; /* Höhe leicht erhöht */
-  position: relative;
+  // height: auto; /* Höhe leicht erhöht */
+  // position: relative;
+    height: 80px; /* Höhe leicht erhöht */
 `;
 
 const LargeBox = styled.div`
@@ -113,6 +114,7 @@ const ViewAll = styled.span`
 const JobInfoContainer = styled.div`
   display: flex;
   justify-content: flex-start;
+  gap:100px;
   margin-top: 60px; /* Mehr Abstand zur Tabelle */
 `;
 
@@ -123,7 +125,7 @@ const JobInfo = styled.div`
   // color: white;
   
   color: ${({ theme }) => (theme === 'dark' ? 'white' : '#000')};
-  margin-right: 10px; /* Weniger Abstand zwischen den Job-Infos */
+  // margin-right: 10px; /* Weniger Abstand zwischen den Job-Infos */
 `;
 
 const JobNumber = styled.span`
@@ -134,7 +136,7 @@ const JobNumber = styled.span`
 `;
 
 const JobStatus = styled.span`
-  font-size: 0.875rem; /* Kleinere Schrift */
+  font-size: 0.775rem; /* Kleinere Schrift */
   // color: grey;
   
   color: ${({ theme }) => (theme === 'dark' ? 'grey' : '#000')};
@@ -180,7 +182,7 @@ const DataRow = styled.div`
   
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   padding: 10px 0;
-  border-top: 1px solid #4a4a4a; /* Trennstrich */
+  border-top: 1px solid  ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#fff')}; /* Trennstrich */
   font-size: 0.875rem; /* Kleinere Schrift */
  
 `;
@@ -211,8 +213,8 @@ const SmallBox = styled.div`
   // background-color: #21272a; /* Ein wenig heller als der Hintergrund */
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   border-radius: 5px; /* Optional: abgerundete Ecken */
-  margin: 10px; /* Abstand zu den Rändern */
-  height: 300px; /* Höhe der kleinen Boxen leicht erhöht */
+  // margin:10px; /* Abstand zu den Rändern */
+  // height: 300px; /* Höhe der kleinen Boxen leicht erhöht */
   color: ${({ theme }) => (theme === 'dark' ? '#FFF' : '#000')};
   // padding:10px 0px ;
   position: relative;
@@ -230,7 +232,7 @@ const HalfBox = styled.div`
 const Divider = styled.div`
   width: 100%;
   height: 1px;
-  background-color: #4a4a4a;
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#32383c' : '#e0e0e0')}; ;
   
 `;
 
@@ -394,13 +396,14 @@ const ProgressBar = styled.div`
 const UsageContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  position: absolute;
-  top: 20px; /* Tiefer gesetzt */
-  right: 20px;
+  // position: absolute;
+  // top: 20px; /* Tiefer gesetzt */
+  // right: 20px;
   color: #a9a9a9; /* Etwas grauer */
   font-size:.875rem;
   .span-sec{
-    color:white
+
+color: ${({ theme }) => (theme === 'dark' ? '#fff' : 'black')}; }
   }
 `;
 
@@ -409,6 +412,11 @@ const UsageInfo = styled.div`
   flex-direction: column;
   align-items: flex-end;
   margin-left: 20px;
+   .span{
+color: ${({ theme }) => (theme === 'dark' ? '#fff' : '000')}; }
+
+.text-span{
+  color: ${({ theme }) => (theme === 'dark' ? '#a9a9a9' : '000')}; }
 `;
 
 const SmallBoxTitle = styled.h4`
@@ -422,14 +430,13 @@ const SmallBoxTitle = styled.h4`
 `;
 
 const OpenAppLink = styled.span`
-  position: absolute;
-  top: 20px; /* Etwas höher */
-  right: 20px;
+
   color: #6f9ae8;
   font-size: 0.875rem;
   cursor: pointer;
   
-  padding:10px 0px ;
+  
+  padding:20px ;
 `;
 
 const SmallBoxSegment = styled.div`
@@ -439,7 +446,7 @@ const SmallBoxSegment = styled.div`
 padding: 15px 20px;
   
   &:hover {
-    background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#000')};
+    background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#e0e0e0')};
   }
 `;
 
@@ -494,7 +501,9 @@ const BulletTitle = styled.h4`
   margin: 0;
   font-size: 1rem;
   font-weight: 300;
-  color: white;
+  // color: white;
+  
+color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 `;
 
 const BulletDescription = styled.p`
@@ -527,6 +536,11 @@ div{
   margin:1PX 0px;
   // padding:20px
 }
+  .uppersys{
+
+  
+background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#c6c6c6')};
+  }
 `;
 
 const SysLower = styled.div`
@@ -554,13 +568,15 @@ height:100%;
 flex-direction:column;
 // background-color:#343a3f;
 border-radius:10px;
-background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#fff')};
+background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#e0e0e0')};
   
 border:1px solid none;
 
 padding:0;
 &:hover{
-  background-color:rgb(138 ,63 ,252)
+  // background-color:
+  
+background-color: ${({ theme }) => (theme === 'dark' ? 'rgb(138 ,63 ,252)' : 'rgba(138 ,63 ,252,0.6)')};
 }
 
 
@@ -577,7 +593,7 @@ const BigBoxTitle = styled.h2`
 
 const AppLink = styled.span`
 
-  color: #ffff;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};;
   font-size: 0.875rem;
   cursor: pointer;
   
@@ -585,6 +601,15 @@ const AppLink = styled.span`
   
 `;
 
+
+const Doc = styled.div`
+display:flex;
+flex-direction:row;
+justify-content:space-between;
+
+
+
+`;
 
 
 
@@ -669,17 +694,23 @@ export default function HomePage() {
             </BoxLeft>
             <BoxRight theme={theme}>
               <ContentBox theme={theme}>
-                <Title>Monthly usage</Title>
-                <UsageContainer>
-                  <UsageInfo >
-                    <span>Used</span>
-                    <span className='span-sec'>10ms</span>
+                <div style={{display:'flex',justifyContent:'space-between'}}>
+                <div>
+                <Title theme={theme}>Monthly usage</Title>
+                </div>
+                <div>
+                <UsageContainer theme={theme}>
+                  <UsageInfo theme={theme} >
+                    <span  className='text-span'>Used</span>
+                    <span className='span-sec span'>10ms</span>
                   </UsageInfo>
                   <UsageInfo>
-                    <span>Remaining</span>
-                    <span className='span-sec'>9m</span>
+                    <span  className='text-span'>Remaining</span>
+                    <span className='span-sec span'>9m</span>
                   </UsageInfo>
                 </UsageContainer>
+                </div>
+                </div>
                 <ProgressBarContainer>
                   <ProgressBar />
                 </ProgressBarContainer>
@@ -722,14 +753,14 @@ export default function HomePage() {
             <SmallBox style={{ background: "transparent" }} theme={theme}>
 
 
-              <InstaSystem>
+              <InstaSystem theme={theme}>
 
-                <SysUpperIns theme={theme}>
+                <SysUpperIns theme={theme} className='uppersys'>
                   <SysLower >
 
                     <SmallBoxTitle theme={theme}>Instance</SmallBoxTitle>
 
-                    <AppLink><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <AppLink theme={theme}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                       <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
@@ -749,7 +780,7 @@ export default function HomePage() {
 
                       <SmallBoxTitle theme={theme}>All System</SmallBoxTitle>
 
-                      <AppLink><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <AppLink theme={theme}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                       </svg>
@@ -766,7 +797,7 @@ export default function HomePage() {
 
                       <SmallBoxTitle theme={theme}>All System</SmallBoxTitle>
 
-                      <AppLink><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <AppLink theme={theme}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                       </svg>
@@ -788,39 +819,42 @@ export default function HomePage() {
 
 
             <SmallBox theme={theme}>
-
+            <Doc theme={theme} >
               <SmallBoxTitle theme={theme}>Documentation</SmallBoxTitle>
               <OpenAppLink>Open App</OpenAppLink>
 
+              </Doc>
               <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 1</SegmentTitle>
                 <SegmentText>Details for section 1</SegmentText>
               </SmallBoxSegment>
-              <Divider />
+              <Divider  theme={theme}/>
               <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 2</SegmentTitle>
                 <SegmentText>Details for section 2</SegmentText>
               </SmallBoxSegment >
-              <Divider />
+              <Divider  theme={theme}/>
               <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 3</SegmentTitle>
                 <SegmentText>Details for section 3</SegmentText>
               </SmallBoxSegment>
             </SmallBox>
             <SmallBox theme={theme}>
+            <Doc theme={theme} >
               <SmallBoxTitle theme={theme}>Lab</SmallBoxTitle>
               <OpenAppLink>Open App</OpenAppLink>
-              <Divider />
+              </Doc  >
+              
               <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 1</SegmentTitle>
                 <SegmentText>Details for section 1</SegmentText>
               </SmallBoxSegment>
-              <Divider />
+              <Divider theme={theme} />
               <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 2</SegmentTitle>
                 <SegmentText>Details for section 2</SegmentText>
               </SmallBoxSegment>
-              <Divider />
+              <Divider  theme={theme}/>
               <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 3</SegmentTitle>
                 <SegmentText>Details for section 3</SegmentText>
@@ -836,7 +870,7 @@ export default function HomePage() {
               <BulletPoint key={index}>
                 <Bullet>•</Bullet>
                 <BulletContent>
-                  <BulletTitle>Feature {index + 1}</BulletTitle>
+                  <BulletTitle theme={theme}>Feature {index + 1}</BulletTitle>
                   <BulletDescription>
                     This is a description of feature {index + 1}. It provides an overview of what has been added or updated.
                   </BulletDescription>

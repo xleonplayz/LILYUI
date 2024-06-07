@@ -30,13 +30,13 @@ const Main = styled.main`
 
 const Banner = styled.div`
   display: flex;
+  // align-item:center;
   justify-content: space-between;
-  align-items: flex-end;
-  padding: 50px 3vw; /* Padding links und rechts relativ zur Bildschirmbreite */
+ 
+  padding: 40px 3vw; /* Padding links und rechts relativ zur Bildschirmbreite */
   
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
-  // background-color:#21272a; /* Ursprünglicher Grauton der Seite */
-  // color: white;
+
   
   color: ${({ theme }) => (theme === 'dark' ? 'white' : '#000')};
   margin-top: 0px;
@@ -122,17 +122,21 @@ const ContentBox = styled.div`
   display: flex;
   width:100%;
   flex-direction: column;
+  .search-div{
+  width:89%}
+  .btn-div{
+  width:10%}
 `;
 
 const SearchContainer = styled.div`
   display: flex;
-  width: 100%;
+  width:98%;
 `;
 
 const SearchInputContainer = styled.div`
   position: relative;
   width: 100%;
-  padding:10px 0px ;
+  // padding:0px 0px ;
 `;
 
 const SearchIcon = styled(FaSearch)`
@@ -151,7 +155,7 @@ const SearchInput = styled.input`
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 
   border: none;
-  padding: 10px 10px 10px 30px; /* Platz für die Lupe */
+  padding: 15px 10px 15px 40px; /* Platz für die Lupe */
   font-size: 0.875rem; /* Kleinere Schrift */
   width: 100%;
   border-radius: 0; /* Spitz an den Ecken */
@@ -194,7 +198,7 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-left:1px solid  #e0e0e0;
+  border-left:1px solid #343a3f;
   
   transition: background-color 0.3s;
 
@@ -281,6 +285,11 @@ const TableRow = styled.div`
   &:not(:first-child) {
     border-top: 1px solid  ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')} ;
   }
+
+  &:hover{
+  
+    background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#e0e0e0')};
+  }
 `;
 
 const TableDataItem = styled.span`
@@ -333,7 +342,7 @@ const PaginationContainer = styled.div`
   background-color:  ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};  
   // border-top: 1px solid #4a4a4a;
   color: rgba(255, 255, 255, 0.6);
-  margin-bottom:30px;
+  margin-bottom:0px;
   color:  ${({ theme }) => (theme === 'dark' ? ' rgba(255, 255, 255, 0.6)' : '#000')}; 
   font-size: 0.875rem;
 
@@ -440,15 +449,16 @@ export default function HomePage() {
       <Main theme={theme}>
         <ContentBox theme={theme}>
           <div style={{ display: 'flex', width: "100%" }}>
-            <div style={{ width: '90%' }}>
+            <div className='search-div'>
               <SearchContainer>
                 <SearchInputContainer>
-                  <SearchIcon />
+                 
                   <SearchInput placeholder="Search for Jobs by ID, name or tag" theme={theme} />
+                  <SearchIcon />
                 </SearchInputContainer>
               </SearchContainer>
             </div>
-            <div style={{ width: '10%' }}>
+            <div className='btn-div'>
               <ButtonContainer>
                 <ButtonGroup>
                   <Button>

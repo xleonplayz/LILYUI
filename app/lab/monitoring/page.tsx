@@ -6,6 +6,7 @@ import Footer from '../../../components/Footer';
 import { useState } from 'react';
 import { FaSearch, FaDownload } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import Scat  from './scatter'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -79,7 +80,7 @@ color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 const ActiveIndicator = styled.div`
   position: absolute;
   left: -8px; /* Positioniert den Strich links vom Segment */
-  height: 98%;
+  height: 100%;
   width: 2px; /* Dünnerer Strich */
   background-color: #0f62fe; /* Blau */
 `;
@@ -238,17 +239,19 @@ const SearchContainer = styled.div`
 const SearchInputContainer = styled.div`
   position: relative;
   left:10px;
-  width: 100%;
+  width: 80%;
    z-index:0;
-  max-width: 400px; /* Reduzierte Breite des Eingabefelds */
+  // max-width: 300px; /* Reduzierte Breite des Eingabefelds */
+  // margin:auto;
 `;
 
 const SearchIcon = styled(FaSearch)`
   position: absolute;
-  left: 10px;
+  right: -20px;
   top: 50%;
   transform: translateY(-50%);
   color: #a9a9a9; /* Graueres Icon */
+
   font-size: 1rem;
   z-index:1;
 `;
@@ -256,7 +259,7 @@ const SearchIcon = styled(FaSearch)`
 const SearchInput = styled.input`
   // background-color: #2b272a; /* Gleiche Farbe wie die Box */
   
-  background-color: ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#ffff')}; 
+  background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#ffff')}; 
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   border: none;
   padding: 10px 10px 10px 30px; /* Platz für die Lupe */
@@ -418,12 +421,13 @@ export default function HomePage() {
             </JobTable>
             <SearchContainer>
               <SearchInputContainer>
-                <SearchIcon />
+               
                 <SearchInput placeholder="Enter Job Id" value={inputJob} onChange={handleInputChange} theme={theme} />
+                <SearchIcon />
               </SearchInputContainer>
-              <SearchButton onClick={handleSearchClick} theme={theme}>
+              {/* <SearchButton onClick={handleSearchClick} theme={theme}>
                 <SearchButtonIcon theme={theme} />
-              </SearchButton>
+              </SearchButton> */}
             </SearchContainer>
           </HorizontalSection>
           <HorizontalDivider />
@@ -509,6 +513,8 @@ export default function HomePage() {
                 theme={theme}>
                 <GridTitle theme={theme}>SHAP</GridTitle>
                 {/* Inhalt des zweiten Segments */}
+
+                <Scat />
               </GridItem>
               <GridItem
                 theme={theme}>

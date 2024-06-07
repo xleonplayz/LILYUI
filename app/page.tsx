@@ -28,7 +28,7 @@ const LeftSection = styled.div`
   // background-color: #2b272a; /* Farbe der linken Seite */
   
   background-color: ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#fff')};
-  border-right: 1px solid #444;
+  // border-right: 1px solid #444;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -66,7 +66,7 @@ const SignInContainer = styled.div`
 const SignInTitle = styled.h2`
   // color: #bbb;
   
-  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#e0e0e0')};
+  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#161616')};
   font-size: 24px;
   margin-bottom: 25px; /* Abstand zum Button */
   margin-left: 5px; /* Links ausgerichtet an die linke Ecke des Buttons */
@@ -125,10 +125,10 @@ const HorizontalLine = styled.hr`
   border: none; 
   width: 80%; /* Breiter */
   
-  border-top: 1px solid  ${({ theme }) => (theme === 'dark' ? '#bbb' : '#e0e0e0')};
+  border-top: 1px solid  ${({ theme }) => (theme === 'dark' ? '#363c40' : '#e0e0e0')};
   margin: 0 auto; /* Zentriert im linken Segment */
   position: absolute;
-  top: 55%; /* Höhe der Linie etwas höher */
+  top: 50%; /* Höhe der Linie etwas höher */
   left: 50%;
   transform: translateX(-50%);
 `;
@@ -137,7 +137,7 @@ const Title = styled.h1`
   font-size: 50pt; /* Noch größer */
   // color: #bbb;
   
-  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#e0e0e0')};
+  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#161616')};
   font-weight: 300; /* Dünnere Schriftart */
   margin-bottom: 20px;
   position: absolute;
@@ -150,14 +150,14 @@ const Description = styled.div`
   font-size: 10pt; /* Noch kleinere Schriftgröße */
   // color: #bbb;
   
-  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#525252')};
+  color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#525279')};
 
   font-weight: 300; /* Dünnere Schriftart */
   margin-top: 10px; /* Abstand nach unten vom Titel */
   margin-left: calc(8% + 5px); /* Gleicher Seitenabstand wie der Titel */
   line-height: 1.5;
   position: absolute;
-  top: 38%; /* Zwischen Titel und Trennstrich */
+  top: 35%; /* Zwischen Titel und Trennstrich */
 `;
 
 import { useSelector } from 'react-redux';

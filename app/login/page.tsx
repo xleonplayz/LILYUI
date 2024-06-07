@@ -210,7 +210,7 @@ export default function LoginPage() {
       </HeaderContainer>
       <Main>
         <LoginBox>
-          <PageTitle theme={theme}>LOGIN to LILY</PageTitle>
+          <PageTitle theme={theme}>Login to LILY</PageTitle>
           <ShortDivider theme={theme} />
           <FormContainer onSubmit={handleSubmit}>
             <InputBox  theme={theme}
