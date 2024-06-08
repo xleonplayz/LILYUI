@@ -27,7 +27,7 @@ const LeftSection = styled.div`
   width: 66.67%;
   // background-color: #2b272a; /* Farbe der linken Seite */
   
-  background-color: ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#fff')};
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   // border-right: 1px solid #444;
   display: flex;
   flex-direction: column;
@@ -42,7 +42,7 @@ const RightSection = styled.div`
   width: 33.33%;
   // background-color: #353a3e; /* Belassen wie es ist */
   
-  background-color: ${({ theme }) => (theme === 'dark' ? '#353a3e' : '#f4f4f4')};
+  background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#f4f4f4')};
   display: flex;
   flex-direction: column;
   padding: 20px;

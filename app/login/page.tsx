@@ -15,7 +15,8 @@ const Container = styled.div`
   min-height: 100vh;
   width: 100%;
  
-  background-color:   ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#21272a' : '#e0e0e0')};;
+  // background-color:   ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};
   overflow-x: hidden;
 `;
 
@@ -26,7 +27,7 @@ const HeaderContainer = styled.header`
   align-items: center;
   border-bottom: 1px solid  ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};;
   
-  background-color:   ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')};
 `;
 
 const Title = styled.a`
@@ -71,9 +72,12 @@ const LoginBox = styled.div`
   flex-direction: column;
   max-width: 400px;
   width: 100%;
+  // margin:auto;
   background-color: transparent;
   padding: 10px;
   position: relative;
+  left:100px;
+  // top:2
 `;
 
 const PageTitle = styled.h1`
@@ -96,7 +100,7 @@ const InputBox = styled.input`
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #444;
-  background-color:  ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};;
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')};;
   
   color:  ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};;
 
@@ -154,18 +158,20 @@ const ShortDivider = styled.hr`
 const VerticalDivider = styled.div`
   width: 1px;
   background-color:  ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};;
+  
   height: calc(100vh - 250px);
   margin: 60px 0;
-  margin-left: 50px;
+  margin-left: 150px;
 `;
 
 const ImageContainer = styled.div`
   flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
-  max-height: calc(100vh - 160px);
-  margin-left: 40px;
+  height: auto;
+  margin-left: 100px;
+  
 `;
 
 export default function LoginPage() {

@@ -11,7 +11,7 @@ import NightsStayOutlinedIcon from '@mui/icons-material/NightsStayOutlined';
 const FooterContainer = styled.div`
   width: 100%;
   padding: 10px 0px;
-  background-color: ${({ theme }) => (theme === 'dark' ? '#121619' : '#fff')};
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   border-top: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};
   display: flex;
   align-items: center;

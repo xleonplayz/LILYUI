@@ -14,7 +14,7 @@ const Container = styled.div`
   width: 100%;
   // background-color: #2b272a; /* Same background color */
   
-  background-color:   ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')};
   overflow-x: hidden;
 `;
 
@@ -25,7 +25,7 @@ const HeaderContainer = styled.header`
   align-items: center;
   border-bottom: 1px solid  ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};;
   
-  background-color:   ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')};
   // background-color: #2b272a; /* Same background color */
 `;
 
@@ -71,11 +71,13 @@ const LoginBox = styled.div`
   flex-direction: column;
   max-width: 400px;
   width: 100%;
-  background-color: transparent; /* Invisible box */
+  // margin:auto;
+  background-color: transparent;
   padding: 10px;
   position: relative;
+  left:100px;
+  // top:2
 `;
-
 const PageTitle = styled.h1`
   font-size: 28px; /* Larger font size */
  
@@ -96,7 +98,7 @@ const InputBox = styled.input`
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #444;
-  background-color:  ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};;
+  background-color:  ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')};;
   
   color:  ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};;
 
@@ -157,16 +159,16 @@ const VerticalDivider = styled.div`
 
   height: calc(100vh - 250px); /* Consider height of header and footer */
   margin: 60px 0; /* Margin from header and footer */
-  margin-left: 50px; /* Margin from login container */
+  margin-left: 170px;
 `;
-
 const ImageContainer = styled.div`
   flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
-  max-height: calc(100vh - 160px); /* Consider height of header (60px) + footer (80px) */
-  margin-left: 40px; /* Margin from info container */
+  height: auto;
+  margin-left: 100px;
+  
 `;
 
 export default function LoginPage() {
