@@ -246,7 +246,7 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
         <SidebarOption $isActive={activeSidebar === 'lab'}>
           <div>
             <SidebarLink href="/lab/home" onClick={() => onSidebarClick('lab')} theme={theme}>
-              <FontAwesomeIcon icon={faFlask} style={{ marginRight: '10px',position:'absolute',right:'20px' }} /> LAB
+              <FontAwesomeIcon icon={faFlask} style={{ marginRight: '10px', position: 'absolute', right: '20px' }} /> LAB
             </SidebarLink>
             <SidebarDescription theme={theme}>Development environment for Quantum Machine Learning models</SidebarDescription>
           </div>
@@ -254,8 +254,8 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
         </SidebarOption>
         <SidebarOption $isActive={activeSidebar === 'docs'}>
           <div>
-            <SidebarLink href="#docs" onClick={() => onSidebarClick('docs')} theme={theme}>
-              <FontAwesomeIcon icon={faBook} style={{ marginRight: '10px',position:'absolute',right:'20px' }} /> DOCS
+            <SidebarLink href="/lab/document" onClick={() => onSidebarClick('docs')} theme={theme}>
+              <FontAwesomeIcon icon={faBook} style={{ marginRight: '10px', position: 'absolute', right: '20px' }} /> DOCS
             </SidebarLink>
             <SidebarDescription theme={theme}>Documentation about LILY and using the platform</SidebarDescription>
           </div>
@@ -264,7 +264,7 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
         <SidebarOption $isActive={activeSidebar === 'road'}>
           <div>
             <SidebarLink href="#road" onClick={() => onSidebarClick('road')} theme={theme}>
-              <FontAwesomeIcon icon={faRoad} style={{ marginRight: '10px',position:'absolute',right:'20px' }} /> ROAD
+              <FontAwesomeIcon icon={faRoad} style={{ marginRight: '10px', position: 'absolute', right: '20px' }} /> ROAD
             </SidebarLink>
             <SidebarDescription theme={theme}>Roadmap of the LILY QML project, information, contact, etc.</SidebarDescription>
           </div>

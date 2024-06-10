@@ -20,6 +20,7 @@ const Container = styled.div`
 const MainContent = styled.div`
   display: flex;
   flex: 1;
+  margin-bottom:3%;
 `;
 
 const LeftSide = styled.div`

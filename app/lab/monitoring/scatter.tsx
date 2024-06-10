@@ -1,4 +1,5 @@
-// components/ScatterPlot.js
+'use client';
+import React from 'react';
 import { Scatter } from 'react-chartjs-2';
 import { Chart as ChartJS, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import styled from 'styled-components';
@@ -6,11 +7,17 @@ import styled from 'styled-components';
 ChartJS.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const ScatterPlotContainer = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 350px;
+  margin: 5% auto;
+  align-item:center;
 `;
 
-const Scat = () => {
+interface ScatProps {
+  theme: string;
+}
+
+const Scat: React.FC<ScatProps> = ({ theme }) => {
   const data = {
     datasets: [
       {
@@ -27,8 +34,8 @@ const Scat = () => {
   const options = {
     scales: {
       x: {
-        type: 'linear',
-        position: 'bottom',
+        type: 'linear' as const,
+        position: 'bottom' as const,
         title: {
           display: true,
           text: 'Income',

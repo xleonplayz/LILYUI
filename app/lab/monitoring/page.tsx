@@ -8,6 +8,7 @@ import { FaSearch, FaDownload } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import Scat  from './scatter'
 import HeatmapComponent from './heatmap'
+import Dendrogram from './dendogramm';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -104,8 +105,8 @@ const GridContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   
-  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')}; 
-  gap: 20px;
+  // background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')}; 
+  // gap: 20px;
   height: 100%;
   width: 100%;
 `;
@@ -113,20 +114,23 @@ const GridContainer = styled.div`
 const GridItem = styled.div`
   
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')}; 
-  padding: 20px;
+  // padding: 20px;
   position: relative;
   // gap:20px;
-  // margin:20px;
+  margin:5px;
  
 `;
 
 const GridTitle = styled.h3`
   color:  ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')}; ;
   font-weight: 300;
-  position: absolute;
-  top: 10px;
-  left: 20px;
-  margin: 0;
+  // position: absolute;
+  // top: 10px;
+  // left: 20px;
+    padding:10px 20px;
+    
+  align-items: center;
+  margin: 5px  0px;
 `;
 
 const HeaderContainer = styled.div`
@@ -510,15 +514,16 @@ export default function HomePage() {
           {activeSegment === 'ML' && (
             <GridContainer theme={theme}>
               <GridItem theme={theme}>
-                <GridTitle theme={theme}>Heatmap</GridTitle>
+                {/* <GridTitle theme={theme}>Heatmap</GridTitle> */}
                 {/* Inhalt des ersten Segments */}
+                <HeatmapComponent theme={theme} />
               </GridItem>
               <GridItem
                 theme={theme}>
                 <GridTitle theme={theme}>SHAP</GridTitle>
                 {/* Inhalt des zweiten Segments */}
 
-                <Scat />
+                <Scat  theme={theme}/>
               </GridItem>
               <GridItem
                 theme={theme}>
@@ -541,6 +546,7 @@ export default function HomePage() {
                 <GridTitle
                   theme={theme}>Hyperparameter Tuning</GridTitle>
                 {/* Inhalt des vierten Segments */}
+                <Dendrogram/>
               </GridItem>
             </GridContainer>
           )}

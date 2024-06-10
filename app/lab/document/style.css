@@ -1,0 +1,64 @@
+/* InfoBox.css */
+.info-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(to right, #4a00e0, #8e2de2);
+  width: 23%;
+  height: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.right-info-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #121619;
+  width: 28%;
+
+  height: 40.5%;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  /* margin-top:5%; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.text-content h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+
+.text-content p {
+  margin: 5px 0 0;
+  font-size: 1rem;
+}
+
+.arrow-icon {
+  align-self: flex-start;
+  font-size: 1.5rem;
+}
+
+.main-boxdiv {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  height: 250px;
+  margin-top: 3%;
+}
+
+.right-box {
+  width: 74%;
+  display: flex;
+  height: 100%;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  justify-content: flex-start;
+
+}
