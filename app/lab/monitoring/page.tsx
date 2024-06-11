@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import Scat  from './scatter'
 import HeatmapComponent from './heatmap'
 import Dendrogram from './dendogramm';
+import AccuracyPrecisionRecall from './accuracyPrecisionRecall';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -370,7 +371,7 @@ export default function HomePage() {
   const [selectedJob, setSelectedJob] = useState(null);
   const [inputJob, setInputJob] = useState("");
   const [activeSegment, setActiveSegment] = useState(null);
-  const [activeOption, setActiveOption] = useState(null);
+  const [activeOption, setActiveOption] = useState<keyof DummyData>('accuracy');
 
   const handleJobClick = (jobId) => {
     setSelectedJob(jobId);
@@ -388,7 +389,7 @@ export default function HomePage() {
     setActiveSegment(segment);
   };
 
-  const handleOptionClick = (option: string) => {
+  const handleOptionClick = (option: keyof DummyData) => {
     setActiveOption(option);
   };
 
@@ -540,6 +541,8 @@ export default function HomePage() {
                   </HeaderOption>
                 </HeaderContainer>
                 {/* Inhalt des dritten Segments */}
+
+                <AccuracyPrecisionRecall selectedMetric={activeOption} />
               </GridItem>
               <GridItem
                 theme={theme}>
