@@ -11,9 +11,9 @@ interface NodeData {
 const DendrogramContainer = styled.div`
   display: flex;
   justify-content: center; // Center horizontally
-  align-items: center; // Center vertically if needed
-  height: auto; // Adjust this as needed
-  margin:auto;
+  // align-items: center; // Center vertically if needed
+  height: 100% ; // Adjust this as needed
+  // margin:0% auto;
 `;
 
 const Dendrogram: React.FC = () => {
@@ -48,8 +48,8 @@ const Dendrogram: React.FC = () => {
       ],
     };
 
-    const width = 600; // Adjusted for visibility
-    const height = 600;
+    const width = 500; // Adjusted for visibility
+    const height = 320;
 
     const svg = d3.select(ref.current)
       .attr('width', width)

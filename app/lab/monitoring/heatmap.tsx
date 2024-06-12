@@ -6,10 +6,12 @@ import InfoIcon from '@mui/icons-material/Info';
 import * as d3 from 'd3';
 
 const HeatmapContainer = styled.div`
-  width: 100%;
+  width: 500px;
   margin: auto;
-  height: 350px;
-  position: relative;
+  justify-content:center;
+  align-item:center;
+  height: 300px;
+  // position: relative;
 `;
 
 const TitleContainer = styled.div`
@@ -22,8 +24,8 @@ const TitleContainer = styled.div`
 
 const ControlsContainer = styled.div`
   display: flex;
-  justify-content: center;
-  gap: 30px;
+  justify-content: space-evenly;
+  // gap: 30px;
   align-items: center;
 `;
 
@@ -34,7 +36,7 @@ const GridTitle = styled.h3<{ theme: string }>`
 `;
 
 const Select = styled(MuiSelect)<{ theme: string }>`
-  width: 23%;
+  width: 15%;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 `;
 
@@ -130,7 +132,7 @@ export default function HeatmapComponent({ theme }: HeatmapComponentProps) {
           min={1}
           max={10}
           onChange={handleSliderChange}
-          style={{ width: '52%' }}
+          style={{ width: '40%' }}
         />
         <Select value={modelSphere} onChange={handleModelSphereChange} theme={theme}>
           <MenuItem value="Sphere 1">Sphere 1</MenuItem>

@@ -14,7 +14,7 @@ import AccuracyPrecisionRecall from './accuracyPrecisionRecall';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
   background-color: ${({ theme }) => (theme === 'dark' ? '#121619' : '#f4f4f4')};
   overflow-x: hidden;
@@ -37,7 +37,7 @@ const MainContent = styled.div`
 
 const Sidebar = styled.div`
   flex: 1;
-  max-width: ${({ isVisible }) => (isVisible ? '25%' : '0')}; /* Dynamic width based on visibility */
+  max-width: ${({ isVisible }) => (isVisible ? '20%' : '0')}; /* Dynamic width based on visibility */
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')};
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   flex-direction: column;
@@ -54,7 +54,7 @@ const Divider = styled.div`
 const ThinSidebar = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50px; /* Fixed width for the thin sidebar */
+  width:2%; /* Fixed width for the thin sidebar */
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   justify-content: space-between;
   padding: 10px;
@@ -92,16 +92,19 @@ const ActiveIndicator = styled.div`
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  height: 100%;
+  grid-template-rows: repeat(2, 49%);
   gap: 5px;
+  height: auto; /* Remove fixed height */
   width: 100%;
+  overflow: hidden; /* Ensure no overflow */
 `;
 
 const GridItem = styled.div`
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   position: relative;
+  height: 100%; /* Each item occupies full height of its row */
 `;
+
 
 const FullHeightGridItem = styled(GridItem)`
   grid-row: span 2;

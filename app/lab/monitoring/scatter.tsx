@@ -7,10 +7,10 @@ import styled from 'styled-components';
 ChartJS.register(LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const ScatterPlotContainer = styled.div`
-  width: 90%;
-  height: 350px;
-  margin: 5% auto;
+   width: 70%;
+  margin: auto;
   align-item:center;
+  height: 300px;
 `;
 
 interface ScatProps {
