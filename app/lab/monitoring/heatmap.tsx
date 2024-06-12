@@ -35,12 +35,12 @@ const GridTitle = styled.h3<{ theme: string }>`
   margin: 0;
 `;
 
-const Select = styled(MuiSelect)<{ theme: string }>`
+const Select = styled(MuiSelect) <{ theme: string }>`
   width: 15%;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 `;
 
-const ThemedIconButton = styled(IconButton)<{ theme: string }>`
+const ThemedIconButton = styled(IconButton) <{ theme: string }>`
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 `;
 
