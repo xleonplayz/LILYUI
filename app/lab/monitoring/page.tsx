@@ -11,6 +11,7 @@ import Scat from './scatter';
 import HeatmapComponent from './heatmap';
 import Dendrogram from './dendogramm';
 import AccuracyPrecisionRecall from './accuracyPrecisionRecall';
+import ProbabilityChart from './modelcomp';
 
 const Container = styled.div`
   display: flex;
@@ -122,7 +123,7 @@ const GridContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(2, 49%);
   gap: 5px;
-  height: auto;
+  height: 100%;
   width: 100%;
   overflow: hidden;
 `;
@@ -610,6 +611,7 @@ export default function HomePage() {
             <GridContainer theme={theme}>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum Heatmap</GridTitle>
+                <ProbabilityChart/>
               </GridItem>
               <FullHeightGridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum SHAP</GridTitle>
