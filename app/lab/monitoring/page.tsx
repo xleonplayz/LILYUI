@@ -605,11 +605,11 @@ export default function HomePage() {
                     Recall
                   </HeaderOption>
                 </HeaderContainer>
-                <AccuracyPrecisionRecall selectedMetric={activeOption}  theme={theme}/>
+                <AccuracyPrecisionRecall selectedMetric={activeOption} theme={theme} />
               </GridItem>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Hyperparameter Tuning</GridTitle>
-                <Dendrogram  theme={theme}/>
+                <Dendrogram theme={theme} />
               </GridItem>
             </GridContainer>
           )}
@@ -617,15 +617,15 @@ export default function HomePage() {
             <GridContainer theme={theme}>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum Heatmap</GridTitle>
-                <ProbabilityChart theme={theme}/>
+                <ProbabilityChart theme={theme} />
               </GridItem>
               <FullHeightGridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum SHAP</GridTitle>
-                
+
               </FullHeightGridItem>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum Header</GridTitle>
-                <Plot theme={theme}/>
+                <Plot theme={theme} />
               </GridItem>
             </GridContainer>
           )}
@@ -636,12 +636,12 @@ export default function HomePage() {
               </FullWidthGridItem>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Advanced Quantum SHAP</GridTitle>
-                <Unique theme={theme}/>
+                <Unique theme={theme} />
               </GridItem>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Advanced Quantum Header</GridTitle>
               </GridItem>
-       
+
             </GridContainer>
           )}
         </MainContent>
