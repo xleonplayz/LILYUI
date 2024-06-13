@@ -10,13 +10,11 @@ interface NodeData {
 
 const DendrogramContainer = styled.div`
   display: flex;
-  justify-content: center; // Center horizontally
-  // align-items: center; // Center vertically if needed
-  height: 100% ; // Adjust this as needed
-  // margin:0% auto;
+  justify-content: center;
+  height: 100%;
 `;
 
-const Dendrogram: React.FC = () => {
+const Dendrogram: React.FC<{ theme: string }> = ({ theme }) => {
   const ref = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
@@ -48,7 +46,7 @@ const Dendrogram: React.FC = () => {
       ],
     };
 
-    const width = 500; // Adjusted for visibility
+    const width = 500;
     const height = 320;
 
     const svg = d3.select(ref.current)
@@ -91,8 +89,9 @@ const Dendrogram: React.FC = () => {
       .attr('dy', 3)
       .attr('x', d => d.children ? -8 : 8)
       .style('text-anchor', d => d.children ? 'end' : 'start')
+      .style('fill', theme === 'dark' ? '#fff' : '#000') // Adjust text color based on theme
       .text(d => d.data.name);
-  }, []);
+  }, [theme]);
 
   return (
     <DendrogramContainer>

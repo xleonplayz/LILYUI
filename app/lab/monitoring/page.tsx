@@ -12,6 +12,8 @@ import HeatmapComponent from './heatmap';
 import Dendrogram from './dendogramm';
 import AccuracyPrecisionRecall from './accuracyPrecisionRecall';
 import ProbabilityChart from './modelcomp';
+import Plot from './density';
+import Unique from './uniqness';
 
 const Container = styled.div`
   display: flex;
@@ -138,6 +140,10 @@ const FullHeightGridItem = styled(GridItem)`
   grid-row: span 2;
 `;
 
+
+const FullWidthGridItem = styled(GridItem)`
+  grid-column: span 2;
+`;
 const GridTitle = styled.h3`
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   font-weight: 300;
@@ -599,11 +605,11 @@ export default function HomePage() {
                     Recall
                   </HeaderOption>
                 </HeaderContainer>
-                <AccuracyPrecisionRecall selectedMetric={activeOption} />
+                <AccuracyPrecisionRecall selectedMetric={activeOption}  theme={theme}/>
               </GridItem>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Hyperparameter Tuning</GridTitle>
-                <Dendrogram />
+                <Dendrogram  theme={theme}/>
               </GridItem>
             </GridContainer>
           )}
@@ -611,30 +617,31 @@ export default function HomePage() {
             <GridContainer theme={theme}>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum Heatmap</GridTitle>
-                <ProbabilityChart/>
+                <ProbabilityChart theme={theme}/>
               </GridItem>
               <FullHeightGridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum SHAP</GridTitle>
+                
               </FullHeightGridItem>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum Header</GridTitle>
+                <Plot theme={theme}/>
               </GridItem>
             </GridContainer>
           )}
           {activeSegment === 'QML2' && (
             <GridContainer theme={theme}>
-              <GridItem theme={theme}>
+              <FullWidthGridItem theme={theme}>
                 <GridTitle theme={theme}>Advanced Quantum Heatmap</GridTitle>
-              </GridItem>
+              </FullWidthGridItem>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Advanced Quantum SHAP</GridTitle>
+                <Unique theme={theme}/>
               </GridItem>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Advanced Quantum Header</GridTitle>
               </GridItem>
-              <GridItem theme={theme}>
-                <GridTitle theme={theme}>Advanced Quantum Hyperparameter Tuning</GridTitle>
-              </GridItem>
+       
             </GridContainer>
           )}
         </MainContent>

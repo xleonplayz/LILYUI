@@ -16,13 +16,20 @@ import { Box, Tooltip as MuiTooltip, Typography, Select, MenuItem, FormControl, 
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const ProbabilityChart: React.FC = () => {
+const ProbabilityChart: React.FC<{ theme: string }> = ({ theme }) => {
+  const isDarkTheme = theme === 'dark';
+  const textColor = isDarkTheme ? 'white' : 'black';
+  const borderColor = '#888'; // Light grey for axis lines
+
   const data = {
-    labels: ['0000', '0010', '0110', '0111', '1000', '1001', '1100', '1111'],
+    labels: [
+      '0000', '0001', '0010', '0011', '0100', '0101', '0110', '0111',
+      '1000', '1001', '1010', '1011', '1100', '1101', '1110', '1111'
+    ],
     datasets: [
       {
         label: 'Probability (%)',
-        data: [20, 30, 25, 15, 10, 5, 25, 20], // Adjust these values as needed
+        data: [20, 30, 25, 15, 10, 5, 25, 20, 10, 5, 15, 25, 30, 20, 10, 5], // Adjust these values as needed
         backgroundColor: 'skyblue',
         borderColor: 'skyblue',
         borderWidth: 1,
@@ -36,17 +43,33 @@ const ProbabilityChart: React.FC = () => {
     scales: {
       y: {
         beginAtZero: true,
-        max: 30,
+        max: 100,
         ticks: {
-          stepSize: 5,
+          stepSize: 20,
           font: {
             size: 12, // Slightly larger font size for y-axis labels
+            color: textColor, // Set y-axis label color based on theme
           },
+          z: 1, // Ensure ticks are above the grid lines
         },
         grid: {
           display: true,
-          color: '#333',
+          color: '#444', // Adjust grid line color for better contrast
           borderDash: [3, 3], // Dashed grid lines for y-axis
+          drawBorder: false, // Ensure the border is not drawn for the y-axis
+          drawTicks: false, // Ensure the ticks are not drawn on the grid lines
+          tickLength: 0, // Set tick length to 0 to avoid overlapping with grid lines
+        },
+        border: {
+          color: borderColor, // Set y-axis border color to light grey
+        },
+        title: {
+          display: true,
+          text: 'Probability (%)', // Add y-axis label
+          color: textColor,
+          font: {
+            size: 14,
+          },
         },
       },
       x: {
@@ -54,10 +77,22 @@ const ProbabilityChart: React.FC = () => {
           autoSkip: false,
           font: {
             size: 12, // Slightly larger font size for x-axis labels
+            color: textColor, // Set x-axis label color based on theme
           },
         },
         grid: {
-          display: true, // Display grid lines for x-axis
+          display: false, // Remove grid lines for x-axis
+        },
+        border: {
+          color: borderColor, // Set x-axis border color to light grey
+        },
+        title: {
+          display: true,
+          text: 'Computational basis states', // Add x-axis label
+          color: textColor,
+          font: {
+            size: 14,
+          },
         },
       },
     },
@@ -75,44 +110,46 @@ const ProbabilityChart: React.FC = () => {
       },
       tooltip: {
         enabled: true, // Set to true to see tooltips if needed
+        backgroundColor: isDarkTheme ? '#333' : '#fff', // Tooltip background based on theme
+        titleColor: textColor, // Tooltip title color based on theme
+        bodyColor: textColor, // Tooltip body color based on theme
+        borderColor: borderColor, // Tooltip border color
       },
     },
   };
 
   return (
     <div style={{ flex: 1, margin: 'auto', display: 'flex', flexDirection: 'column' }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        {/* <Typography variant="h6" component="div"> */}
-          {/* Probabilities */}
-        {/* </Typography> */}
-        <FormControl variant="outlined" size="small" style={{ minWidth: 120 ,margin:'0px 10px'}} >
-          <InputLabel id="select-label">Options</InputLabel>
+      <Box display="flex" justifyContent="space-between"   alignItems="center" mb={2}>
+        <FormControl variant="outlined" size="small" style={{ minWidth: 120, margin: '0px 20px' }}>
+          <InputLabel id="select-label" style={{ color: textColor }}>Options</InputLabel>
           <Select
             labelId="select-label"
             id="select"
             label="Options"
             defaultValue=""
+            style={{ color: textColor }}
           >
-            <MenuItem value="option1">Option 1</MenuItem>
-            <MenuItem value="option2">Option 2</MenuItem>
+            <MenuItem value="Probability" >Probability </MenuItem>
+            <MenuItem value="Statevector">Statevector </MenuItem>
           </Select>
         </FormControl>
         <MuiTooltip
-        style={{margin:'0px 10px'}}
+          style={{ marginRight: '20px' }}
           title={
             <Box>
-              <Typography variant="subtitle1">About visualization</Typography>
-              <Typography variant="body2">
+              <Typography variant="subtitle1" style={{ color: textColor }}>About visualization</Typography>
+              <Typography variant="body2" style={{ color: textColor }}>
                 This visualization shows the probability of outputs across the computational basis states, for up to 8 qubits. Learn more.
               </Typography>
             </Box>
           }
           placement="left"
         >
-          <InfoOutlinedIcon />
+          <InfoOutlinedIcon style={{ color: textColor ,marginRight:'20px' }} />
         </MuiTooltip>
       </Box>
-      <div style={{  height: '250px', width: '90%', margin: 'auto' }}>
+      <div style={{ height: '250px', width: '90%', margin: '3% auto' }}>
         <Bar data={data} options={options} />
       </div>
     </div>
