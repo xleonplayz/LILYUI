@@ -12,7 +12,7 @@ import './style.css';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 160vh;
+  // height: 160vh;
   width: 100%;
   overflow-x: hidden;
   padding:0;
@@ -38,7 +38,7 @@ const Lower = styled.div`
 
 const LowerInner = styled.div`
   width: 95%;
-  margin: 4% auto;
+  margin: 2% auto;
 `;
 // 21272a
 // 
@@ -187,7 +187,7 @@ export default function HomePage() {
       />
 
       <Upper theme={theme}>
-        <DocTitle theme={theme}>Document</DocTitle>
+        <DocTitle theme={theme}>Documentation</DocTitle>
         <DocPara theme={theme}>
           Whether you are ready to code your first circuit or execute a large research workload, you can find documentation for using Qiskit and IBM Quantum hardware at the links below.
         </DocPara>
@@ -261,9 +261,9 @@ export default function HomePage() {
         <LowerInner>
 
 
-          <div className="main-boxdiv">
+          <div className="main-boxdiv-lower">
             <div className="Api-box">
-              <ApiTitle theme={theme}>APi Reference </ApiTitle>
+              <ApiTitle theme={theme}>API Reference </ApiTitle>
               <ApiPara theme={theme}>
                 Guidance on how to use our key APIs
               </ApiPara>
@@ -336,9 +336,9 @@ export default function HomePage() {
         </LowerInner>
         <LowerInner>
 
-          <div className="main-boxdiv">
+          <div className="main-boxdiv-lower">
 
-            <div className="Api-box">
+            <div className="tut-box">
               <TutTitle theme={theme}>Tutorial  </TutTitle>
               <ApiPara theme={theme}>
                 Explore utility-grade algorithms and applications with Qiskit Runtime
@@ -356,30 +356,30 @@ export default function HomePage() {
               <RightBoxTut className="right-info-box" theme={theme}>
                 <div className="text-content-right">
                   <h2>How to </h2>
-                  <p>Set up and install to use Qiskit</p>
+                  <p>Submit transpiled circuits</p>
                 </div>
                 <div className="arrow-icon">
-                  <button>Quick Pattermn</button>
+                  <button>Transpilation</button>
                 </div>
               </RightBoxTut>
 
               <RightBoxTut className="right-info-box" theme={theme}>
                 <div className="text-content-right">
                   <h2>Work flow example</h2>
-                  <p>Set up and install to use Qiskit</p>
+                  <p>CHSH Inequality</p>
                 </div>
                 <div className="arrow-icon">
-                  <button>Quick Pattermn</button>
+                  <button>Qiskit Pattermn</button>
                 </div>
               </RightBoxTut>
 
               <RightBoxTut className="right-info-box" theme={theme}>
                 <div className="text-content-right">
                   <h2>Work flow example</h2>
-                  <p>Set up and install to use Qiskit</p>
+                  <p>Quantum approximate optimzation algorithm</p>
                 </div>
                 <div className="arrow-icon">
-                  <button>Quick Pattermn</button>
+                  <button>Scheduling</button>
                 </div>
               </RightBoxTut>
 

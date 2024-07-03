@@ -1,4 +1,4 @@
-/* InfoBox.css */
+
 .info-box {
   display: flex;
   flex-direction: column;
@@ -7,12 +7,15 @@
   width: 23%;
   height: 100%;
   padding: 20px;
-  border-radius: 7px;
+  border-radius: 5px;
   color: white;
-
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 2.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.info-box:hover {
+  background: linear-gradient(45deg, #0050e6, #a56eff);
+}
 
 .Api-box {
   display: flex;
@@ -21,8 +24,22 @@
   /* gap: 20px; */
   width: 23%;
   /* height: 100%; */
-  padding: 20px;
-  border-radius: 10px;
+  padding: 0px 20px;
+  border-radius: 7px;
+  /* color: white; */
+
+}
+
+
+.tut-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* gap: 20px; */
+  width: 23%;
+  /* height: 100%; */
+  padding: 20px 20px;
+  border-radius: 7px;
   /* color: white; */
 
 }
@@ -35,7 +52,7 @@
 
   height: 44.5%;
   padding: 15px 20px ;
-  border-radius: 10px;
+  border-radius: 5px;
   /* color: white; */
   /* margin-top:5%; */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -44,6 +61,7 @@
 .text-content h1 {
   font-size: 1.5rem;
   line-height: 0.5;
+  font-weight: 500;
 }
 
 
@@ -100,7 +118,7 @@ color: #fff;
   display: flex;
   width: 100%;
   justify-content: space-between;
-  height: 250px;
+  height:300px;
   margin-top: 3%;
 }
 
@@ -114,4 +132,12 @@ color: #fff;
 
   justify-content: flex-start;
 
+}
+
+.main-boxdiv-lower {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  height: 250px;
+  margin:0%;
 }
