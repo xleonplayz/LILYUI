@@ -1,8 +1,49 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { IconButton, Tooltip as MuiTooltip } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import styled from 'styled-components';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+`;
+
+const HeaderText = styled.div`
+  flex: 1;
+`;
+
+const CustomTooltip = styled(({ className, ...props }) => (
+  <MuiTooltip {...props} classes={{ popper: className }} placement="bottom-end" arrow />
+))`
+  & .MuiTooltip-tooltip {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#333' : '#fff')};
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    border-radius: 4px;
+    padding: 10px;
+    max-width: 220px;
+  }
+  & .MuiTooltip-arrow {
+    color: ${({ theme }) => (theme === 'dark' ? '#333' : '#fff')};
+  }
+`;
+
+const ThemedIconButton = styled(IconButton) <{ theme: string }>`
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  text-align:right;
+  position:relative;
+  left:140px
+`;
 
 interface Dataset {
   label: string;
@@ -77,14 +118,15 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
           color: textColor,
           font: {
             size: 14,
+            weight: 'bold',
           },
         },
         ticks: {
           color: textColor,
         },
         border: {
-            color: borderColor,
-          },
+          color: borderColor,
+        },
       },
       y: {
         grid: {
@@ -96,6 +138,7 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
           color: textColor,
           font: {
             size: 14,
+            weight: 'bold',
           },
         },
         ticks: {
@@ -106,32 +149,30 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
         },
       },
     },
-plugins: {
-  legend: {
-    display: true,
-    labels: {
-      color: textColor,
-      usePointStyle: true,
-      boxWidth: 20,
+    plugins: {
+      legend: {
+        display: true,
+        labels: {
+          color: textColor,
+          usePointStyle: true,
+          boxWidth: 20,
+        },
+        position: 'right',
+        align: 'end',
+        fullSize: false,
+        padding: 20, // Add padding around the legend
+        boxHeight: 20, // Set the height of the legend box
+        boxWidth: 20, // Set the width of the legend box
+        margin: {
+          top: 100, // Add margin at the top
+        },
+        border: {
+          color: borderColor, // Set border color
+          width: 1, // Set border width
+          padding: 10, // Add padding around the legend border
+        },
+      },
     },
-    position: 'right',
-    align: 'end',
-    fullSize: false,
-    padding: 20, // Add padding around the legend
-    boxHeight: 20, // Set the height of the legend box
-    boxWidth: 20, // Set the width of the legend box
-    margin: {
-      top: 100, // Add margin at the top
-    },
-    border: {
-      color: borderColor, // Set border color
-      width: 1, // Set border width
-      padding: 10, // Add padding around the legend border
-    },
-  },
-},
-
-      
     elements: {
       point: {
         radius: 0, // remove point markers
@@ -142,9 +183,19 @@ plugins: {
       },
     },
   };
-  
+
   return (
-    <div style={{ height: '300px', width: '600px',margin:"7.5% auto"}}>
+    <div style={{ height: '260px', width: '65%', margin: "7.5% auto" }}>
+      <HeaderContainer>
+        <HeaderText>
+          {selectedMetric} of Independent Components (ICs) using various classifiers
+        </HeaderText>
+        <CustomTooltip title="This visualization shows a  of randomly generated values." theme={theme} arrow>
+          <ThemedIconButton size="small" theme={theme}>
+            <InfoIcon />
+          </ThemedIconButton>
+        </CustomTooltip>
+      </HeaderContainer>
       <Line data={dummyData[selectedMetric]} options={options} />
     </div>
   );

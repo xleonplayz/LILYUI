@@ -123,11 +123,13 @@ const ActiveIndicator = styled.div`
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(2, 49%);
-  gap: 5px;
+  grid-template-rows: repeat(2, 49.5%);
+  gap: 2px;
   height: 100%;
   width: 100%;
   overflow: hidden;
+  // borderleft:1px solid white;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#4d5357' : '#e3e4e4')};;   
 `;
 
 const GridItem = styled.div`
@@ -158,7 +160,7 @@ const HeaderContainer = styled.div`
   margin-bottom: 10px;
   background-color: ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')};
   padding: 10px;
-  border-radius: 5px;
+  // border-radius: 5px;
   position: absolute;
   top: 0;
   left: 0;
@@ -437,7 +439,18 @@ export default function HomePage() {
     });
   };
 
+  const generateDataPoints = (numPoints) => {
+    const points = [];
+    for (let i = 0; i < numPoints; i++) {
+      points.push({
+        x: 15000 + Math.random() * 25000,
+        y: Math.random(),
+      });
+    }
+    return points;
+  };
 
+  const dataPoints = generateDataPoints(200);
 
   const [activeTopNav, setActiveTopNav] = useState('home');
   const [activeSidebar, setActiveSidebar] = useState('lab');
@@ -591,7 +604,7 @@ export default function HomePage() {
               </GridItem>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>SHAP</GridTitle>
-                <Scat theme={theme} />
+                <Scat theme={theme} dataPoints={dataPoints} />
               </GridItem>
               <GridItem theme={theme}>
                 <HeaderContainer theme={theme}>

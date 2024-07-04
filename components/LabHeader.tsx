@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faSun, faMoon, faFlask, faBook, faRoad } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faFlask, faBook, faRoad } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLightTheme, setDarkTheme } from '../redux/slices/themesSlice';
 
 const HeaderContainer = styled.header`
   width: 100%;
-  padding: 10px 20px;
+  padding: 8px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -107,22 +107,23 @@ const Sidebar = styled.div`
   z-index: 1000;
 `;
 
-const SidebarOption = styled.div`
+const SidebarOption = styled(Link)`
   display: flex;
   align-items: flex-start;
   padding: 10px;
   position: relative;
   padding-left: 20px;
+   font-size: 13px;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   border-left: ${({ $isActive }) => ($isActive ? '5px solid #0f62fe' : '5px solid transparent')};
+  text-decoration: none;
   &:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color:${({ theme }) => (theme === 'dark' ? 'rgba(255, 255, 255, 0.3);' : 'rgba(0, 0, 0, 0.1);')};   
   }
-    div{
+  div{
     display:flex;
-    
     flex-direction:column;
-    }
+  }
 `;
 
 const SidebarOptionz = styled.div`
@@ -132,19 +133,6 @@ const SidebarOptionz = styled.div`
   font-size: 13px;
   position: relative;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-`;
-
-const SidebarLink = styled(Link)`
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: bold;
-  margin: 10px 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-
-  
 `;
 
 const SidebarDescription = styled.p`
@@ -170,8 +158,6 @@ const Overlay = styled.div`
   display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
   z-index: 999;
 `;
-
-
 
 interface HeaderProps {
   activeTopNav: string;
@@ -228,10 +214,34 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
           </Title>
           <VerticalLine />
           <BannerOptions>
+          {activeSidebar === 'lab' && (
+            <>
+            
             <NavLink href="/lab/home" isActive={activeTopNav === 'home'} onClick={() => onTopNavClick('home')} theme={theme}>Home</NavLink>
             <NavLink href="/lab/jobs" isActive={activeTopNav === 'jobs'} onClick={() => onTopNavClick('jobs')} theme={theme}>Jobs</NavLink>
             <NavLink href="/lab/configuration" isActive={activeTopNav === 'configuration'} onClick={() => onTopNavClick('configuration')} theme={theme}>Configuration</NavLink>
             <NavLink href="/lab/monitoring" isActive={activeTopNav === 'monitoring'} onClick={() => onTopNavClick('monitoring')} theme={theme}>Monitoring</NavLink>
+            
+            </>
+                 )}
+            {activeSidebar === 'docs' && (
+              <>
+                <NavLink href="/lab/document" isActive={activeTopNav === 'overview'} onClick={() => onTopNavClick('overview')} theme={theme}>Overview</NavLink>
+                <NavLink href="/lab/document/start" isActive={activeTopNav === 'start'} onClick={() => onTopNavClick('start')} theme={theme}>Start</NavLink>
+                
+                <NavLink href="/lab/document/build" isActive={activeTopNav === 'build'} onClick={() => onTopNavClick('build')} theme={theme}>Build</NavLink>
+                <NavLink href="/lab/document/transpile" isActive={activeTopNav === 'transpile'} onClick={() => onTopNavClick('transpile')} theme={theme}>Transpilation</NavLink>
+
+                
+                <NavLink href="/lab/document/verify" isActive={activeTopNav === 'verify'} onClick={() => onTopNavClick('verify')} theme={theme}>Verify</NavLink>
+                
+                <NavLink href="/lab/document/run" isActive={activeTopNav === 'run'} onClick={() => onTopNavClick('run')} theme={theme}>Run</NavLink>
+
+                <NavLink href="/lab/document/apireference" isActive={activeTopNav === 'apireference'} onClick={() => onTopNavClick('apireference')} theme={theme}>API Reference </NavLink>
+
+
+              </>
+            )}
           </BannerOptions>
         </TitleContainer>
         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -243,29 +253,23 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
       </HeaderContainer>
       <Sidebar className="sidebar" $isOpen={isSidebarOpen} theme={theme}>
         <SidebarOptionz theme={theme}>Switch Application</SidebarOptionz>
-        <SidebarOption $isActive={activeSidebar === 'lab'}>
+        <SidebarOption href="/lab/home" $isActive={activeSidebar === 'lab'} onClick={() => onSidebarClick('lab')} theme={theme}>
           <div>
-            <SidebarLink href="/lab/home" onClick={() => onSidebarClick('lab')} theme={theme}>
-              <FontAwesomeIcon icon={faFlask} style={{ marginRight: '10px', position: 'absolute', right: '20px' }} /> LAB
-            </SidebarLink>
+            <FontAwesomeIcon icon={faFlask} style={{ marginRight: '10px', position: 'absolute', right: '20px' }} /> LAB
             <SidebarDescription theme={theme}>Development environment for Quantum Machine Learning models</SidebarDescription>
           </div>
           <HorizontalLine />
         </SidebarOption>
-        <SidebarOption $isActive={activeSidebar === 'docs'}>
+        <SidebarOption href="/lab/document" $isActive={activeSidebar === 'docs'} onClick={() => onSidebarClick('docs')} theme={theme}>
           <div>
-            <SidebarLink href="/lab/document" onClick={() => onSidebarClick('docs')} theme={theme}>
-              <FontAwesomeIcon icon={faBook} style={{ marginRight: '10px', position: 'absolute', right: '20px' }} /> DOCS
-            </SidebarLink>
+            <FontAwesomeIcon icon={faBook} style={{ marginRight: '10px', position: 'absolute', right: '20px' }} /> DOCS
             <SidebarDescription theme={theme}>Documentation about LILY and using the platform</SidebarDescription>
           </div>
           <HorizontalLine />
         </SidebarOption>
-        <SidebarOption $isActive={activeSidebar === 'road'}>
+        <SidebarOption href="#road" $isActive={activeSidebar === 'road'} onClick={() => onSidebarClick('road')} theme={theme}>
           <div>
-            <SidebarLink href="#road" onClick={() => onSidebarClick('road')} theme={theme}>
-              <FontAwesomeIcon icon={faRoad} style={{ marginRight: '10px', position: 'absolute', right: '20px' }} /> ROAD
-            </SidebarLink>
+            <FontAwesomeIcon icon={faRoad} style={{ marginRight: '10px', position: 'absolute', right: '20px' }} /> ROAD
             <SidebarDescription theme={theme}>Roadmap of the LILY QML project, information, contact, etc.</SidebarDescription>
           </div>
         </SidebarOption>
@@ -276,4 +280,3 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
 };
 
 export default Header;
-

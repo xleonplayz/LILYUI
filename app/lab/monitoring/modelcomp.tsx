@@ -12,6 +12,7 @@ import {
   ChartOptions,
 } from 'chart.js';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Box, Tooltip as MuiTooltip, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -79,6 +80,8 @@ const ProbabilityChart: React.FC<{ theme: string }> = ({ theme }) => {
             size: 12, // Slightly larger font size for x-axis labels
             color: textColor, // Set x-axis label color based on theme
           },
+          maxRotation: 45, // Tilt the x-axis labels
+          minRotation: 45,
         },
         grid: {
           display: false, // Remove grid lines for x-axis
@@ -120,36 +123,39 @@ const ProbabilityChart: React.FC<{ theme: string }> = ({ theme }) => {
 
   return (
     <div style={{ flex: 1, margin: 'auto', display: 'flex', flexDirection: 'column' }}>
-      <Box display="flex" justifyContent="space-between"   alignItems="center" mb={2}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
         <FormControl variant="outlined" size="small" style={{ minWidth: 120, margin: '0px 20px' }}>
-          <InputLabel id="select-label" style={{ color: textColor }}>Options</InputLabel>
+          <InputLabel id="select-label" style={{ color: textColor }}>Probabilities</InputLabel>
           <Select
             labelId="select-label"
             id="select"
-            label="Options"
+            label="Probabilities"
             defaultValue=""
-            style={{ color: textColor }}
+            style={{ color: textColor, backgroundColor: isDarkTheme ? '#333' : '#fff' }}
           >
-            <MenuItem value="Probability" >Probability </MenuItem>
-            <MenuItem value="Statevector">Statevector </MenuItem>
+            <MenuItem value="Probability">Probability</MenuItem>
+            <MenuItem value="Statevector">Statevector</MenuItem>
           </Select>
         </FormControl>
-        <MuiTooltip
-          style={{ marginRight: '20px' }}
-          title={
-            <Box>
-              <Typography variant="subtitle1" style={{ color: textColor }}>About visualization</Typography>
-              <Typography variant="body2" style={{ color: textColor }}>
-                This visualization shows the probability of outputs across the computational basis states, for up to 8 qubits. Learn more.
-              </Typography>
-            </Box>
-          }
-          placement="left"
-        >
-          <InfoOutlinedIcon style={{ color: textColor ,marginRight:'20px' }} />
-        </MuiTooltip>
+        <Box display="flex" alignItems="center">
+          <MuiTooltip
+            style={{ marginRight: '20px' }}
+            title={
+              <Box>
+                <Typography variant="subtitle1" style={{ color: textColor }}>About visualization</Typography>
+                <Typography variant="body2" style={{ color: textColor }}>
+                  This visualization shows the probability of outputs across the computational basis states, for up to 8 qubits. Learn more.
+                </Typography>
+              </Box>
+            }
+            placement="left"
+          >
+            <InfoOutlinedIcon style={{ color: textColor, marginRight: '20px' }} />
+          </MuiTooltip>
+          <MoreVertIcon style={{ color: textColor, marginRight: '20px' }} />
+        </Box>
       </Box>
-      <div style={{ height: '250px', width: '90%', margin: '3% auto' }}>
+      <div style={{ height: '300px', width: '90%', margin: '3% auto' }}>
         <Bar data={data} options={options} />
       </div>
     </div>

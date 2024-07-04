@@ -1,4 +1,3 @@
-// components/Footer.tsx
 'use client';
 
 import styled from 'styled-components';
@@ -7,10 +6,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setLightTheme, setDarkTheme } from '../redux/slices/themesSlice';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import NightsStayOutlinedIcon from '@mui/icons-material/NightsStayOutlined';
+import PublicIcon from '@mui/icons-material/Public'; // Importing the globe icon
 
 const FooterContainer = styled.div`
   width: 100%;
-  padding: 10px 0px;
+  padding: 15px 0px;
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   border-top: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#e0e0e0')};
   display: flex;
@@ -23,7 +23,7 @@ const FooterContainer = styled.div`
 
   .outlined-icon {
     color: transparent;
-    stroke: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    stroke: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#666')};
     stroke-width: 0.5; /* Adjust the width of the outline as needed */
   }
 
@@ -63,7 +63,26 @@ const FooterContainer = styled.div`
   }
 
   .left {
+    display: flex;
+    align-items: center;
     margin-left: 20px;
+
+    .link {
+      margin-right: 15px;
+      cursor: pointer;
+      color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .outicon {
+color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};
+    stroke: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#666')};
+    stroke-width: 0.5; /* Adjust the width of the outline as needed */
   }
 `;
 
@@ -78,7 +97,13 @@ export default function Footer() {
 
   return (
     <FooterContainer theme={theme}>
-      <div className='left'>© 2024 Your Company Name</div>
+      <div className='left'>
+        <PublicIcon className='outicon' style={{ marginRight: '20px' }} /> {/* Adding the globe icon */}
+        <span className="link">Terms</span>
+        <span className="link">Privacy</span>
+        <span className="link">Cookie preferences</span>
+        <span className="link">Support</span>
+      </div>
       <div className='box'>
         <div 
           onClick={() => {
@@ -89,7 +114,6 @@ export default function Footer() {
         >
           <WbSunnyIcon className="outlined-icon" fontSize="small" />
         </div>
-        {/* <div className="divider" /> */}
         <div 
           onClick={() => {
             dispatch(setDarkTheme());

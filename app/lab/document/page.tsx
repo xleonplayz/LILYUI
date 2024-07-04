@@ -164,7 +164,7 @@ h1{
 
 
 export default function HomePage() {
-  const [activeTopNav, setActiveTopNav] = useState('home');
+  const [activeTopNav, setActiveTopNav] = useState('start');
   const [activeSidebar, setActiveSidebar] = useState('docs');
 
   const handleTopNavClick = (option) => {
@@ -346,9 +346,9 @@ export default function HomePage() {
 
               </ApiPara>
               <ApiParaLink theme={theme}>
-               View all in learning
+                View all in learning
 
-                
+
               </ApiParaLink>
             </div>
 
