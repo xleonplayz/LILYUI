@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Header from "../../../components/LabHeader";
 import Footer from "../../../components/Footer";
 import { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaExternalLinkAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import Scat from "./scatter";
 import HeatmapComponent from "./heatmap";
@@ -92,6 +92,7 @@ const ThinSidebarSegmentJob = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: ${({ isActive, theme }) => (isActive ? (theme === "dark" ? "#4a4a4a" : "#ddd") : "transparent")};
   &:hover,
   &:active,
   &:focus {
@@ -383,19 +384,27 @@ const JobDetailTitle = styled.div`
   font-size: 0.8rem;
   span{
   
-  color: ${({ theme }) => (theme === "dark" ? "#61dafb" : "#0f62fe")};}
+  color: ${({ theme }) => (theme === "dark" ? "#61dafb" : "#0f62fe")};
+  //  margin-left:10px;
+  }
+ 
 `;
 
 const DetailButton = styled.button`
   background-color: #0f62fe;
   color: #fff;
   border: none;
-  padding: 6px 15px;
+  padding:8px 17px;
   border-radius: 2px;
   float:right;
   cursor: pointer;
+  display: flex;
+  align-items: center;
   &:hover {
     background-color: #0353e9;
+  }
+  svg {
+    margin-left: 10px; /* Adjust the space between the text and the icon */
   }
 `;
 
@@ -650,6 +659,12 @@ export default function HomePage() {
   const [activeTopNav, setActiveTopNav] = useState("monitoring");
   const [activeSidebar, setActiveSidebar] = useState("lab");
 
+  const [isActive, setIsActive] = useState(false);
+
+  const handleForeignObjectClick = () => {
+    setIsActive(!isActive);
+  };
+
   return (
     <Container theme={theme}>
       <Header
@@ -661,7 +676,11 @@ export default function HomePage() {
       />
       <Content theme={theme}>
         <ThinSidebar theme={theme}>
-          <ThinSidebarSegmentJob onClick={handleJobClick} theme={theme}>
+          <ThinSidebarSegmentJob
+            onClick={handleJobClick}
+            theme={theme}
+            isActive={isActive}
+          >
             {isSidebarVisible && <ActiveIndicator />}
             <ThinSidebarTextJob theme={theme}>
               <svg
@@ -671,7 +690,11 @@ export default function HomePage() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <foreignObject width="100%" height="100%">
+                <foreignObject
+                  width="100%"
+                  height="100%"
+                  onClick={handleForeignObjectClick}
+                >
                   <div xmlns="http://www.w3.org/1999/xhtml">
                     <svg
                       viewBox="0 0 16 16"
@@ -742,22 +765,24 @@ export default function HomePage() {
                   {/* <button onClick={handleBackToList}>Back to list</button> */}
                   <JobDetailHeader>
                     <JobDetailTitle theme={theme}>
-                   <span>   Jobs   <span style={{color:'white'}}>/</span> </span> 
+                      <span>   Jobs   <span style={{ color: 'white' }}>/</span> </span>
                     </JobDetailTitle>
                     <ThreeDots />
                   </JobDetailHeader>
-                  
+
                   <div>{selectedJob.id}</div>
                   <br /><br />
-                  <DetailButton>See more details</DetailButton>
+                  <DetailButton>
+                    See more details <FaExternalLinkAlt />
+                  </DetailButton>
                   <br /><br />
 
                   <br />
                   <div>
-                  <p><strong>Completed:</strong> </p>
-                  <p>{selectedJob.completedTime}</p>
-                  <p><strong>Compute resource:</strong></p>
-                  <p> {selectedJob.computeResource}</p>
+                    <p><strong>Completed:</strong> </p>
+                    <p>{selectedJob.completedTime}</p>
+                    <p><strong>Compute resource:</strong></p>
+                    <p> {selectedJob.computeResource}</p>
                   </div>
                   <CollapsibleSection>
                     <SectionHeader onClick={() => toggleSection("statusTimeline")} theme={theme}>

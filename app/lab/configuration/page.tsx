@@ -215,7 +215,7 @@ export default function HomePage() {
               <div>
                 <CardHeader>Basics of Quantum Information</CardHeader>
                 <BadgeContainer>
-                
+
                   <CardBadge theme={theme}>Badge</CardBadge>
                   <CardBadgeV theme={theme} color="#a4d4ff">Video</CardBadgeV>
                 </BadgeContainer>
@@ -235,8 +235,8 @@ export default function HomePage() {
               <div>
                 <CardHeader>Fundamentals of Quantum Algorithms</CardHeader>
                 <BadgeContainer>
-                
-                <CardBadgeV theme={theme} color="#a4d4ff">Video</CardBadgeV>
+
+                  <CardBadgeV theme={theme} color="#a4d4ff">Video</CardBadgeV>
                 </BadgeContainer>
                 <CardBody theme={theme}>
                   Use quantum computers to solve problems more efficiently, including problems with real-world relevance such as searching and...
@@ -273,7 +273,7 @@ export default function HomePage() {
                 <CardHeader>Quantum Computing in Practice</CardHeader>
                 <BadgeContainer>
                   <CardBadge theme={theme}>New</CardBadge>
-                
+
                   <CardBadgeV theme={theme} color="#a4d4ff">Video</CardBadgeV>
                 </BadgeContainer>
                 <CardBody theme={theme}>
