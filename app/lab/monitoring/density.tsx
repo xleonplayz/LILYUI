@@ -1,4 +1,3 @@
-// components/Plot.tsx
 'use client'
 import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
@@ -23,16 +22,17 @@ import {
   TextField,
   Typography,
   IconButton,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
+  // Select,
+  // MenuItem,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { styled } from '@mui/system';
+// import { styled } from '@mui/system';
+import styled from 'styled-components';
+
+import { FaChevronDown } from 'react-icons/fa';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -65,11 +65,65 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
+const DropdownContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e0e0e0')};
+  }
+`;
+
+const Dropdown = styled.div`
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+
+  &:hover .dropdown-content {
+    display: block;
+  }
+`;
+
+const DropdownButton = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-left: 20px;
+  }
+`;
+
+const DropdownContent = styled.div`
+  display: none;
+  position: absolute;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#e0e0e0')};
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+`;
+
+const DropdownItem = styled.a`
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#ddd')};
+  }
+`;
+
 const Plot: React.FC<{ theme: string }> = ({ theme }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [quantumRegisters, setQuantumRegisters] = useState([{ name: 'q', qubits: 4 }]);
   const [classicalRegisters, setClassicalRegisters] = useState([{ name: 'c', bits: 4 }]);
-  const [selectedOption, setSelectedOption] = useState('Probabilities');
+  const [selected, setSelected] = useState('Probabilities');
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -95,13 +149,13 @@ const Plot: React.FC<{ theme: string }> = ({ theme }) => {
     setClassicalRegisters(classicalRegisters.filter((_, i) => i !== index));
   };
 
-  const handleOptionChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setSelectedOption(event.target.value as string);
+  const handleSelect = (value) => {
+    setSelected(value);
   };
 
   const isDarkTheme = theme === 'dark';
   const textColor = isDarkTheme ? 'white' : 'black';
-  const borderColor = '#888'; // Light grey for axis lines
+  const borderColor = '#888';
 
   const data = {
     labels: [
@@ -161,6 +215,8 @@ const Plot: React.FC<{ theme: string }> = ({ theme }) => {
             size: 12,
             color: textColor,
           },
+          maxRotation: 45,
+          minRotation: 45,
         },
         grid: {
           display: false,
@@ -203,23 +259,22 @@ const Plot: React.FC<{ theme: string }> = ({ theme }) => {
   return (
     <Box sx={{ padding: 2, minHeight: '100%', color: textColor }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <FormControl variant="outlined" size="small">
-          <InputLabel style={{ color: textColor }}>Options</InputLabel>
-          <Select
-            label="Options"
-            value={selectedOption}
-            onChange={handleOptionChange}
-            style={{ color: textColor }}
-          >
-            <MenuItem value="Probabilities">Probabilities</MenuItem>
-            <MenuItem value="Option 1">Option 1</MenuItem>
-            <MenuItem value="Option 2">Option 2</MenuItem>
-          </Select>
-        </FormControl>
+        <DropdownContainer theme={theme}>
+          <Dropdown>
+            <DropdownButton theme={theme}>
+              {selected} <FaChevronDown />
+            </DropdownButton>
+            <DropdownContent theme={theme} className="dropdown-content">
+              <DropdownItem theme={theme} onClick={() => handleSelect('Probabilities')}>Probabilities</DropdownItem>
+              <DropdownItem theme={theme} onClick={() => handleSelect('Other Option')}>Other Option</DropdownItem>
+            </DropdownContent>
+          </Dropdown>
+        </DropdownContainer>
+
         <Box display="flex" alignItems="center">
           <MuiTooltip
             title={
-              <Box p={2} sx={{  color: 'white', maxWidth: 300 }}>
+              <Box p={2} sx={{ color: 'white', maxWidth: 300 }}>
                 <Typography variant="subtitle1">About visualization</Typography>
                 <Typography variant="body2">
                   This visualization shows the probability of outputs across the computational basis states, for up to 8 qubits. Learn more.
@@ -240,11 +295,11 @@ const Plot: React.FC<{ theme: string }> = ({ theme }) => {
           </MuiTooltip>
         </Box>
       </Box>
-      <Box style={{ height: '260px', width: '100%' }}>
+      <Box style={{ height: '270px', width: '100%' }}>
         <Bar data={data} options={options} />
       </Box>
 
-      <StyledDialog open={modalOpen} onClose={handleCloseModal} maxWidth="md" fullWidth theme={theme}>
+      <StyledDialog open={modalOpen} onClose={handleCloseModal} maxWidth="md" fullWidth>
         <DialogTitle>Manage registers</DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>

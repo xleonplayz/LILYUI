@@ -1,26 +1,26 @@
-
 "use client";
 
-import styled from 'styled-components';
-import Header from '../../../components/LabHeader';
-import Footer from '../../../components/Footer';
-import { useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
-import Scat from './scatter';
-import HeatmapComponent from './heatmap';
-import Dendrogram from './dendogramm';
-import AccuracyPrecisionRecall from './accuracyPrecisionRecall';
-import ProbabilityChart from './modelcomp';
-import Plot from './density';
-import Unique from './uniqness';
+import styled from "styled-components";
+import Header from "../../../components/LabHeader";
+import Footer from "../../../components/Footer";
+import { useState } from "react";
+import { FaSearch } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import Scat from "./scatter";
+import HeatmapComponent from "./heatmap";
+import Dendrogram from "./dendogramm";
+import AccuracyPrecisionRecall from "./accuracyPrecisionRecall";
+import ProbabilityChart from "./modelcomp";
+import Plot from "./density";
+import Unique from "./uniqness";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  background-color: ${({ theme }) => (theme === 'dark' ? '#121619' : '#f4f4f4')};
+  background-color: ${({ theme }) =>
+    theme === "dark" ? "#121619" : "#f4f4f4"};
   overflow-x: hidden;
 `;
 
@@ -31,8 +31,9 @@ const Content = styled.div`
 `;
 
 const MainContent = styled.div`
-  flex: ${({ hasSidebar }) => (hasSidebar ? '3' : '4')};
-  background-color: ${({ theme }) => (theme === 'dark' ? '#121619' : '#f4f4f4')};
+  flex: ${({ hasSidebar }) => (hasSidebar ? "3" : "4")};
+  background-color: ${({ theme }) =>
+    theme === "dark" ? "#121619" : "#f4f4f4"};
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -41,25 +42,25 @@ const MainContent = styled.div`
 
 const Sidebar = styled.div`
   flex: 1;
-  max-width: ${({ isVisible }) => (isVisible ? '20%' : '0')};
-  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')};
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  max-width: ${({ isVisible }) => (isVisible ? "20%" : "0")};
+  background-color: ${({ theme }) => (theme === "dark" ? "#343a3f" : "#fff")};
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
   flex-direction: column;
   overflow-x: hidden;
   transition: max-width 0.3s ease;
-  display: ${({ isVisible }) => (isVisible ? 'flex' : 'none')};
+  display: ${({ isVisible }) => (isVisible ? "flex" : "none")};
 `;
 
 const Divider = styled.div`
   width: 1px;
-  background-color: ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')};
+  background-color: ${({ theme }) => (theme === "dark" ? "#4a4a4a" : "#e0e0e0")};
 `;
 
 const ThinSidebar = styled.div`
   display: flex;
   flex-direction: column;
   width: 3%;
-  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  background-color: ${({ theme }) => (theme === "dark" ? "#21272a" : "#fff")};
   justify-content: space-between;
 `;
 
@@ -69,8 +70,8 @@ const ThinSidebarSegment = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')};
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  border-bottom: 1px solid ${({ theme }) => (theme === "dark" ? "#4a4a4a" : "#e0e0e0")};
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
   position: relative;
   cursor: pointer;
   margin-left: 10px;
@@ -81,7 +82,7 @@ const ThinSidebarSegment = styled.div`
 `;
 
 const ThinSidebarTextJob = styled.span`
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
   font-size: 1rem;
 `;
 
@@ -94,21 +95,21 @@ const ThinSidebarSegmentJob = styled.div`
   &:hover,
   &:active,
   &:focus {
-    background-color: ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')};
-    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    background-color: ${({ theme }) => (theme === "dark" ? "#4a4a4a" : "#e0e0e0")};
+    color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
   }
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
   cursor: pointer;
 `;
 
 const ThinSidebarText = styled.span`
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
   font-size: 1rem;
   &:hover,
   &:active,
   &:focus {
-    background-color: ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')};
-    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    background-color: ${({ theme }) => (theme === "dark" ? "#4a4a4a" : "#e0e0e0")};
+    color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
   }
 `;
 
@@ -128,12 +129,11 @@ const GridContainer = styled.div`
   height: 100%;
   width: 100%;
   overflow: hidden;
-  // borderleft:1px solid white;
-  background-color: ${({ theme }) => (theme === 'dark' ? '#4d5357' : '#e3e4e4')};;   
+  background-color: ${({ theme }) => (theme === "dark" ? "#4d5357" : "#e3e4e4")};
 `;
 
 const GridItem = styled.div`
-  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  background-color: ${({ theme }) => (theme === "dark" ? "#21272a" : "#fff")};
   position: relative;
   height: 100%;
 `;
@@ -142,12 +142,12 @@ const FullHeightGridItem = styled(GridItem)`
   grid-row: span 2;
 `;
 
-
 const FullWidthGridItem = styled(GridItem)`
   grid-column: span 2;
 `;
+
 const GridTitle = styled.h3`
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
   font-weight: 300;
   padding: 10px 20px;
   align-items: center;
@@ -158,9 +158,8 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-around;
   margin-bottom: 10px;
-  background-color: ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')};
+  background-color: ${({ theme }) => (theme === "dark" ? "#4a4a4a" : "#e0e0e0")};
   padding: 10px;
-  // border-radius: 5px;
   position: absolute;
   top: 0;
   left: 0;
@@ -168,7 +167,7 @@ const HeaderContainer = styled.div`
 `;
 
 const HeaderOption = styled.div`
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
   cursor: pointer;
   padding: 5px 10px;
   position: relative;
@@ -178,7 +177,7 @@ const HeaderOption = styled.div`
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
@@ -193,26 +192,26 @@ const HeaderOption = styled.div`
 `;
 
 const HorizontalDivider = styled.div`
-  height: 1px;
-  width: 80%;
-  background-color: ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')};
-  margin: 10px auto;
+  height: 0.5px;
+  width: 100%;
+  background-color: ${({ theme }) => (theme === "dark" ? "#4a4a4a" : "#e0e0e0")};
+  margin: 20px 0;
 `;
 
 const Title = styled.h3`
   font-weight: 300;
   text-align: left;
   font-size: 18px;
-  margin-left: 20px;
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  margin: 20px 0px 7px 18px;
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
 `;
 
 const Para = styled.h3`
   font-weight: 300;
   font-size: 12px;
   text-align: left;
-  margin-left: 20px;
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  margin: 0px 20px;
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
 `;
 
 const SearchContainer = styled.div`
@@ -225,7 +224,8 @@ const SearchContainer = styled.div`
 const SearchInputContainer = styled.div`
   position: relative;
   left: 20px;
-  width: 80%;
+  width: 100%;
+  margin:auto;
   z-index: 0;
 `;
 
@@ -240,12 +240,12 @@ const SearchIcon = styled(FaSearch)`
 `;
 
 const SearchInput = styled.input`
-  background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#fff')};
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  background-color: ${({ theme }) => (theme === "dark" ? "#21272a" : "#f4f4f4")};
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
   border: none;
   padding: 10px 5px 10px 30px;
   font-size: 1rem;
-  width: 100%;
+  width: 80%;
   border-radius: 0;
   z-index: 1;
 
@@ -272,7 +272,7 @@ const JobItem = styled.div`
   padding: 10px;
   margin-bottom: 10px;
   &:hover {
-    background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#fff')};
+    background-color: ${({ theme }) => (theme === "dark" ? "#343a3f" : "#fff")};
   }
   border-radius: 4px;
   cursor: pointer;
@@ -280,6 +280,8 @@ const JobItem = styled.div`
 
 const JobSummary = styled.div`
   display: flex;
+  width: 95%;
+  margin: auto;
   justify-content: space-between;
   align-items: center;
 `;
@@ -287,21 +289,25 @@ const JobSummary = styled.div`
 const JobInfo = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
+  width: 95%;
 `;
 
 const JobStatus = styled.span`
-  color: ${(props) => props.theme.statusColor};
   display: flex;
   align-items: center;
+  font-size: 14px;
 `;
 
 const JobTime = styled.span`
-  color: ${(props) => props.theme.timeColor};
+  color: #bec3ca;
+  margin-left: 5px;
+  font-size: 14px;
 `;
 
 const JobId = styled.span`
-  color: ${(props) => props.theme.idColor};
+  color: #bec3ca;
+  font-size: 13px;
+  margin-left:30px;
 `;
 
 const JobActions = styled.div`
@@ -316,7 +322,7 @@ const ThreeDots = styled.div`
   align-items: center;
 
   &:before {
-    content: '⋮';
+    content: "⋮";
     font-size: 20px;
   }
 `;
@@ -327,7 +333,7 @@ const TickIcon = styled.span`
   margin-right: 5px;
 
   &:before {
-    content: '✔️';
+    content: "✔️";
     font-size: 14px;
     margin-right: 5px;
     color: green;
@@ -344,7 +350,7 @@ const SectionHeader = styled.div`
   align-items: center;
   cursor: pointer;
   padding: 10px 0;
-  border-bottom: 1px solid ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#e0e0e0')};
+  border-bottom: 1px solid ${({ theme }) => (theme === "dark" ? "#4a4a4a" : "#e0e0e0")};
 `;
 
 const SectionTitle = styled.span`
@@ -352,50 +358,239 @@ const SectionTitle = styled.span`
 `;
 
 const SectionContent = styled.div`
-  max-height: ${({ isVisible }) => (isVisible ? '500px' : '0')};
+  max-height: ${({ isVisible }) => (isVisible ? "500px" : "0")};
   overflow: hidden;
   transition: max-height 0.3s ease;
 `;
 
 const JobDetailsContainer = styled.div`
   padding: 20px;
-  // background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')};
   border-radius: 8px;
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
+
+  p {
+    font-size: 13px;
+  }
+`;
+
+const JobDetailHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const JobDetailTitle = styled.div`
+  font-size: 0.8rem;
+  span{
+  
+  color: ${({ theme }) => (theme === "dark" ? "#61dafb" : "#0f62fe")};}
+`;
+
+const DetailButton = styled.button`
+  background-color: #0f62fe;
+  color: #fff;
+  border: none;
+  padding: 6px 15px;
+  border-radius: 2px;
+  float:right;
+  cursor: pointer;
+  &:hover {
+    background-color: #0353e9;
+  }
+`;
+
+const DetailText = styled.span`
+  color: ${({ theme }) => (theme === "dark" ? "#61dafb" : "#0f62fe")};
 `;
 
 const jobsData = [
   {
-    id: 'cq4e8ha28rp0008xxmg0',
-    time: 'Feb 11, 2024 4:14 PM',
-    status: 'Completed',
-    completedTime: 'Feb 11, 2024 6:07 PM (in 1h 53m 24.4s)',
-    computeResource: 'ibm_brisbane',
-    statusTimeline: 'Completed',
-    results: '{"quasi_dists": [{"0000": 0.50}]}'
+    id: "cq4e8ha28rp0008xxmg0",
+    time: "Feb 11, 2024 4:14 PM",
+    status: "Completed",
+    completedTime: "Feb 11, 2024 6:07 PM (in 1h 53m 24.4s)",
+    computeResource: "ibm_brisbane",
+    statusTimeline: "Completed",
+    results: '{"quasi_dists": [{"0000": 0.50}]}',
   },
   {
-    id: 'cq4bw307z1hg008dqnv0',
-    time: 'Feb 11, 2024 1:31 PM',
-    status: 'Completed',
-    completedTime: 'Feb 11, 2024 3:24 PM (in 1h 53m 24.4s)',
-    computeResource: 'ibm_brisbane',
-    statusTimeline: 'Completed',
-    results: '{"quasi_dists": [{"0000": 0.50}]}'
+    id: "cq4bw307z1hg008dqnv0",
+    time: "Feb 11, 2024 1:31 PM",
+    status: "Completed",
+    completedTime: "Feb 11, 2024 3:24 PM (in 1h 53m 24.4s)",
+    computeResource: "ibm_brisbane",
+    statusTimeline: "Completed",
+    results: '{"quasi_dists": [{"0000": 0.50}]}',
   },
 ];
 
+import { FaChevronDown, FaUndo, FaRedo } from "react-icons/fa";
+
+const HeaderContainerAccu = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
+`;
+
+const Button = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
+  cursor: pointer;
+  margin-right: 10px;
+
+  &:hover {
+    color: #0f62fe;
+  }
+`;
+
+const DividerAccu = styled.div`
+  height: 20px;
+  width: 1px;
+  background-color: ${({ theme }) => (theme === "dark" ? "#4a4a4a" : "#e0e0e0")};
+  margin: 0 10px;
+`;
+
+const Dropdown = styled.div`
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+
+  &:hover .dropdown-content {
+    display: block;
+  }
+`;
+
+const DropdownButton = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: #0f62fe;
+  }
+
+  svg {
+    margin-left: 8px; /* Adjust this value to increase or decrease the space between text and arrow */
+  }
+`;
+
+const DropdownContent = styled.div`
+  display: none;
+  position: absolute;
+  background-color: ${({ theme }) => (theme === "dark" ? "#21272a" : "#e0e0e0")};
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+`;
+
+const DropdownItem = styled.a`
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+
+  &:hover {
+    background-color: ${({ theme }) => (theme === "dark" ? "#343a3f" : "#ddd")};
+  }
+`;
+
+const ToggleContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ToggleLabel = styled.span`
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
+  margin-right: 10px;
+`;
+
+const ToggleSwitch = styled.label`
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 14px;
+
+  & input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  & .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+  }
+
+  & .slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+
+  input:checked + .slider {
+    background-color: #2196f3;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(20px);
+  }
+`;
+
+import { Tooltip, IconButton } from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
+
+const ThemedIconButton = styled(IconButton)`
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
+`;
+
+const CustomTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} placement="bottom-end" arrow />
+))`
+  & .MuiTooltip-tooltip {
+    background-color: ${({ theme }) => (theme === "dark" ? "#333" : "#fff")};
+    color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    border-radius: 4px;
+    padding: 10px;
+    align-items: center;
+    margin-right: 20px;
+    max-width: 220px;
+  }
+  & .MuiTooltip-arrow {
+    color: ${({ theme }) => (theme === "dark" ? "#333" : "#fff")};
+  }
+`;
+
 export default function HomePage() {
-  const [inputJob, setInputJob] = useState('');
+  const [inputJob, setInputJob] = useState("");
   const [isSidebarVisible, setSidebarVisible] = useState(false);
   const theme = useSelector((state) => state.theme.theme);
   const [selectedJob, setSelectedJob] = useState(null);
-  const [activeSegment, setActiveSegment] = useState('ML');
-  const [activeOption, setActiveOption] = useState('accuracy');
+  const [activeSegment, setActiveSegment] = useState("ML");
+  const [activeOption, setActiveOption] = useState("accuracy");
   const [collapsedSections, setCollapsedSections] = useState({
     statusTimeline: true,
     details: true,
-    results: true
+    results: true,
   });
 
   const handleInputChange = (event) => {
@@ -435,7 +630,7 @@ export default function HomePage() {
   const toggleSection = (section) => {
     setCollapsedSections({
       ...collapsedSections,
-      [section]: !collapsedSections[section]
+      [section]: !collapsedSections[section],
     });
   };
 
@@ -452,8 +647,8 @@ export default function HomePage() {
 
   const dataPoints = generateDataPoints(200);
 
-  const [activeTopNav, setActiveTopNav] = useState('home');
-  const [activeSidebar, setActiveSidebar] = useState('lab');
+  const [activeTopNav, setActiveTopNav] = useState("monitoring");
+  const [activeSidebar, setActiveSidebar] = useState("lab");
 
   return (
     <Container theme={theme}>
@@ -469,36 +664,69 @@ export default function HomePage() {
           <ThinSidebarSegmentJob onClick={handleJobClick} theme={theme}>
             {isSidebarVisible && <ActiveIndicator />}
             <ThinSidebarTextJob theme={theme}>
-              <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <foreignObject width="100%" height="100%">
                   <div xmlns="http://www.w3.org/1999/xhtml">
-                    <svg viewBox="0 0 16 16" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                      <path d="M7 6.00024V10.0002L10.5 8.00024L7 6.00024Z" fill="currentColor"></path>
-                      <path d="M8.95068 13.3998L9.10069 14.3998C9.85069 14.2498 10.5507 13.9998 11.2007 13.6498L10.7007 12.7998C10.2007 13.0998 9.60068 13.2998 8.95068 13.39982" fill="currentColor"></path>
-                      <path d="M12.2007 11.5504L12.9507 12.2003C13.4507 11.6503 13.8007 10.9504 14.0507 10.2504L13.1007 9.90039C12.9507 10.5004 12.6007 11.0504 12.2007 11.5504Z" fill="currentColor"></path>
-                      <path d="M4.75 13.6002C5.4 13.9502 6.1 14.2502 6.85 14.3502L7 13.3502C6.35 13.2502 5.75 13.0002 5.2 12.7002L4.75 13.6002Z" fill="currentColor"></path>
-                      <path d="M2.8499 9.90039L1.8999 10.2504C2.1499 10.9504 2.5499 11.6503 2.9999 12.2003L3.1499 12.0504L3.7499 11.5504C3.3999 11.0504 3.0499 10.5004 2.8499 9.900397" fill="currentColor"></path>
-                      <path d="M14.4999 8C14.4999 7.2 14.3499 6.45005 14.0999 5.80005L13.1499 6.15002C13.3499 6.75002 13.4999 7.35005 13.4999 8.05005H14.4999V8Z" fill="currentColor"></path>
-                      <path d="M13 3.80005C11.8 2.40005 10 1.5 8 1.5C6 1.5 4.2 2.39998 3 3.84998V2.75H2V6H5V5H3.4C4.4 3.5 6.05 2.5 8 2.5C9.7 2.5 11.2 3.24995 12.2 4.44995L13 3.80005Z" fill="currentColor"></path>
+                    <svg
+                      viewBox="0 0 16 16"
+                      width="100%"
+                      height="100%"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                    >
+                      <path
+                        d="M7 6.00024V10.0002L10.5 8.00024L7 6.00024Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M8.95068 13.3998L9.10069 14.3998C9.85069 14.2498 10.5507 13.9998 11.2007 13.6498L10.7007 12.7998C10.2007 13.0998 9.60068 13.2998 8.95068 13.39982"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M12.2007 11.5504L12.9507 12.2003C13.4507 11.6503 13.8007 10.9504 14.0507 10.2504L13.1007 9.90039C12.9507 10.5004 12.6007 11.0504 12.2007 11.5504Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M4.75 13.6002C5.4 13.9502 6.1 14.2502 6.85 14.3502L7 13.3502C6.35 13.2502 5.75 13.0002 5.2 12.7002L4.75 13.6002Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M2.8499 9.90039L1.8999 10.2504C2.1499 10.9504 2.5499 11.6503 2.9999 12.2003L3.1499 12.0504L3.7499 11.5504C3.3999 11.0504 3.0499 10.5004 2.8499 9.900397"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M14.4999 8C14.4999 7.2 14.3499 6.45005 14.0999 5.80005L13.1499 6.15002C13.3499 6.75002 13.4999 7.35005 13.4999 8.05005H14.4999V8Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M13 3.80005C11.8 2.40005 10 1.5 8 1.5C6 1.5 4.2 2.39998 3 3.84998V2.75H2V6H5V5H3.4C4.4 3.5 6.05 2.5 8 2.5C9.7 2.5 11.2 3.24995 12.2 4.44995L13 3.80005Z"
+                        fill="currentColor"
+                      ></path>
                     </svg>
                   </div>
                 </foreignObject>
               </svg>
             </ThinSidebarTextJob>
           </ThinSidebarSegmentJob>
-          <ThinSidebarSegment onClick={() => handleSegmentClick('ML')} theme={theme}>
-            {activeSegment === 'ML' && <ActiveIndicator />}
+          <ThinSidebarSegment onClick={() => handleSegmentClick("ML")} theme={theme}>
+            {activeSegment === "ML" && <ActiveIndicator />}
             <ThinSidebarText theme={theme}>M</ThinSidebarText>
             <ThinSidebarText theme={theme}>L</ThinSidebarText>
           </ThinSidebarSegment>
-          <ThinSidebarSegment onClick={() => handleSegmentClick('QML')} theme={theme}>
-            {activeSegment === 'QML' && <ActiveIndicator />}
+          <ThinSidebarSegment onClick={() => handleSegmentClick("QML")} theme={theme}>
+            {activeSegment === "QML" && <ActiveIndicator />}
             <ThinSidebarText theme={theme}>Q</ThinSidebarText>
             <ThinSidebarText theme={theme}>M</ThinSidebarText>
             <ThinSidebarText theme={theme}>L</ThinSidebarText>
           </ThinSidebarSegment>
-          <ThinSidebarSegment onClick={() => handleSegmentClick('QML2')} theme={theme}>
-            {activeSegment === 'QML2' && <ActiveIndicator />}
+          <ThinSidebarSegment onClick={() => handleSegmentClick("QML2")} theme={theme}>
+            {activeSegment === "QML2" && <ActiveIndicator />}
             <ThinSidebarText theme={theme}>Q</ThinSidebarText>
             <ThinSidebarText theme={theme}>M</ThinSidebarText>
             <ThinSidebarText theme={theme}>L</ThinSidebarText>
@@ -511,33 +739,48 @@ export default function HomePage() {
             <Sidebar theme={theme} isVisible={isSidebarVisible}>
               {selectedJob ? (
                 <JobDetailsContainer theme={theme}>
-                  <button onClick={handleBackToList}>Back to list</button>
-                  <h4>Job Details</h4>
-                  <p><strong>Job ID:</strong> {selectedJob.id}</p>
-                  <p><strong>Completed:</strong> {selectedJob.completedTime}</p>
-                  <p><strong>Compute resource:</strong> {selectedJob.computeResource}</p>
+                  {/* <button onClick={handleBackToList}>Back to list</button> */}
+                  <JobDetailHeader>
+                    <JobDetailTitle theme={theme}>
+                   <span>   Jobs   <span style={{color:'white'}}>/</span> </span> 
+                    </JobDetailTitle>
+                    <ThreeDots />
+                  </JobDetailHeader>
+                  
+                  <div>{selectedJob.id}</div>
+                  <br /><br />
+                  <DetailButton>See more details</DetailButton>
+                  <br /><br />
+
+                  <br />
+                  <div>
+                  <p><strong>Completed:</strong> </p>
+                  <p>{selectedJob.completedTime}</p>
+                  <p><strong>Compute resource:</strong></p>
+                  <p> {selectedJob.computeResource}</p>
+                  </div>
                   <CollapsibleSection>
-                    <SectionHeader onClick={() => toggleSection('statusTimeline')} theme={theme}>
+                    <SectionHeader onClick={() => toggleSection("statusTimeline")} theme={theme}>
                       <SectionTitle>Status timeline</SectionTitle>
-                      <span>{collapsedSections.statusTimeline ? '▼' : '▲'}</span>
+                      <span>{collapsedSections.statusTimeline ? "▼" : "▲"}</span>
                     </SectionHeader>
                     <SectionContent isVisible={!collapsedSections.statusTimeline} theme={theme}>
                       <p><strong>Status timeline:</strong> {selectedJob.statusTimeline}</p>
                     </SectionContent>
                   </CollapsibleSection>
                   <CollapsibleSection>
-                    <SectionHeader onClick={() => toggleSection('details')} theme={theme}>
+                    <SectionHeader onClick={() => toggleSection("details")} theme={theme}>
                       <SectionTitle>Details</SectionTitle>
-                      <span>{collapsedSections.details ? '▼' : '▲'}</span>
+                      <span>{collapsedSections.details ? "▼" : "▲"}</span>
                     </SectionHeader>
                     <SectionContent isVisible={!collapsedSections.details} theme={theme}>
                       <p>Details content goes here.</p>
                     </SectionContent>
                   </CollapsibleSection>
                   <CollapsibleSection>
-                    <SectionHeader onClick={() => toggleSection('results')} theme={theme}>
+                    <SectionHeader onClick={() => toggleSection("results")} theme={theme}>
                       <SectionTitle>Results</SectionTitle>
-                      <span>{collapsedSections.results ? '▼' : '▲'}</span>
+                      <span>{collapsedSections.results ? "▼" : "▲"}</span>
                     </SectionHeader>
                     <SectionContent isVisible={!collapsedSections.results} theme={theme}>
                       <p>{selectedJob.results}</p>
@@ -573,18 +816,19 @@ export default function HomePage() {
                       jobsData.map((job) => (
                         <JobItem key={job.id} theme={theme} onClick={() => toggleJobDetails(job.id)}>
                           <JobSummary>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                              {job.status === 'Completed' && <TickIcon />}
-                              <JobInfo>
-                                <JobStatus theme={theme}>{job.status}</JobStatus>
+                            <JobInfo>
+                              <JobStatus theme={theme}>
+                                {job.status === "Completed" && <TickIcon />}
+                                Completed:
                                 <JobTime theme={theme}>{job.time}</JobTime>
-                                <JobId theme={theme}>{job.id}</JobId>
-                              </JobInfo>
-                            </div>
+                              </JobStatus>
+                              <JobId theme={theme}>ID: {job.id} | {job.computeResource}</JobId>
+                            </JobInfo>
                             <JobActions>
                               <ThreeDots />
                             </JobActions>
                           </JobSummary>
+                          <HorizontalDivider theme={theme} />
                         </JobItem>
                       ))
                     )}
@@ -597,36 +841,91 @@ export default function HomePage() {
           </>
         )}
         <MainContent theme={theme} hasSidebar={isSidebarVisible}>
-          {activeSegment === 'ML' && (
+          {activeSegment === "ML" && (
             <GridContainer theme={theme}>
               <GridItem theme={theme}>
                 <HeatmapComponent theme={theme} />
               </GridItem>
               <GridItem theme={theme}>
-                <GridTitle theme={theme}>SHAP</GridTitle>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <GridTitle theme={theme}>SHAPE</GridTitle>
+                  <CustomTooltip
+                    title="This visualization shows a  of randomly generated values."
+                    theme={theme}
+                    arrow
+                  >
+                    <ThemedIconButton size="small" theme={theme}>
+                      <InfoIcon style={{ marginRight: "20px" }} />
+                    </ThemedIconButton>
+                  </CustomTooltip>
+                </div>
                 <Scat theme={theme} dataPoints={dataPoints} />
               </GridItem>
               <GridItem theme={theme}>
-                <HeaderContainer theme={theme}>
-                  <HeaderOption theme={theme} className={activeOption === 'accuracy' ? 'active' : ''} onClick={() => handleOptionClick('accuracy')}>
-                    Accuracy
-                  </HeaderOption>
-                  <HeaderOption theme={theme} className={activeOption === 'precision' ? 'active' : ''} onClick={() => handleOptionClick('precision')}>
-                    Precision
-                  </HeaderOption>
-                  <HeaderOption theme={theme} className={activeOption === 'recall' ? 'active' : ''} onClick={() => handleOptionClick('recall')}>
-                    Recall
-                  </HeaderOption>
-                </HeaderContainer>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <HeaderContainerAccu theme={theme}>
+                    <Button theme={theme}>
+                      <FaUndo />
+                    </Button>
+                    <Button theme={theme}>
+                      <FaRedo />
+                    </Button>
+                    <DividerAccu theme={theme} />
+                    <Dropdown>
+                      <DropdownButton theme={theme}>
+                        Left alignment <FaChevronDown />
+                      </DropdownButton>
+                      <DropdownContent theme={theme} className="dropdown-content">
+                        <DropdownItem theme={theme} href="#">
+                          Option 1
+                        </DropdownItem>
+                        <DropdownItem theme={theme} href="#">
+                          Option 2
+                        </DropdownItem>
+                        <DropdownItem theme={theme} href="#">
+                          Option 3
+                        </DropdownItem>
+                      </DropdownContent>
+                    </Dropdown>
+                    <DividerAccu theme={theme} />
+                    <ToggleContainer>
+                      <ToggleLabel theme={theme}>Inspect</ToggleLabel>
+                      <ToggleSwitch>
+                        <input type="checkbox" />
+                        <span className="slider"></span>
+                      </ToggleSwitch>
+                    </ToggleContainer>
+                  </HeaderContainerAccu>
+                  <CustomTooltip
+                    title="This visualization shows a  of randomly generated values."
+                    theme={theme}
+                    arrow
+                  >
+                    <ThemedIconButton size="small" theme={theme}>
+                      <InfoIcon style={{ marginRight: "20px" }} />
+                    </ThemedIconButton>
+                  </CustomTooltip>
+                </div>
                 <AccuracyPrecisionRecall selectedMetric={activeOption} theme={theme} />
               </GridItem>
               <GridItem theme={theme}>
-                <GridTitle theme={theme}>Hyperparameter Tuning</GridTitle>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <GridTitle theme={theme}>Hyperparameter Tuning</GridTitle>
+                  <CustomTooltip
+                    title="This visualization shows a  of randomly generated values."
+                    theme={theme}
+                    arrow
+                  >
+                    <ThemedIconButton size="small" theme={theme}>
+                      <InfoIcon style={{ marginRight: "20px" }} />
+                    </ThemedIconButton>
+                  </CustomTooltip>
+                </div>
                 <Dendrogram theme={theme} />
               </GridItem>
             </GridContainer>
           )}
-          {activeSegment === 'QML' && (
+          {activeSegment === "QML" && (
             <GridContainer theme={theme}>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum Heatmap</GridTitle>
@@ -634,7 +933,6 @@ export default function HomePage() {
               </GridItem>
               <FullHeightGridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum SHAP</GridTitle>
-
               </FullHeightGridItem>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum Header</GridTitle>
@@ -642,7 +940,7 @@ export default function HomePage() {
               </GridItem>
             </GridContainer>
           )}
-          {activeSegment === 'QML2' && (
+          {activeSegment === "QML2" && (
             <GridContainer theme={theme}>
               <FullWidthGridItem theme={theme}>
                 <GridTitle theme={theme}>Advanced Quantum Heatmap</GridTitle>
@@ -654,7 +952,6 @@ export default function HomePage() {
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Advanced Quantum Header</GridTitle>
               </GridItem>
-
             </GridContainer>
           )}
         </MainContent>

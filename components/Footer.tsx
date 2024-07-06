@@ -69,6 +69,7 @@ const FooterContainer = styled.div`
 
     .link {
       margin-right: 15px;
+      font-size:13px;
       cursor: pointer;
       color: ${({ theme }) => (theme === 'dark' ? '#bbb' : '#000')};
       text-decoration: none;

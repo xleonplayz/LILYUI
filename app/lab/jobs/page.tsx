@@ -381,7 +381,7 @@ export default function HomePage() {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentItems = items.slice(startIndex, endIndex);
-  const [activeTopNav, setActiveTopNav] = useState('home');
+  const [activeTopNav, setActiveTopNav] = useState('jobs');
   const [activeSidebar, setActiveSidebar] = useState('lab');
 
   const handleTopNavClick = (option: string) => {

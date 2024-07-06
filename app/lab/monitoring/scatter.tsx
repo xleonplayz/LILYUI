@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Scatter } from 'react-chartjs-2';
 import {
@@ -7,31 +7,140 @@ import {
   PointElement,
   LineElement,
   Title,
-  Tooltip,
   Legend,
+  CategoryScale,
 } from 'chart.js';
 import styled from 'styled-components';
+import { FaChevronDown } from 'react-icons/fa';
 
 ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
   Title,
-  Tooltip,
   Legend,
+  CategoryScale
 );
 
+import { IconButton, Tooltip } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+`;
+
 const ScatterPlotContainer = styled.div`
-  width: 80%;
+  width: 90%;
+  height: 310px;
+  color: ${({ theme }) => (theme === 'dark' ? 'white' : 'black')};
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const HeaderContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  // margin-bottom: 0px;
   margin: auto;
-  height: 350px;
+  color: white;
+  font-size: 24px;
+`;
+
+const DropdownContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e0e0e0')};
+  }
+`;
+
+const Dropdown = styled.div`
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+
+  &:hover .dropdown-content {
+    display: block;
+  }
+`;
+
+const DropdownButton = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-left: 20px;
+  }
+`;
+
+const DropdownContent = styled.div`
+  display: none;
+  position: absolute;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#e0e0e0')};
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+
+  &.dropdown-content {
+    display: none;
+  }
+`;
+
+const DropdownItem = styled.a`
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#ddd')};
+  }
+`;
+
+const ThemedIconButton = styled(IconButton)`
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+`;
+
+const CustomTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} placement="bottom-end" arrow />
+))`
+  & .MuiTooltip-tooltip {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#333' : '#fff')};
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    border-radius: 4px;
+    padding: 10px;
+    margin-right: 20px;
+    max-width: 220px;
+  }
+  & .MuiTooltip-arrow {
+    color: ${({ theme }) => (theme === 'dark' ? '#333' : '#fff')};
+  }
 `;
 
 const Scat = ({ theme, dataPoints }) => {
+  const [selected, setSelected] = useState('Probabilities');
   const textColor = theme === 'dark' ? 'white' : 'black';
   const lineColor = theme === 'dark' ? 'white' : 'black';
 
-  // Default data points if none provided
   const defaultDataPoints = [
     { x: 20000, y: 0.4 },
     { x: 25000, y: 0.5 },
@@ -41,12 +150,10 @@ const Scat = ({ theme, dataPoints }) => {
     { x: 30000, y: 0.8 },
     { x: 35000, y: 0.9 },
     { x: 40000, y: 1.0 },
-    // Add more default data points as needed
   ];
 
   const points = dataPoints && dataPoints.length ? dataPoints : defaultDataPoints;
 
-  // Calculate the regression line data
   const regressionLineData = points
     .sort((a, b) => a.x - b.x)
     .map(({ x }) => ({ x, y: (x - 15000) / 25000 }));
@@ -97,7 +204,8 @@ const Scat = ({ theme, dataPoints }) => {
         min: 15000,
         max: 40000,
         grid: {
-          display: false,
+          display: true,
+          color: '#444',
         },
         ticks: {
           color: textColor,
@@ -119,11 +227,12 @@ const Scat = ({ theme, dataPoints }) => {
         min: 0,
         max: 1,
         grid: {
-          display: false,
+          display: true,
+          color: '#444',
         },
         ticks: {
           color: textColor,
-          stepSize: 0.2,  // This ensures the values on the y-axis have a gap of 0.2
+          stepSize: 0.2,
         },
         border: {
           color: lineColor,
@@ -132,10 +241,30 @@ const Scat = ({ theme, dataPoints }) => {
     },
   };
 
+  const handleSelect = (value) => {
+    setSelected(value);
+  };
+
   return (
-    <ScatterPlotContainer>
-      <Scatter data={data} options={options} />
-    </ScatterPlotContainer>
+    <Container theme={theme}>
+      <HeaderContainer>
+        <DropdownContainer theme={theme}>
+          <Dropdown>
+            <DropdownButton theme={theme}>
+              {selected} <FaChevronDown />
+            </DropdownButton>
+            <DropdownContent theme={theme} className="dropdown-content">
+              <DropdownItem theme={theme} onClick={() => handleSelect('Probabilities')}>Probabilities</DropdownItem>
+              <DropdownItem theme={theme} onClick={() => handleSelect('Other Option')}>Other Option</DropdownItem>
+            </DropdownContent>
+          </Dropdown>
+        </DropdownContainer>
+       
+      </HeaderContainer>
+      <ScatterPlotContainer theme={theme}>
+        <Scatter data={data} options={options} />
+      </ScatterPlotContainer>
+    </Container>
   );
 };
 

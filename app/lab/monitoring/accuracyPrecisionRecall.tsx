@@ -17,8 +17,9 @@ const HeaderContainer = styled.div`
   text-align: center;
 `;
 
-const HeaderText = styled.div`
+const HeaderText = styled.div<{ theme: string }>`
   flex: 1;
+  color: ${({ theme }) => (theme === 'dark' ? 'white' : '##000')};
 `;
 
 const CustomTooltip = styled(({ className, ...props }) => (
@@ -42,6 +43,7 @@ const ThemedIconButton = styled(IconButton) <{ theme: string }>`
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   text-align:right;
   position:relative;
+  top:-48px;
   left:140px
 `;
 
@@ -59,39 +61,17 @@ interface MetricData {
 
 interface DummyData {
   accuracy: MetricData;
-  precision: MetricData;
-  recall: MetricData;
 }
 
 const dummyData: DummyData = {
   accuracy: {
-    labels: Array.from({ length: 10 }, (_, i) => i + 1),
+    labels: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
     datasets: [
-      { label: 'AdaBoost', data: [65, 70, 75, 80, 85, 90, 92, 94, 95, 96], borderColor: 'blue', fill: false },
-      { label: 'ANN', data: [68, 72, 76, 82, 87, 91, 94, 96, 97, 98], borderColor: 'orange', fill: false },
-      { label: 'GBoost', data: [70, 74, 78, 84, 89, 93, 96, 97, 98, 99], borderColor: 'green', fill: false },
-      { label: 'KNN', data: [66, 71, 76, 81, 86, 90, 93, 95, 96, 97], borderColor: 'purple', fill: false },
-      { label: 'SVM', data: [67, 73, 77, 83, 88, 92, 95, 96, 97, 98], borderColor: 'red', fill: false },
-    ],
-  },
-  precision: {
-    labels: Array.from({ length: 10 }, (_, i) => i + 1),
-    datasets: [
-      { label: 'AdaBoost', data: [60, 65, 70, 75, 80, 85, 88, 90, 92, 93], borderColor: 'blue', fill: false },
-      { label: 'ANN', data: [63, 68, 73, 78, 83, 88, 91, 93, 94, 95], borderColor: 'orange', fill: false },
-      { label: 'GBoost', data: [65, 70, 75, 80, 85, 90, 93, 94, 95, 96], borderColor: 'green', fill: false },
-      { label: 'KNN', data: [61, 66, 71, 76, 81, 85, 88, 90, 91, 92], borderColor: 'purple', fill: false },
-      { label: 'SVM', data: [62, 67, 72, 77, 82, 87, 90, 91, 92, 93], borderColor: 'red', fill: false },
-    ],
-  },
-  recall: {
-    labels: Array.from({ length: 10 }, (_, i) => i + 1),
-    datasets: [
-      { label: 'AdaBoost', data: [58, 63, 68, 73, 78, 83, 86, 88, 90, 91], borderColor: 'blue', fill: false },
-      { label: 'ANN', data: [61, 66, 71, 76, 81, 86, 89, 91, 92, 93], borderColor: 'orange', fill: false },
-      { label: 'GBoost', data: [63, 68, 73, 78, 83, 88, 91, 92, 93, 94], borderColor: 'green', fill: false },
-      { label: 'KNN', data: [59, 64, 69, 74, 79, 83, 86, 88, 89, 90], borderColor: 'purple', fill: false },
-      { label: 'SVM', data: [60, 65, 70, 75, 80, 85, 88, 89, 90, 91], borderColor: 'red', fill: false },
+      { label: 'AdaBoost', data: [75, 80, 82, 85, 85, 85, 88, 88, 89, 89], borderColor: 'blue', fill: false },
+      { label: 'ANN', data: [75, 83, 88, 91, 93, 94, 95, 95, 95, 95], borderColor: 'orange', fill: false },
+      { label: 'GBoost', data: [75, 80, 83, 85, 85, 85, 87, 88, 89, 89], borderColor: 'yellow', fill: false },
+      { label: 'KNN', data: [75, 82, 87, 90, 91, 91, 92, 93, 94, 95], borderColor: 'purple', fill: false },
+      { label: 'SVM', data: [65, 70, 75, 78, 80, 83, 85, 85, 85, 85], borderColor: 'green', fill: false },
     ],
   },
 };
@@ -102,7 +82,7 @@ interface AccuracyPrecisionRecallProps {
 }
 
 const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selectedMetric, theme }) => {
-  const textColor = theme === 'dark' ? 'white' : 'black';
+  const textColor = theme === 'dark' ? 'white' : '##000';
   const borderColor = theme === 'dark' ? 'white' : 'black';
   const options = {
     responsive: true,
@@ -110,7 +90,8 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
     scales: {
       x: {
         grid: {
-          display: false,
+          drawOnChartArea: false, // only want the grid lines for the outermost tick marks
+          color: borderColor,
         },
         title: {
           display: true,
@@ -125,12 +106,15 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
           color: textColor,
         },
         border: {
+          display: true,
           color: borderColor,
+          width: 1,
         },
       },
       y: {
         grid: {
-          display: false,
+          drawOnChartArea: false, // only want the grid lines for the outermost tick marks
+          color: borderColor,
         },
         title: {
           display: true,
@@ -143,9 +127,14 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
         },
         ticks: {
           color: textColor,
+          callback: function(value) {
+            return value + ' %';
+          },
         },
         border: {
+          display: true,
           color: borderColor,
+          width: 1,
         },
       },
     },
@@ -155,46 +144,66 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
         labels: {
           color: textColor,
           usePointStyle: true,
-          boxWidth: 20,
+          pointStyle: 'line',
+          boxWidth: 40,
+          generateLabels: (chart) => {
+            const data = chart.data;
+            return data.datasets.map((dataset, i) => ({
+              text: dataset.label,
+              fillStyle: dataset.borderColor,
+              hidden: !chart.isDatasetVisible(i),
+              lineCap: dataset.borderCapStyle,
+              lineDash: dataset.borderDash,
+              lineDashOffset: dataset.borderDashOffset,
+              lineJoin: dataset.borderJoinStyle,
+              strokeStyle: dataset.borderColor,
+              pointStyle: 'line',
+              datasetIndex: i,
+              fontColor: textColor // Add this line
+            }));
+          },
         },
         position: 'right',
         align: 'end',
         fullSize: false,
-        padding: 20, // Add padding around the legend
-        boxHeight: 20, // Set the height of the legend box
-        boxWidth: 20, // Set the width of the legend box
+        padding: 20,
+        boxHeight: 2,
+        boxWidth: 40,
         margin: {
-          top: 100, // Add margin at the top
+          top: 100,
         },
         border: {
-          color: borderColor, // Set border color
-          width: 1, // Set border width
-          padding: 10, // Add padding around the legend border
+          color: borderColor,
+          width: 1,
+          padding: 10,
         },
       },
     },
     elements: {
       point: {
-        radius: 0, // remove point markers
+        radius: 0,
       },
       line: {
         borderWidth: 2,
-        borderColor: theme === 'dark' ? 'white' : 'black', // Line color based on theme
+        borderColor: theme === 'dark' ? 'white' : 'black',
       },
     },
+    layout: {
+      padding: {
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: 10
+      }
+    }
   };
 
   return (
-    <div style={{ height: '260px', width: '65%', margin: "7.5% auto" }}>
+    <div style={{ height: '270px', width: '80%', margin: "1.5% auto",  }}>
       <HeaderContainer>
-        <HeaderText>
-          {selectedMetric} of Independent Components (ICs) using various classifiers
+        <HeaderText theme={theme}>
+          Accuracy of Independent Components (ICs) using various classifiers
         </HeaderText>
-        <CustomTooltip title="This visualization shows a  of randomly generated values." theme={theme} arrow>
-          <ThemedIconButton size="small" theme={theme}>
-            <InfoIcon />
-          </ThemedIconButton>
-        </CustomTooltip>
       </HeaderContainer>
       <Line data={dummyData[selectedMetric]} options={options} />
     </div>
