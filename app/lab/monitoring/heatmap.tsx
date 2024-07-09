@@ -1,8 +1,10 @@
 'use client';
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import styled from 'styled-components';
-import { Slider, Select as MuiSelect, MenuItem, Tooltip, IconButton } from '@mui/material';
+import { Slider, MenuItem, Tooltip, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
+
+import { OutlinedInput, Select } from '@mui/material';
 import * as d3 from 'd3';
 
 const HeatmapContainer = styled.div`
@@ -33,29 +35,56 @@ const GridTitle = styled.h3<{ theme: string }>`
   margin: 0;
 `;
 
-const Select = styled(MuiSelect) <{ theme: string }>`
-  width: 15%;
-  // color: #fff;
-  background-color:   ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#f4f4f4')};
 
-  & .MuiOutlinedInput-notchedOutline {
-    border-color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+
+const CustomSelect = styled(Select)`
+  // padding: 4px 8px;
+width:15%;
+  // outline: none;
+  // border: none;
+  font-size: 0.87rem;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  // width: 130px;
+  
+  .MuiOutlinedInput-root {
+    padding: 0px 0px;
+    border: none;
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    box-shadow: ${({ theme }) => (theme === 'dark' ? '0 2px 4px rgba(0, 0, 0, 0.1)' : '0 2px 4px rgba(0, 0, 0, 0.1)')};
+  }
+  
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
+  
+  .MuiSvgIcon-root {
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   }
 
-  & .MuiSvgIcon-root {
-  color:  ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
 
-  }
-
-  & .MuiSelect-select {
-  color:  ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-
-  background-color:   ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#f4f4f4')};
-  }
-    .menu{
-    
-    background-color: #343a3f;
+    .MuiSvgIcon-root {
+      background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
     }
+  }
+`;
+
+const CustomMenuItem = styled(MenuItem)`
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+  }
+  &.Mui-selected {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+    &:hover {
+      background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+    }
+  }
 `;
 
 const ThemedIconButton = styled(IconButton) <{ theme: string }>`
@@ -232,11 +261,46 @@ export default function HeatmapComponent({ theme }: HeatmapComponentProps) {
           onChange={handleSliderChange}
           style={{ width: '30%' }}
         />
-        <Select value={modelSphere} onChange={handleModelSphereChange} theme={theme}>
-          <MenuItem value="Sphere 1" className='menu'>Sphere 1</MenuItem>
-          <MenuItem value="Sphere 2">Sphere 2</MenuItem>
-        </Select>
+
+        <CustomSelect
+          value={modelSphere}
+          onChange={handleModelSphereChange}
+          displayEmpty
+          input={<OutlinedInput />}
+          theme={theme}
+        >
+          <CustomMenuItem value="Sphere 1" theme={theme}>Sphere 1</CustomMenuItem>
+          <CustomMenuItem value="Sphere 2" theme={theme}>Sphere 2</CustomMenuItem>
+        </CustomSelect>
+
       </ControlsContainer>
     </>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

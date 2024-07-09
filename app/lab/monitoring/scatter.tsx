@@ -247,20 +247,7 @@ const Scat = ({ theme, dataPoints }) => {
 
   return (
     <Container theme={theme}>
-      <HeaderContainer>
-        <DropdownContainer theme={theme}>
-          <Dropdown>
-            <DropdownButton theme={theme}>
-              {selected} <FaChevronDown />
-            </DropdownButton>
-            <DropdownContent theme={theme} className="dropdown-content">
-              <DropdownItem theme={theme} onClick={() => handleSelect('Probabilities')}>Probabilities</DropdownItem>
-              <DropdownItem theme={theme} onClick={() => handleSelect('Other Option')}>Other Option</DropdownItem>
-            </DropdownContent>
-          </Dropdown>
-        </DropdownContainer>
-       
-      </HeaderContainer>
+
       <ScatterPlotContainer theme={theme}>
         <Scatter data={data} options={options} />
       </ScatterPlotContainer>

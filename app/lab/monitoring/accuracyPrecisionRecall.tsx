@@ -17,11 +17,6 @@ const HeaderContainer = styled.div`
   text-align: center;
 `;
 
-const HeaderText = styled.div<{ theme: string }>`
-  flex: 1;
-  color: ${({ theme }) => (theme === 'dark' ? 'white' : '##000')};
-`;
-
 const CustomTooltip = styled(({ className, ...props }) => (
   <MuiTooltip {...props} classes={{ popper: className }} placement="bottom-end" arrow />
 ))`
@@ -90,7 +85,7 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
     scales: {
       x: {
         grid: {
-          drawOnChartArea: false, // only want the grid lines for the outermost tick marks
+          drawOnChartArea: false,
           color: borderColor,
         },
         title: {
@@ -99,11 +94,19 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
           color: textColor,
           font: {
             size: 14,
-            weight: 'bold',
+            weight: 'lighter',
+            family: 'Arial, sans-serif',
+            style: 'normal',
           },
         },
         ticks: {
           color: textColor,
+          font: {
+            size: 12,
+            weight: 'lighter',
+            family: 'Arial, sans-serif',
+            style: 'normal',
+          },
         },
         border: {
           display: true,
@@ -113,7 +116,7 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
       },
       y: {
         grid: {
-          drawOnChartArea: false, // only want the grid lines for the outermost tick marks
+          drawOnChartArea: false,
           color: borderColor,
         },
         title: {
@@ -122,11 +125,19 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
           color: textColor,
           font: {
             size: 14,
-            weight: 'bold',
+            weight: 'lighter',
+            family: 'Arial, sans-serif',
+            style: 'normal',
           },
         },
         ticks: {
           color: textColor,
+          font: {
+            size: 12,
+            weight: 'lighter',
+            family: 'Arial, sans-serif',
+            style: 'normal',
+          },
           callback: function(value) {
             return value + ' %';
           },
@@ -159,7 +170,13 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
               strokeStyle: dataset.borderColor,
               pointStyle: 'line',
               datasetIndex: i,
-              fontColor: textColor // Add this line
+              fontColor: textColor,
+              font: {
+                size: 12,
+                weight: 'lighter',
+                family: 'Arial, sans-serif',
+                style: 'normal',
+              }
             }));
           },
         },
@@ -193,18 +210,13 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
         left: 10,
         right: 10,
         top: 10,
-        bottom: 10
-      }
-    }
+        bottom: 10,
+      },
+    },
   };
 
   return (
-    <div style={{ height: '270px', width: '80%', margin: "1.5% auto",  }}>
-      <HeaderContainer>
-        <HeaderText theme={theme}>
-          Accuracy of Independent Components (ICs) using various classifiers
-        </HeaderText>
-      </HeaderContainer>
+    <div style={{ height: '310px', width: '80%', margin: "1.5% auto" }}>
       <Line data={dummyData[selectedMetric]} options={options} />
     </div>
   );

@@ -13,7 +13,10 @@ import AccuracyPrecisionRecall from "./accuracyPrecisionRecall";
 import ProbabilityChart from "./modelcomp";
 import Plot from "./density";
 import Unique from "./uniqness";
+import { GrRedo, GrUndo } from 'react-icons/gr';
+// import { BiRedo } from 'react-icons/bi';
 
+import { Select, MenuItem, OutlinedInput } from '@mui/material';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -433,32 +436,43 @@ const jobsData = [
   },
 ];
 
-import { FaChevronDown, FaUndo, FaRedo } from "react-icons/fa";
+import { FaChevronDown,  } from "react-icons/fa";
 
 const HeaderContainerAccu = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 10px;
+  padding: 0px 10px;
+
+  
 `;
 
 const Button = styled.button`
   background: none;
   border: none;
-  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#2a2a2a")};
   cursor: pointer;
   margin-right: 10px;
 
   &:hover {
     color: #0f62fe;
   }
+
+
+  .undo,.redo{
+  
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#2a2a2a")};
+  }
 `;
 
 const DividerAccu = styled.div`
-  height: 20px;
+  height: 30px;
+  align-item:center;
   width: 1px;
+
+  
   background-color: ${({ theme }) => (theme === "dark" ? "#4a4a4a" : "#e0e0e0")};
-  margin: 0 10px;
+  // margin: 0 10px;
 `;
 
 const Dropdown = styled.div`
@@ -474,11 +488,13 @@ const Dropdown = styled.div`
 const DropdownButton = styled.button`
   background: none;
   border: none;
-  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#161616")};
   cursor: pointer;
   display: flex;
   align-items: center;
 
+  font-size: .8275rem;
+  font-weight:400;
   &:hover {
     color: #0f62fe;
   }
@@ -495,6 +511,8 @@ const DropdownContent = styled.div`
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
+      font-size: .875rem;
+      font-weight:400;
 `;
 
 const DropdownItem = styled.a`
@@ -514,8 +532,11 @@ const ToggleContainer = styled.div`
 `;
 
 const ToggleLabel = styled.span`
-  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
+  color: ${({ theme }) => (theme === "dark" ? "#c1c7cd" : "#525252")};
   margin-right: 10px;
+      font-size: .75rem;
+          font-weight: 400;
+          margin-left:10px;
 `;
 
 const ToggleSwitch = styled.label`
@@ -562,6 +583,57 @@ const ToggleSwitch = styled.label`
     transform: translateX(20px);
   }
 `;
+
+const CustomSelect = styled(Select)`
+  padding: 4px 8px;
+
+  outline: none;
+  border: none;
+  font-size: 0.87rem;
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  width: 130px;
+  
+  .MuiOutlinedInput-root {
+    padding: 0px 0px;
+    border: none;
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    box-shadow: ${({ theme }) => (theme === 'dark' ? '0 2px 4px rgba(0, 0, 0, 0.1)' : '0 2px 4px rgba(0, 0, 0, 0.1)')};
+  }
+  
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
+  
+  .MuiSvgIcon-root {
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  }
+
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+
+    .MuiSvgIcon-root {
+      background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+    }
+  }
+`;
+
+const CustomMenuItem = styled(MenuItem)`
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+  }
+  &.Mui-selected {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+    &:hover {
+      background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+    }
+  }
+`;
+
 
 import { Tooltip, IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
@@ -665,6 +737,18 @@ export default function HomePage() {
     setIsActive(!isActive);
   };
 
+  
+  const [modelType, setModelType] = useState('Statevector');
+
+  const handleDropdownChange = (e) => {
+    setModelType(e.target.value);
+  };
+  
+  const [modelTypeShape, setModelTypeShape] = useState('Statevector');
+  
+  const handleDropdownChangeShape = (e) => {
+    setModelTypeShape(e.target.value);
+  };
   return (
     <Container theme={theme}>
       <Header
@@ -872,8 +956,37 @@ export default function HomePage() {
                 <HeatmapComponent theme={theme} />
               </GridItem>
               <GridItem theme={theme}>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  <GridTitle theme={theme}>SHAPE</GridTitle>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <HeaderContainerAccu theme={theme}>
+                    <Button theme={theme}>
+                    <GrUndo className="undo"/>
+                    </Button>
+                    <Button theme={theme}>
+                      <GrRedo  className="redo"/>
+                    </Button>
+                    <DividerAccu theme={theme} />
+
+
+                    <CustomSelect
+className="customselectz"
+value={modelTypeShape}
+      onChange={handleDropdownChangeShape}
+      displayEmpty
+      renderValue={(selected) => selected || 'Select Model Type'}
+      theme={theme}
+    >
+      <CustomMenuItem value="Statevector" theme={theme}>Statevector</CustomMenuItem>
+      <CustomMenuItem value="Probabilities" theme={theme}>Probabilities</CustomMenuItem>
+    </CustomSelect>
+                    <DividerAccu theme={theme} />
+                    <ToggleContainer>
+                      <ToggleLabel theme={theme}>Inspect</ToggleLabel>
+                      <ToggleSwitch>
+                        <input type="checkbox" />
+                        <span className="slider"></span>
+                      </ToggleSwitch>
+                    </ToggleContainer>
+                  </HeaderContainerAccu>
                   <CustomTooltip
                     title="This visualization shows a  of randomly generated values."
                     theme={theme}
@@ -890,28 +1003,25 @@ export default function HomePage() {
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <HeaderContainerAccu theme={theme}>
                     <Button theme={theme}>
-                      <FaUndo />
+                    <GrUndo className="undo"/>
                     </Button>
                     <Button theme={theme}>
-                      <FaRedo />
+                      <GrRedo  className="redo"/>
                     </Button>
                     <DividerAccu theme={theme} />
-                    <Dropdown>
-                      <DropdownButton theme={theme}>
-                        Left alignment <FaChevronDown />
-                      </DropdownButton>
-                      <DropdownContent theme={theme} className="dropdown-content">
-                        <DropdownItem theme={theme} href="#">
-                          Option 1
-                        </DropdownItem>
-                        <DropdownItem theme={theme} href="#">
-                          Option 2
-                        </DropdownItem>
-                        <DropdownItem theme={theme} href="#">
-                          Option 3
-                        </DropdownItem>
-                      </DropdownContent>
-                    </Dropdown>
+
+
+                    <CustomSelect
+className="customselectz"
+value={modelType}
+      onChange={handleDropdownChange}
+      displayEmpty
+      renderValue={(selected) => selected || 'Select Model Type'}
+      theme={theme}
+    >
+      <CustomMenuItem value="Statevector" theme={theme}>Statevector</CustomMenuItem>
+      <CustomMenuItem value="Probabilities" theme={theme}>Probabilities</CustomMenuItem>
+    </CustomSelect>
                     <DividerAccu theme={theme} />
                     <ToggleContainer>
                       <ToggleLabel theme={theme}>Inspect</ToggleLabel>
