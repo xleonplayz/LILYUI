@@ -198,7 +198,7 @@ const Scat = ({ theme, dataPoints }) => {
           color: textColor,
           font: {
             size: 14,
-            weight: 'bold',
+            weight: '500',
           },
         },
         min: 15000,
@@ -221,7 +221,7 @@ const Scat = ({ theme, dataPoints }) => {
           color: textColor,
           font: {
             size: 14,
-            weight: 'bold',
+            weight: '500',
           },
         },
         min: 0,
