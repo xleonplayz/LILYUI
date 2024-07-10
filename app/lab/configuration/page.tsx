@@ -1,5 +1,5 @@
-"use client";
-
+'use client';
+import React from 'react';
 import styled from 'styled-components';
 import Header from '../../../components/LabHeader';
 import Footer from '../../../components/Footer';
@@ -40,10 +40,8 @@ const LeftSide = styled.div`
 `;
 
 const CustomSelect = styled(Select)`
-  // padding: 4px 8px;
-  // position: relative;
-  width:70%;
-  margin:20px;
+  width: 70%;
+  margin: 20px;
   display: inline-block;
   margin-right: 10px;
   font-size: 0.87rem;
@@ -256,8 +254,9 @@ const StepIndicator = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
-  width: 100%;
+  position: absolute;
+  bottom: 120px;
+  width: 70%;
   background-color: ${({ theme }) => (theme === 'dark' ? '#4d5357' : '#fff')};
   box-sizing: border-box;
   height: 50px;
@@ -303,6 +302,47 @@ const CheckDataButton = styled(ButtonN)`
   cursor: ${({ isFormComplete }) => (isFormComplete ? 'pointer' : 'not-allowed')};
 `;
 
+
+const CheckDataButton3 = styled(ButtonN)`
+  width: 33.25%;
+  background-color: ${({ isFormComplete, theme }) => (isFormComplete ? '#0e62fe' : theme === 'dark' ? '#444' : '#ccc')};
+  // cursor: ${({ isFormComplete }) => (isFormComplete ? 'pointer' : 'not-allowed')};
+`;
+
+const ResourceGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 20px;
+`;
+
+const ResourceItem = styled.div`
+  background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
+  border: ${({ selected, theme }) => (selected ? '2px solid #0e62fe' : `1px solid ${theme === 'dark' ? '#444' : '#ddd'}`)};
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#3a3a3a' : '#f4f4f4')};
+  }
+`;
+
+const Line = styled.hr`
+  width: 100%;
+  border: 0;
+  border-top: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
+  margin: 20px 0;
+`;
+
+const CResource = styled.h2`
+  font-weight: 600;
+  margin: 20px 20px 0px;
+  // padding: 230px;
+`;
+
 export default function HomePage() {
   const theme = useSelector((state) => state.theme.theme);
   const [activeTopNav, setActiveTopNav] = useState('configuration');
@@ -321,9 +361,15 @@ export default function HomePage() {
   const [sobNom, setSobNom] = useState('');
   const [availability, setAvailability] = useState('');
   const [progress, setProgress] = useState(0);
+  const [isDataChecked, setIsDataChecked] = useState(false);
+  const [selectedResource, setSelectedResource] = useState(null);
 
   const handleNext = () => {
-    setStep((prevStep) => Math.min(prevStep + 1, 5));
+    if ((step === 2 || step === 3) && isDataChecked) {
+      setStep(step + 1);
+    } else {
+      setStep((prevStep) => Math.min(prevStep + 1, 5));
+    }
   };
 
   const handleBack = () => {
@@ -370,7 +416,6 @@ export default function HomePage() {
     };
     setStatus(newStatus);
 
-    // Simulate a delay in updating status items one by one
     setTimeout(() => {
       setStatus((prevStatus) => ({ ...prevStatus, modelFound: true }));
     }, 1000);
@@ -382,11 +427,28 @@ export default function HomePage() {
     }, 3000);
     setTimeout(() => {
       setStatus((prevStatus) => ({ ...prevStatus, trainingDataInRightFormat: true }));
+      setIsDataChecked(true);
     }, 4000);
+  };
+
+  const [checkSelection,setCheckSelection]=useState(false);
+  const handleCheckDatastep3 = () => {
+    if (selectedResource) {
+      // setIsDataChecked(true);
+      setCheckSelection(true)
+    }
   };
 
   const checkAvailability = () => {
     setAvailability(dummyDatabase.includes(sobNom) ? 'Available' : 'Not Available');
+  };
+
+  const handleResourceClick = (item) => {
+    if (selectedResource === item) {
+      setSelectedResource(null); // Unselect if the same item is clicked again
+    } else {
+      setSelectedResource(item);
+    }
   };
 
   const isFormComplete = isModelTypeSelected && isModelUploaded && isTrainingDataUploaded;
@@ -401,47 +463,7 @@ export default function HomePage() {
       />
       <MainContent>
         <LeftSide theme={theme}>
-          {step === 2 ? (
-            <>
-              <InputField
-                theme={theme}
-                placeholder="SOB Nom"
-                value={sobNom}
-                onChange={(e) => setSobNom(e.target.value)}
-                onBlur={checkAvailability}
-              />
-              <div className="available-not">{availability}</div>
-              {/* <FormControl variant="outlined" fullWidth> */}
-              <CustomSelect
-                value={modelType}
-                onChange={handleDropdownChange}
-                displayEmpty
-                input={<OutlinedInput />}
-                renderValue={(selected) => selected || 'Select Model Type'}
-                theme={theme}
-              >
-                <CustomMenuItem value="" theme={theme} disabled>
-                  Select Model Type
-                </CustomMenuItem>
-                <CustomMenuItem value="type1" theme={theme}>Type 1</CustomMenuItem>
-                <CustomMenuItem value="type2" theme={theme}>Type 2</CustomMenuItem>
-              </CustomSelect>
-              {/* </FormControl> */}
-              <UploadButton theme={theme} onClick={handleModelUpload}>
-                Upload Model
-              </UploadButton>
-              <ProgressBar theme={theme}>
-                <Progress theme={theme} progress={progress} />
-              </ProgressBar>
-              <UploadButton theme={theme} onClick={handleTrainingDataUpload}>
-                Upload Training Data
-              </UploadButton>
-              <ProgressBar theme={theme}>
-                <Progress theme={theme} progress={isTrainingDataUploaded ? 100 : 0} />
-              </ProgressBar>
-              <AdvancedMenuButton theme={theme}>Advanced Menu</AdvancedMenuButton>
-            </>
-          ) : (
+          {step === 1 && (
             <CardGrid>
               <Card theme={theme}>
                 <div>
@@ -529,20 +551,116 @@ export default function HomePage() {
               </Card>
             </CardGrid>
           )}
+
+          {step === 2 && (
+            <>
+              <InputField
+                theme={theme}
+                placeholder="SOB Nom"
+                value={sobNom}
+                onChange={(e) => setSobNom(e.target.value)}
+                onBlur={checkAvailability}
+              />
+              <div className="available-not">{availability}</div>
+              <CustomSelect
+                value={modelType}
+                onChange={handleDropdownChange}
+                displayEmpty
+                input={<OutlinedInput />}
+                renderValue={(selected) => selected || 'Select Model Type'}
+                theme={theme}
+              >
+                <CustomMenuItem value="" theme={theme} disabled>
+                  Select Model Type
+                </CustomMenuItem>
+                <CustomMenuItem value="type1" theme={theme}>Type 1</CustomMenuItem>
+                <CustomMenuItem value="type2" theme={theme}>Type 2</CustomMenuItem>
+              </CustomSelect>
+              <UploadButton theme={theme} onClick={handleModelUpload}>
+                Upload Model
+              </UploadButton>
+              <ProgressBar theme={theme}>
+                <Progress theme={theme} progress={progress} />
+              </ProgressBar>
+              <UploadButton theme={theme} onClick={handleTrainingDataUpload}>
+                Upload Training Data
+              </UploadButton>
+              <ProgressBar theme={theme}>
+                <Progress theme={theme} progress={isTrainingDataUploaded ? 100 : 0} />
+              </ProgressBar>
+              <AdvancedMenuButton theme={theme}>Advanced Menu</AdvancedMenuButton>
+            </>
+          )}
+
+          {step === 3 && (
+            <>
+              <CResource>Choose Resource</CResource>
+              <ResourceGrid theme={theme}>
+                {[1, 2, 3, 4, 5, 6, 7].map((item) => (
+                  <ResourceItem
+                    key={item}
+                    theme={theme}
+                    selected={selectedResource === item}
+                    onClick={() => handleResourceClick(item)}
+                  >
+                    {item}
+                  </ResourceItem>
+                ))}
+              </ResourceGrid>
+            </>
+          )}
+
+          {step === 4 && (
+            <div>
+              <p>Step 4 Content: Model Evaluation</p>
+              {/* Add more content for step 4 as needed */}
+            </div>
+          )}
+          {step === 5 && (
+            <div>
+              <p>Step 5 Content: Finalizing and Deployment</p>
+              {/* Add more content for step 5 as needed */}
+            </div>
+          )}
+
           <ButtonContainer theme={theme}>
             <ButtonC theme={theme}>Cancel</ButtonC>
             <ButtonB theme={theme} onClick={handleBack}>
               Back
             </ButtonB>
             {step === 2 ? (
-              <CheckDataButton
+              isDataChecked ? (
+                <ButtonN theme={theme} onClick={handleNext}>
+                  Next
+                </ButtonN>
+              ) : (
+                <CheckDataButton
+                  theme={theme}
+                  isFormComplete={isFormComplete}
+                  onClick={handleCheckData}
+                  disabled={!isFormComplete}
+                >
+                  Check Data
+                </CheckDataButton>
+              )
+            ) : step === 3 ? (
+              checkSelection ? (
+
+                <ButtonN theme={theme} onClick={handleNext}>
+                Next
+              </ButtonN>
+               
+               
+              ) : (
+                <CheckDataButton3
                 theme={theme}
-                isFormComplete={isFormComplete}
-                onClick={handleCheckData}
-                disabled={!isFormComplete}
+                onClick={handleCheckDatastep3}
               >
                 Check Data
-              </CheckDataButton>
+              </CheckDataButton3>
+            
+              
+              )
             ) : (
               <ButtonN theme={theme} onClick={handleNext}>
                 Next
@@ -552,6 +670,7 @@ export default function HomePage() {
         </LeftSide>
         <RightSide theme={theme}>
           <StepIndicator>Step {step}/5</StepIndicator>
+
           {step === 2 && (
             <>
               <StatusItem>
@@ -582,6 +701,22 @@ export default function HomePage() {
                 status.modelConfigurable &&
                 status.trainingDataGood &&
                 status.trainingDataInRightFormat && <p>Job created successfully</p>}
+            </>
+          )}
+
+          {step === 3 && (
+            <>
+              <h3>Recommended Configuration: Ice Lake</h3>
+              <Line theme={theme} />
+              {isDataChecked && selectedResource && checkSelection &&(
+                <>
+                  <p>Estimated time on Ice Lake: 3h</p>
+                  <h4>Resources</h4>
+                  <ul>
+                    <li>Resource {selectedResource}</li>
+                  </ul>
+                </>
+              )}
             </>
           )}
         </RightSide>
