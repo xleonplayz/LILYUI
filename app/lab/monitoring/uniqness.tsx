@@ -23,6 +23,8 @@ import {
   TextField,
   Typography,
   IconButton,
+  Select,
+  MenuItem
 
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -61,61 +63,112 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const DropdownContainer = styled.div`
-  position: relative;
-  display: inline-block;
-  color: white;
-  font-size: 16px;
-  padding: 10px;
-  &:hover {
-    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e0e0e0')};
-  }
-`;
+// const DropdownContainer = styled.div`
+//   position: relative;
+//   display: inline-block;
+//   color: white;
+//   font-size: 16px;
+//   padding: 10px;
+//   &:hover {
+//     background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e0e0e0')};
+//   }
+// `;
 
-const Dropdown = styled.div`
+// const Dropdown = styled.div`
+//   position: relative;
+//   display: inline-block;
+//   margin-right: 10px;
+
+//   &:hover .dropdown-content {
+//     display: block;
+//   }
+// `;
+
+// const DropdownButton = styled.button`
+//   background: none;
+//   border: none;
+//   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+//   cursor: pointer;
+//   display: flex;
+//   align-items: center;
+
+//   svg {
+//     margin-left: 20px;
+//   }
+// `;
+
+// const DropdownContent = styled.div`
+//   display: none;
+//   position: absolute;
+//   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#e0e0e0')};
+//   min-width: 160px;
+//   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+//   z-index: 1;
+
+//   &.dropdown-content {
+//     display: none;
+//   }
+// `;
+
+// const DropdownItem = styled.a`
+//   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+//   padding: 12px 16px;
+//   text-decoration: none;
+//   display: block;
+
+//   &:hover {
+//     background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#ddd')};
+//   }
+// `;
+
+
+const CustomSelect = styled(Select)`
+  // padding: 4px 8px;
   position: relative;
   display: inline-block;
   margin-right: 10px;
 
-  &:hover .dropdown-content {
-    display: block;
-  }
-`;
-
-const DropdownButton = styled.button`
-  background: none;
-  border: none;
+  font-size: 0.87rem;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
 
-  svg {
-    margin-left: 20px;
+  .MuiOutlinedInput-root {
+    padding: 0px 0px;
+    border: none;
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    box-shadow: ${({ theme }) => (theme === 'dark' ? '0 2px 4px rgba(0, 0, 0, 0.1)' : '0 2px 4px rgba(0, 0, 0, 0.1)')};
   }
-`;
 
-const DropdownContent = styled.div`
-  display: none;
-  position: absolute;
-  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#e0e0e0')};
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-
-  &.dropdown-content {
-    display: none;
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
   }
-`;
 
-const DropdownItem = styled.a`
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+  .MuiSvgIcon-root {
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  }
 
   &:hover {
-    background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#ddd')};
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+
+    .MuiSvgIcon-root {
+      background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+    }
+  }
+`;
+
+const CustomMenuItem = styled(MenuItem)`
+  background-color: ${({ theme, selected }) => (theme === 'dark' ? (selected ? '#2b3236' : '#21272a') : '#fff')};
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+  }
+  &.Mui-selected {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')} !important;
+    &:hover {
+      background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+    }
   }
 `;
 
@@ -123,7 +176,7 @@ const Unique: React.FC<{ theme: string }> = ({ theme }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [quantumRegisters, setQuantumRegisters] = useState([{ name: 'q', qubits: 4 }]);
   const [classicalRegisters, setClassicalRegisters] = useState([{ name: 'c', bits: 4 }]);
-  const [selected, setSelected] = useState('Probabilities');
+
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -148,6 +201,9 @@ const Unique: React.FC<{ theme: string }> = ({ theme }) => {
   const handleRemoveClassicalRegister = (index: number) => {
     setClassicalRegisters(classicalRegisters.filter((_, i) => i !== index));
   };
+
+
+
 
   const handleSelect = (value) => {
     setSelected(value);
@@ -255,22 +311,31 @@ const Unique: React.FC<{ theme: string }> = ({ theme }) => {
     },
   };
 
+
+
+  const [selected, setSelected] = useState('Statevector');
+
+  const handleDropdownUniqness = (e) => {
+    setSelected(e.target.value);
+  };
   return (
     <Box sx={{ padding: 2, minHeight: '100%', color: textColor }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <DropdownContainer theme={theme}>
-          <Dropdown>
-            <DropdownButton theme={theme}>
-              {selected} <FaChevronDown />
-            </DropdownButton>
-            <DropdownContent theme={theme} className="dropdown-content">
-              <DropdownItem theme={theme} onClick={() => handleSelect('Probabilities')}>Probabilities</DropdownItem>
-              <DropdownItem theme={theme} onClick={() => handleSelect('Other Option')}>Other Option</DropdownItem>
-            </DropdownContent>
-          </Dropdown>
-        </DropdownContainer>
+        <CustomSelect
+          value={selected}
+          onChange={handleDropdownUniqness}
+          displayEmpty
+          theme={theme}
+        >
+          <CustomMenuItem value="Statevector" theme={theme} selected={selected === 'Statevector'}>
+            Statevector
+          </CustomMenuItem>
+          <CustomMenuItem value="Probabilities" theme={theme} selected={selected === 'Probabilities'}>
+            Probabilities
+          </CustomMenuItem>
+        </CustomSelect>
         <Box display="flex" alignItems="center">
-        <MuiTooltip
+          <MuiTooltip
             title={
               <Box p={2} sx={{ color: 'white', maxWidth: 300 }}>
                 <Typography variant="subtitle1">About visualization</Typography>
@@ -293,7 +358,7 @@ const Unique: React.FC<{ theme: string }> = ({ theme }) => {
           </MuiTooltip>
         </Box>
       </Box>
-      <Box style={{ height: '260px', width: '100%' }}>
+      <Box style={{ height: '230px', width: '100%' }}>
         <Bar data={data} options={options} />
       </Box>
 

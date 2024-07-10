@@ -1,4 +1,3 @@
-'use client'
 import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -22,17 +21,14 @@ import {
   TextField,
   Typography,
   IconButton,
-  // Select,
-  // MenuItem,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-// import { styled } from '@mui/system';
 import styled from 'styled-components';
-
-import { FaChevronDown } from 'react-icons/fa';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -65,65 +61,64 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const DropdownContainer = styled.div`
-  position: relative;
-  display: inline-block;
-  color: white;
-  font-size: 16px;
-  padding: 10px;
-  &:hover {
-    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e0e0e0')};
-  }
-`;
-
-const Dropdown = styled.div`
+const CustomSelect = styled(Select)`
+  padding: 4px 8px;
   position: relative;
   display: inline-block;
   margin-right: 10px;
-
-  &:hover .dropdown-content {
-    display: block;
-  }
-`;
-
-const DropdownButton = styled.button`
-  background: none;
-  border: none;
+  font-size: 0.87rem;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
 
-  svg {
-    margin-left: 20px;
+  .MuiOutlinedInput-root {
+    padding: 0px 0px;
+    border: none;
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    box-shadow: ${({ theme }) => (theme === 'dark' ? '0 2px 4px rgba(0, 0, 0, 0.1)' : '0 2px 4px rgba(0, 0, 0, 0.1)')};
   }
-`;
 
-const DropdownContent = styled.div`
-  display: none;
-  position: absolute;
-  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#e0e0e0')};
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-`;
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
 
-const DropdownItem = styled.a`
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+  .MuiSvgIcon-root {
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  }
 
   &:hover {
-    background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#ddd')};
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+
+    .MuiSvgIcon-root {
+      background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+    }
   }
 `;
 
-const Plot: React.FC<{ theme: string }> = ({ theme }) => {
+const CustomMenuItem = styled(MenuItem)`
+  background-color: ${({ theme, selected }) => (theme === 'dark' ? (selected ? '#2b3236' : '#21272a') : '#fff')};
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+  }
+  &.Mui-selected {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')} !important;
+    &:hover {
+      background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+    }
+  }
+`;
+
+const Plot = ({ theme }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [quantumRegisters, setQuantumRegisters] = useState([{ name: 'q', qubits: 4 }]);
   const [classicalRegisters, setClassicalRegisters] = useState([{ name: 'c', bits: 4 }]);
-  const [selected, setSelected] = useState('Probabilities');
+  const [selected, setSelected] = useState('Statevector');
+
+  const handleDropdownSelected = (e) => {
+    setSelected(e.target.value);
+  };
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -141,16 +136,12 @@ const Plot: React.FC<{ theme: string }> = ({ theme }) => {
     setClassicalRegisters([...classicalRegisters, { name: '', bits: 1 }]);
   };
 
-  const handleRemoveQuantumRegister = (index: number) => {
+  const handleRemoveQuantumRegister = (index) => {
     setQuantumRegisters(quantumRegisters.filter((_, i) => i !== index));
   };
 
-  const handleRemoveClassicalRegister = (index: number) => {
+  const handleRemoveClassicalRegister = (index) => {
     setClassicalRegisters(classicalRegisters.filter((_, i) => i !== index));
-  };
-
-  const handleSelect = (value) => {
-    setSelected(value);
   };
 
   const isDarkTheme = theme === 'dark';
@@ -173,7 +164,7 @@ const Plot: React.FC<{ theme: string }> = ({ theme }) => {
     ],
   };
 
-  const options: ChartOptions<'bar'> = {
+  const options = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -259,17 +250,19 @@ const Plot: React.FC<{ theme: string }> = ({ theme }) => {
   return (
     <Box sx={{ padding: 2, minHeight: '100%', color: textColor }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <DropdownContainer theme={theme}>
-          <Dropdown>
-            <DropdownButton theme={theme}>
-              {selected} <FaChevronDown />
-            </DropdownButton>
-            <DropdownContent theme={theme} className="dropdown-content">
-              <DropdownItem theme={theme} onClick={() => handleSelect('Probabilities')}>Probabilities</DropdownItem>
-              <DropdownItem theme={theme} onClick={() => handleSelect('Other Option')}>Other Option</DropdownItem>
-            </DropdownContent>
-          </Dropdown>
-        </DropdownContainer>
+        <CustomSelect
+          value={selected}
+          onChange={handleDropdownSelected}
+          displayEmpty
+          theme={theme}
+        >
+          <CustomMenuItem value="Statevector" theme={theme} selected={selected === 'Statevector'}>
+            Statevector
+          </CustomMenuItem>
+          <CustomMenuItem value="Probabilities" theme={theme} selected={selected === 'Probabilities'}>
+            Probabilities
+          </CustomMenuItem>
+        </CustomSelect>
 
         <Box display="flex" alignItems="center">
           <MuiTooltip

@@ -40,37 +40,52 @@ const LeftSide = styled.div`
 `;
 
 const CustomSelect = styled(Select)`
-  width: 70%;
-  margin: 20px;
+  // padding: 4px 8px;
+  // position: relative;
+  width:70%;
+  margin:20px;
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 0.87rem;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-  background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+
   .MuiOutlinedInput-root {
+    padding: 0px 0px;
+    border: none;
     background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
     color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
     box-shadow: ${({ theme }) => (theme === 'dark' ? '0 2px 4px rgba(0, 0, 0, 0.1)' : '0 2px 4px rgba(0, 0, 0, 0.1)')};
-    border-color: ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
-    padding: 10px;
   }
-  .MuiList-padding {
-    padding-top: 0px !important;
+
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
   }
+
   .MuiSvgIcon-root {
     color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-    background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
+    background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  }
+
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+
+    .MuiSvgIcon-root {
+      background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+    }
   }
 `;
 
 const CustomMenuItem = styled(MenuItem)`
-  background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
+  background-color: ${({ theme, selected }) => (theme === 'dark' ? (selected ? '#2b3236' : '#21272a') : '#fff')};
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-  padding: 10px;
   &:hover {
-    background-color: ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
   }
   &.Mui-selected {
-    background-color: ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')} !important;
     &:hover {
-      background-color: ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
+      background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
     }
   }
 `;

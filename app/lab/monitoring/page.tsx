@@ -436,7 +436,7 @@ const jobsData = [
   },
 ];
 
-import { FaChevronDown,  } from "react-icons/fa";
+import { FaChevronDown, } from "react-icons/fa";
 
 const HeaderContainerAccu = styled.div`
   display: flex;
@@ -586,14 +586,12 @@ const ToggleSwitch = styled.label`
 
 const CustomSelect = styled(Select)`
   padding: 4px 8px;
-
-  outline: none;
-  border: none;
+  outline:none;
+  border:none;
   font-size: 0.87rem;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
-  width: 130px;
-  
+
   .MuiOutlinedInput-root {
     padding: 0px 0px;
     border: none;
@@ -601,11 +599,11 @@ const CustomSelect = styled(Select)`
     color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
     box-shadow: ${({ theme }) => (theme === 'dark' ? '0 2px 4px rgba(0, 0, 0, 0.1)' : '0 2px 4px rgba(0, 0, 0, 0.1)')};
   }
-  
+
   .MuiOutlinedInput-notchedOutline {
     border: none;
   }
-  
+
   .MuiSvgIcon-root {
     color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
     background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
@@ -621,19 +619,18 @@ const CustomSelect = styled(Select)`
 `;
 
 const CustomMenuItem = styled(MenuItem)`
-  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  background-color: ${({ theme, selected }) => (theme === 'dark' ? (selected ? '#2b3236' : '#21272a') : '#fff')};
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   &:hover {
     background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
   }
   &.Mui-selected {
-    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
+    background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')} !important;
     &:hover {
       background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e8e8e8')};
     }
   }
 `;
-
 
 import { Tooltip, IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
@@ -737,15 +734,15 @@ export default function HomePage() {
     setIsActive(!isActive);
   };
 
-  
+
   const [modelType, setModelType] = useState('Statevector');
 
   const handleDropdownChange = (e) => {
     setModelType(e.target.value);
   };
-  
+
   const [modelTypeShape, setModelTypeShape] = useState('Statevector');
-  
+
   const handleDropdownChangeShape = (e) => {
     setModelTypeShape(e.target.value);
   };
@@ -956,28 +953,28 @@ export default function HomePage() {
                 <HeatmapComponent theme={theme} />
               </GridItem>
               <GridItem theme={theme}>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <HeaderContainerAccu theme={theme}>
                     <Button theme={theme}>
-                    <GrUndo className="undo"/>
+                      <GrUndo className="undo" />
                     </Button>
                     <Button theme={theme}>
-                      <GrRedo  className="redo"/>
+                      <GrRedo className="redo" />
                     </Button>
                     <DividerAccu theme={theme} />
 
 
                     <CustomSelect
-className="customselectz"
-value={modelTypeShape}
-      onChange={handleDropdownChangeShape}
-      displayEmpty
-      renderValue={(selected) => selected || 'Select Model Type'}
-      theme={theme}
-    >
-      <CustomMenuItem value="Statevector" theme={theme}>Statevector</CustomMenuItem>
-      <CustomMenuItem value="Probabilities" theme={theme}>Probabilities</CustomMenuItem>
-    </CustomSelect>
+                      className="customselectz"
+                      value={modelTypeShape}
+                      onChange={handleDropdownChangeShape}
+                      displayEmpty
+                      renderValue={(selected) => selected || 'Select Model Type'}
+                      theme={theme}
+                    >
+                      <CustomMenuItem value="Statevector" theme={theme}>Statevector</CustomMenuItem>
+                      <CustomMenuItem value="Probabilities" theme={theme}>Probabilities</CustomMenuItem>
+                    </CustomSelect>
                     <DividerAccu theme={theme} />
                     <ToggleContainer>
                       <ToggleLabel theme={theme}>Inspect</ToggleLabel>
@@ -1003,25 +1000,25 @@ value={modelTypeShape}
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <HeaderContainerAccu theme={theme}>
                     <Button theme={theme}>
-                    <GrUndo className="undo"/>
+                      <GrUndo className="undo" />
                     </Button>
                     <Button theme={theme}>
-                      <GrRedo  className="redo"/>
+                      <GrRedo className="redo" />
                     </Button>
                     <DividerAccu theme={theme} />
 
 
                     <CustomSelect
-className="customselectz"
-value={modelType}
-      onChange={handleDropdownChange}
-      displayEmpty
-      renderValue={(selected) => selected || 'Select Model Type'}
-      theme={theme}
-    >
-      <CustomMenuItem value="Statevector" theme={theme}>Statevector</CustomMenuItem>
-      <CustomMenuItem value="Probabilities" theme={theme}>Probabilities</CustomMenuItem>
-    </CustomSelect>
+                      className="customselectz"
+                      value={modelType}
+                      onChange={handleDropdownChange}
+                      displayEmpty
+                      renderValue={(selected) => selected || 'Select Model Type'}
+                      theme={theme}
+                    >
+                      <CustomMenuItem value="Statevector" theme={theme}>Statevector</CustomMenuItem>
+                      <CustomMenuItem value="Probabilities" theme={theme}>Probabilities</CustomMenuItem>
+                    </CustomSelect>
                     <DividerAccu theme={theme} />
                     <ToggleContainer>
                       <ToggleLabel theme={theme}>Inspect</ToggleLabel>
