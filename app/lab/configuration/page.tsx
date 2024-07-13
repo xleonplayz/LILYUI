@@ -31,7 +31,10 @@ const LeftSide = styled.div`
   width: 70%;
   display: flex;
   flex-direction: column;
-  margin: 0;
+  // justify-content:center;
+  // align-item:center;
+
+  // margin: 5% 0;
   box-sizing: border-box;
   border-right: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
   .available-not {
@@ -150,12 +153,28 @@ const StatusIcon = styled.span`
 `;
 
 const CardGrid = styled.div`
-  display: grid;
+ display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 10px;  /* Adjust gap to make cards wider */
   padding: 10px;
+  justify-content: center;  
+
+  margin : 1% 0;
 `;
 
+const HeaderContainer = styled.div`
+  // width: 70%;
+  margin:1% 1%;
+  width:400px;
+  border-radius:5px;
+  padding: 20px 0px 0px   20px ;
+  // background-color: rgb(128,26,27);
+  // color: white;
+  // text-align: center;
+  font-size: 1.5rem;
+  font-weight:600;
+  box-sizing: border-box;
+`;
 const Card = styled.div`
   background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
   border-radius: 8px;
@@ -463,7 +482,9 @@ export default function HomePage() {
       />
       <MainContent>
         <LeftSide theme={theme}>
-          {step === 1 && (
+        {step === 1 && (
+          <>  
+<HeaderContainer>Header</HeaderContainer>
             <CardGrid>
               <Card theme={theme}>
                 <div>
@@ -550,6 +571,7 @@ export default function HomePage() {
                 </CardFooter>
               </Card>
             </CardGrid>
+            </>
           )}
 
           {step === 2 && (
