@@ -255,7 +255,7 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   position: absolute;
-  bottom: 120px;
+  bottom: 70px;
   width: 70%;
   background-color: ${({ theme }) => (theme === 'dark' ? '#4d5357' : '#fff')};
   box-sizing: border-box;
@@ -431,7 +431,7 @@ export default function HomePage() {
     }, 4000);
   };
 
-  const [checkSelection,setCheckSelection]=useState(false);
+  const [checkSelection, setCheckSelection] = useState(false);
   const handleCheckDatastep3 = () => {
     if (selectedResource) {
       // setIsDataChecked(true);
@@ -647,19 +647,19 @@ export default function HomePage() {
               checkSelection ? (
 
                 <ButtonN theme={theme} onClick={handleNext}>
-                Next
-              </ButtonN>
-               
-               
+                  Next
+                </ButtonN>
+
+
               ) : (
                 <CheckDataButton3
-                theme={theme}
-                onClick={handleCheckDatastep3}
-              >
-                Check Data
-              </CheckDataButton3>
-            
-              
+                  theme={theme}
+                  onClick={handleCheckDatastep3}
+                >
+                  Check Data
+                </CheckDataButton3>
+
+
               )
             ) : (
               <ButtonN theme={theme} onClick={handleNext}>
@@ -708,7 +708,7 @@ export default function HomePage() {
             <>
               <h3>Recommended Configuration: Ice Lake</h3>
               <Line theme={theme} />
-              {isDataChecked && selectedResource && checkSelection &&(
+              {isDataChecked && selectedResource && checkSelection && (
                 <>
                   <p>Estimated time on Ice Lake: 3h</p>
                   <h4>Resources</h4>
