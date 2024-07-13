@@ -164,7 +164,7 @@ const CardGrid = styled.div`
 
 const HeaderContainer = styled.div`
   // width: 70%;
-  margin:1% 1%;
+  margin:1% 0% 0% 1%;
   width:400px;
   border-radius:5px;
   padding: 20px 0px 0px   20px ;
@@ -172,7 +172,20 @@ const HeaderContainer = styled.div`
   // color: white;
   // text-align: center;
   font-size: 1.5rem;
-  font-weight:600;
+  font-weight:500;
+  box-sizing: border-box;
+`;
+
+
+const ParaContainer = styled.div`
+
+  margin:0% 1%;
+  width:400px;
+  border-radius:5px;
+  padding:10px 0px 0px   20px ;
+
+  font-size: 0.8rem;
+  font-weight:400;
   box-sizing: border-box;
 `;
 const Card = styled.div`
@@ -482,95 +495,97 @@ export default function HomePage() {
       />
       <MainContent>
         <LeftSide theme={theme}>
-        {step === 1 && (
-          <>  
-<HeaderContainer>Header</HeaderContainer>
-            <CardGrid>
-              <Card theme={theme}>
-                <div>
-                  <CardHeader>Basics of Quantum Information</CardHeader>
-                  <BadgeContainer>
-                    <CardBadge theme={theme}>Badge</CardBadge>
-                    <CardBadgeV theme={theme} color="#a4d4ff">
-                      Video
-                    </CardBadgeV>
-                  </BadgeContainer>
-                  <CardBody theme={theme}>
-                    A detailed course covering mathematical aspects of quantum computing,
-                    comparable to an advanced undergraduate or introductory...
-                  </CardBody>
-                </div>
-                <CardFooter>
-                  <LessonsCount theme={theme}>
-                    <span>Lessons 4</span>
-                  </LessonsCount>
-                  <VerticalLine theme={theme} />
-                  <StartCourseLink href="#">Start course →</StartCourseLink>
-                </CardFooter>
-              </Card>
-              <Card theme={theme}>
-                <div>
-                  <CardHeader>Fundamentals of Quantum Algorithms</CardHeader>
-                  <BadgeContainer>
-                    <CardBadgeV theme={theme} color="#a4d4ff">
-                      Video
-                    </CardBadgeV>
-                  </BadgeContainer>
-                  <CardBody theme={theme}>
-                    Use quantum computers to solve problems more efficiently, including problems
-                    with real-world relevance such as searching and...
-                  </CardBody>
-                </div>
-                <CardFooter>
-                  <LessonsCount theme={theme}>
-                    <span>Lessons 4</span>
-                  </LessonsCount>
-                  <VerticalLine theme={theme} />
-                  <StartCourseLink href="#">Start course →</StartCourseLink>
-                </CardFooter>
-              </Card>
-              <Card theme={theme}>
-                <div>
-                  <CardHeader>Variational Algorithm Design</CardHeader>
-                  <BadgeContainer>
-                    <CardBadge theme={theme}>Badge</CardBadge>
-                  </BadgeContainer>
-                  <CardBody theme={theme}>
-                    This course covers variational algorithms, hybrid classical quantum algorithms
-                    which play to the strengths of current quantum...
-                  </CardBody>
-                </div>
-                <CardFooter>
-                  <LessonsCount theme={theme}>
-                    <span>Lessons 7</span>
-                  </LessonsCount>
-                  <VerticalLine theme={theme} />
-                  <StartCourseLink href="#">Start course →</StartCourseLink>
-                </CardFooter>
-              </Card>
-              <Card theme={theme}>
-                <div>
-                  <CardHeader>Quantum Computing in Practice</CardHeader>
-                  <BadgeContainer>
-                    <CardBadge theme={theme}>New</CardBadge>
-                    <CardBadgeV theme={theme} color="#a4d4ff">
-                      Video
-                    </CardBadgeV>
-                  </BadgeContainer>
-                  <CardBody theme={theme}>
-                    Learn about realistic potential use cases for quantum computing and best
-                    practices for experimenting with quantum processors...
-                  </CardBody>
-                </div>
-                <CardFooter>
-                  <LessonsCount theme={theme}>
-                    <span>Lessons 2</span>
-                  </LessonsCount>
-                  <VerticalLine theme={theme} />
-                  <StartCourseLink href="#">Start course →</StartCourseLink>
-                </CardFooter>
-              </Card>
-            </CardGrid>
+          {step === 1 && (
+            <>
+              <HeaderContainer>Header</HeaderContainer>
+
+              <ParaContainer>Pre-configured models</ParaContainer>
+              <CardGrid>
+                <Card theme={theme}>
+                  <div>
+                    <CardHeader>Basics of Quantum Information</CardHeader>
+                    <BadgeContainer>
+                      <CardBadge theme={theme}>Badge</CardBadge>
+                      <CardBadgeV theme={theme} color="#a4d4ff">
+                        Video
+                      </CardBadgeV>
+                    </BadgeContainer>
+                    <CardBody theme={theme}>
+                      A detailed course covering mathematical aspects of quantum computing,
+                      comparable to an advanced undergraduate or introductory...
+                    </CardBody>
+                  </div>
+                  <CardFooter>
+                    <LessonsCount theme={theme}>
+                      <span>Lessons 4</span>
+                    </LessonsCount>
+                    <VerticalLine theme={theme} />
+                    <StartCourseLink href="#">Start course →</StartCourseLink>
+                  </CardFooter>
+                </Card>
+                <Card theme={theme}>
+                  <div>
+                    <CardHeader>Fundamentals of Quantum Algorithms</CardHeader>
+                    <BadgeContainer>
+                      <CardBadgeV theme={theme} color="#a4d4ff">
+                        Video
+                      </CardBadgeV>
+                    </BadgeContainer>
+                    <CardBody theme={theme}>
+                      Use quantum computers to solve problems more efficiently, including problems
+                      with real-world relevance such as searching and...
+                    </CardBody>
+                  </div>
+                  <CardFooter>
+                    <LessonsCount theme={theme}>
+                      <span>Lessons 4</span>
+                    </LessonsCount>
+                    <VerticalLine theme={theme} />
+                    <StartCourseLink href="#">Start course →</StartCourseLink>
+                  </CardFooter>
+                </Card>
+                <Card theme={theme}>
+                  <div>
+                    <CardHeader>Variational Algorithm Design</CardHeader>
+                    <BadgeContainer>
+                      <CardBadge theme={theme}>Badge</CardBadge>
+                    </BadgeContainer>
+                    <CardBody theme={theme}>
+                      This course covers variational algorithms, hybrid classical quantum algorithms
+                      which play to the strengths of current quantum...
+                    </CardBody>
+                  </div>
+                  <CardFooter>
+                    <LessonsCount theme={theme}>
+                      <span>Lessons 7</span>
+                    </LessonsCount>
+                    <VerticalLine theme={theme} />
+                    <StartCourseLink href="#">Start course →</StartCourseLink>
+                  </CardFooter>
+                </Card>
+                <Card theme={theme}>
+                  <div>
+                    <CardHeader>Quantum Computing in Practice</CardHeader>
+                    <BadgeContainer>
+                      <CardBadge theme={theme}>New</CardBadge>
+                      <CardBadgeV theme={theme} color="#a4d4ff">
+                        Video
+                      </CardBadgeV>
+                    </BadgeContainer>
+                    <CardBody theme={theme}>
+                      Learn about realistic potential use cases for quantum computing and best
+                      practices for experimenting with quantum processors...
+                    </CardBody>
+                  </div>
+                  <CardFooter>
+                    <LessonsCount theme={theme}>
+                      <span>Lessons 2</span>
+                    </LessonsCount>
+                    <VerticalLine theme={theme} />
+                    <StartCourseLink href="#">Start course →</StartCourseLink>
+                  </CardFooter>
+                </Card>
+              </CardGrid>
             </>
           )}
 
