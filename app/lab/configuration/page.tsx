@@ -287,7 +287,7 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   position: absolute;
-  bottom: 70px;
+  bottom: 62px;
   width: 70%;
   background-color: ${({ theme }) => (theme === 'dark' ? '#4d5357' : '#fff')};
   box-sizing: border-box;
