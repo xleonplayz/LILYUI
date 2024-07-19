@@ -164,7 +164,7 @@ const CardGrid = styled.div`
 
 const HeaderContainer = styled.div`
   // width: 70%;
-  margin:1% 0% 0% 1%;
+  margin:1% 0% 0% 0.2%;
   width:400px;
   border-radius:5px;
   padding: 20px 0px 0px   20px ;
@@ -179,7 +179,7 @@ const HeaderContainer = styled.div`
 
 const ParaContainer = styled.div`
 
-  margin:0% 1%;
+  margin:0% 0.3%;
   width:400px;
   border-radius:5px;
   padding:10px 0px 0px   20px ;
