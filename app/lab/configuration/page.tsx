@@ -28,7 +28,89 @@ const MainContent = styled.div`
 `;
 
 const LeftSide = styled.div`
-  width: 70%;
+  width: 18%;
+  display: flex;
+  flex-direction: column;
+  // justify-content:center;
+  // align-item:center;
+
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  // margin: 5% 0;
+  box-sizing: border-box;
+  border-right: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
+  .available-not {
+    margin: 0px 20px;
+  }
+`;
+
+// const LeftMenu = styled.div`
+//   padding: 10px;
+//   background-color: #fff;
+//   border-right: 1px solid #ddd;
+// `;
+
+// const MenuItemButton = styled.div`
+//   padding: 10px;
+//   cursor: pointer;
+//   position: relative;
+//   &:hover {
+//     background-color: ${({ theme }) => (theme === 'dark' ? '#444' : '#f0f0f0')}; /* Light gray on hover */
+//   }
+//   ${({ active }) =>
+//     active &&
+//     `
+//     border: 1px solid #0e62fe; /* Blue border for the selected step */
+//     background-color: #ffffff; /* White background for the selected step */
+//     border-radius: 4px;
+//   `}
+// `;
+
+
+const MenuItemButton = styled.div`
+  padding: 10px;
+  cursor: pointer;
+  position: relative;
+  line-height:3.0rem;
+  font-size:1.2rem;
+  &:hover {
+    // background-color: #f0f0f0;
+    
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f0f0f0')};
+  }
+  ${({ active }) =>
+    active &&
+    `
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0px;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background-color: #0e62fe;
+
+    }
+    
+  `}
+`;
+
+const LeftMenu = styled.div`
+  // position: fixed;
+  // left: 0;
+  // top: ${({ step }) => `calc(${step * 60}px + 20px)`}; // Adjust this calculation based on the height of each step
+  // width: 200px;
+  padding: 10px;
+  // background-color: #fff;
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  min-height: 90vh;
+  // border-right: 1px solid #ddd;
+`;
+
+
+
+const CenterSide = styled.div`
+  width: 66%;
   display: flex;
   flex-direction: column;
   // justify-content:center;
@@ -42,11 +124,22 @@ const LeftSide = styled.div`
   }
 `;
 
+
+
+const RightSide = styled.div`
+  width: 18%;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+`;
+
 const CustomSelect = styled(Select)`
-  width: 70%;
-  margin: 20px;
+  width: 95%;
+  margin: 20px auto;
   display: inline-block;
-  margin-right: 10px;
+  // margin-right: 10px;
   font-size: 0.87rem;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
@@ -92,21 +185,21 @@ const CustomMenuItem = styled(MenuItem)`
 `;
 
 const InputField = styled.input`
-  width: 70%;
-  padding: 10px 0px;
+  width: 94%;
+  padding: 10px 5px;
   margin-bottom: 20px;
   border-radius: 2px;
   border: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
   background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   outline: ${({ theme }) => (theme === 'dark' ? 'none' : '1px solid #0e62fe')};
-  margin: 20px;
+  margin: 20px auto;
 `;
 
 const UploadButton = styled.button`
-  width: 70%;
+  width: 95%;
   padding: 10px;
-  margin: 20px;
+  margin: 20px auto;
   border-radius: 4px;
   border: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
   background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
@@ -115,12 +208,22 @@ const UploadButton = styled.button`
 `;
 
 const ProgressBar = styled.div`
-  width: 70%;
+  width: 95%;
   height: 20px;
   background-color: ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
   border-radius: 4px;
   overflow: hidden;
-  margin: 20px;
+  margin: 20px auto;
+`;
+
+
+const VerticalLineLeftBar = styled.div`
+  position: absolute;
+  left: 12px;
+  top: 55px;
+  height: 35vh;
+  width: 2px;
+  background-color: #ddd; /* Light gray vertical line */
 `;
 
 const Progress = styled.div`
@@ -131,21 +234,25 @@ const Progress = styled.div`
 `;
 
 const AdvancedMenuButton = styled.button`
-  width: 70%;
+  width: 64.65%;
+  position:absolute;
+  bottom:113px;
   padding: 10px 0px;
-  margin: 20px;
-  border-radius: 4px;
-  border: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
+  // margin: 20px auto;
+  // border-radius: 4px;
+  border: 0px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
   background-color: #fe7eb5;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   cursor: pointer;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
+  height:50px;
 `;
 
 const StatusItem = styled.p`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size:1.1rem;
 `;
 
 const StatusIcon = styled.span`
@@ -244,7 +351,7 @@ const LessonsCount = styled.div`
   display: flex;
   align-items: center;
   width: 35%;
-  margin: 20px;
+  margin: 20px 10px;
   font-size: 1rem;
   color: ${({ theme }) => (theme === 'dark' ? '#ccc' : '#333')};
 `;
@@ -269,17 +376,8 @@ const VerticalLine = styled.div`
   background-color: ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
 `;
 
-const RightSide = styled.div`
-  width: 30%;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-`;
-
 const StepIndicator = styled.div`
-  font-size: 18px;
+  font-size: 1.2rem;
   margin-bottom: 10px;
 `;
 
@@ -287,8 +385,7 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   position: absolute;
-  bottom: 62px;
-  width: 70%;
+ bottom:63.5px; width: 64.65%;
   background-color: ${({ theme }) => (theme === 'dark' ? '#4d5357' : '#fff')};
   box-sizing: border-box;
   height: 50px;
@@ -493,8 +590,23 @@ export default function HomePage() {
         onTopNavClick={handleTopNavClick}
         onSidebarClick={handleSidebarClick}
       />
-      <MainContent>
-        <LeftSide theme={theme}>
+      <MainContent>  <LeftSide theme={theme}>
+        <LeftMenu theme={theme}>
+          <VerticalLineLeftBar></VerticalLineLeftBar>
+          <MenuItemButton active={step === 1} theme={theme}>Preconfiguration</MenuItemButton>
+          <MenuItemButton active={step === 2} theme={theme}>Specific Model Configuration
+          </MenuItemButton>
+          <MenuItemButton active={step === 3} theme={theme}>Final Model Configuration
+          </MenuItemButton>
+          <MenuItemButton active={step === 4} theme={theme}>Server Configuration
+          </MenuItemButton>
+          <MenuItemButton active={step === 5} theme={theme}>Overview</MenuItemButton>
+          {/* <MenuItemButton active={step === 6}>Aktuelle Nachrichten</MenuItemButton>
+          <MenuItemButton active={step === 7}>Branchenberichte</MenuItemButton>
+          <MenuItemButton active={step === 8}>Nächste Schritte</MenuItemButton> */}
+        </LeftMenu>
+      </LeftSide>
+        <CenterSide theme={theme}>
           {step === 1 && (
             <>
               <HeaderContainer>Header</HeaderContainer>
@@ -649,13 +761,13 @@ export default function HomePage() {
 
           {step === 4 && (
             <div>
-              <p>Step 4 Content: Model Evaluation</p>
+              <p>Step 4 Content: Server Configuration</p>
               {/* Add more content for step 4 as needed */}
             </div>
           )}
           {step === 5 && (
             <div>
-              <p>Step 5 Content: Finalizing and Deployment</p>
+              <p>Step 5 Content: Overview</p>
               {/* Add more content for step 5 as needed */}
             </div>
           )}
@@ -704,7 +816,7 @@ export default function HomePage() {
               </ButtonN>
             )}
           </ButtonContainer>
-        </LeftSide>
+        </CenterSide>
         <RightSide theme={theme}>
           <StepIndicator>Step {step}/5</StepIndicator>
 
