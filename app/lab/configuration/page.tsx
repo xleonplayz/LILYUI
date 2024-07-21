@@ -23,7 +23,7 @@ const Container = styled.div`
 
 const MainContent = styled.div`
   display: flex;
-  flex: 1;
+  flex: 1;F
   padding: 0;
 `;
 
@@ -136,7 +136,7 @@ const RightSide = styled.div`
 `;
 
 const CustomSelect = styled(Select)`
-  width: 95%;
+  width: 97%;
   margin: 20px auto;
   display: inline-block;
   // margin-right: 10px;
@@ -185,7 +185,7 @@ const CustomMenuItem = styled(MenuItem)`
 `;
 
 const InputField = styled.input`
-  width: 94%;
+  width: 96%;
   padding: 10px 5px;
   margin-bottom: 20px;
   border-radius: 2px;
@@ -197,7 +197,7 @@ const InputField = styled.input`
 `;
 
 const UploadButton = styled.button`
-  width: 95%;
+  width: 97%;
   padding: 10px;
   margin: 20px auto;
   border-radius: 4px;
@@ -208,7 +208,7 @@ const UploadButton = styled.button`
 `;
 
 const ProgressBar = styled.div`
-  width: 95%;
+  width: 97%;
   height: 20px;
   background-color: ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
   border-radius: 4px;
@@ -234,9 +234,11 @@ const Progress = styled.div`
 `;
 
 const AdvancedMenuButton = styled.button`
-  width: 64.65%;
+  // width: 64.65%;
   position:absolute;
   bottom:113px;
+ left:18.7%; 
+ width: 62.65%;
   padding: 10px 0px;
   // margin: 20px auto;
   // border-radius: 4px;
@@ -263,10 +265,10 @@ const CardGrid = styled.div`
  display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;  /* Adjust gap to make cards wider */
-  padding: 10px;
+  padding: 10px 20px;
   justify-content: center;  
 
-  margin : 1% 0;
+  margin : 1% auto;
 `;
 
 const HeaderContainer = styled.div`
@@ -385,10 +387,13 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   position: absolute;
- bottom:63.5px; width: 64.65%;
+ bottom:63.5px;
+ left:18.7%; 
+ width: 62.65%;
   background-color: ${({ theme }) => (theme === 'dark' ? '#4d5357' : '#fff')};
   box-sizing: border-box;
   height: 50px;
+  margin:auto;
 `;
 
 const ButtonC = styled.button`
@@ -397,7 +402,7 @@ const ButtonC = styled.button`
   border: none;
   width: 33.25%;
   cursor: pointer;
-  margin: 0;
+  // margin: 0;
   height: 100%;
 `;
 
