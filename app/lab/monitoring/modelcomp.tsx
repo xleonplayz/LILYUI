@@ -32,35 +32,35 @@ import styled from 'styled-components';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiPaper-root': {
-    backgroundColor: '#21272a',
-    color: 'white',
+    backgroundColor: theme === 'dark' ? '#21272a' : '#f4f4f4',
+    color: theme === 'dark' ? 'white' : 'black',
   },
   '& .MuiButton-root': {
-    color: 'white',
+    color: theme === 'dark' ? 'white' : 'black',
   },
   '& .MuiTextField-root': {
     '& .MuiInputBase-input': {
-      color: 'white',
+      color: theme === 'dark' ? 'white' : 'black',
     },
     '& .MuiInputLabel-root': {
-      color: 'white',
+      color: theme === 'dark' ? 'white' : 'black',
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: 'white',
+        borderColor: theme === 'dark' ? 'white' : 'black',
       },
       '&:hover fieldset': {
-        borderColor: 'white',
+        borderColor: theme === 'dark' ? 'white' : 'black',
       },
     },
   },
   '& .MuiSvgIcon-root': {
-    color: 'white',
+    color: theme === 'dark' ? 'white' : 'black',
   },
 }));
-
 const CustomSelect = styled(Select)`
   padding: 4px 8px;
   position: relative;
@@ -292,7 +292,7 @@ const Plot = ({ theme }) => {
         <Bar data={data} options={options} />
       </Box>
 
-      <StyledDialog open={modalOpen} onClose={handleCloseModal} maxWidth="md" fullWidth>
+      <StyledDialog open={modalOpen} onClose={handleCloseModal} maxWidth="md" fullWidth theme={theme}>
         <DialogTitle>Manage registers</DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>

@@ -36,33 +36,32 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiPaper-root': {
-    backgroundColor: '#21272a',
-    color: 'white',
+    backgroundColor: theme === 'dark' ? '#21272a' : '#f4f4f4',
+    color: theme === 'dark' ? 'white' : 'black',
   },
   '& .MuiButton-root': {
-    color: 'white',
+    color: theme === 'dark' ? 'white' : 'black',
   },
   '& .MuiTextField-root': {
     '& .MuiInputBase-input': {
-      color: 'white',
+      color: theme === 'dark' ? 'white' : 'black',
     },
     '& .MuiInputLabel-root': {
-      color: 'white',
+      color: theme === 'dark' ? 'white' : 'black',
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: 'white',
+        borderColor: theme === 'dark' ? 'white' : 'black',
       },
       '&:hover fieldset': {
-        borderColor: 'white',
+        borderColor: theme === 'dark' ? 'white' : 'black',
       },
     },
   },
   '& .MuiSvgIcon-root': {
-    color: 'white',
+    color: theme === 'dark' ? 'white' : 'black',
   },
 }));
-
 // const DropdownContainer = styled.div`
 //   position: relative;
 //   display: inline-block;

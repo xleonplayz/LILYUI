@@ -9,6 +9,22 @@ import { Select, MenuItem, OutlinedInput } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  Box,
+  Tooltip as MuiTooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  Typography,
+  IconButton,
+  // Select,
+  // MenuItem,
+} from '@mui/material';
 const dummyDatabase = ['item1', 'item2', 'item3'];
 
 const Container = styled.div`
@@ -389,7 +405,7 @@ const ButtonContainer = styled.div`
   position: absolute;
  bottom:63.5px;
  left:18.7%; 
- width: 62.65%;
+ width: 62.75%;
   background-color: ${({ theme }) => (theme === 'dark' ? '#4d5357' : '#fff')};
   box-sizing: border-box;
   height: 50px;
@@ -477,6 +493,34 @@ const CResource = styled.h2`
   // padding: 230px;
 `;
 
+const StyledDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiPaper-root': {
+    backgroundColor: theme === 'dark' ? '#21272a' : '#f4f4f4',
+    color: theme === 'dark' ? 'white' : 'black',
+  },
+  '& .MuiButton-root': {
+    color: theme === 'dark' ? 'white' : 'black',
+  },
+  '& .MuiTextField-root': {
+    '& .MuiInputBase-input': {
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    '& .MuiInputLabel-root': {
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: theme === 'dark' ? 'white' : 'black',
+      },
+      '&:hover fieldset': {
+        borderColor: theme === 'dark' ? 'white' : 'black',
+      },
+    },
+  },
+  '& .MuiSvgIcon-root': {
+    color: theme === 'dark' ? 'white' : 'black',
+  },
+}));
 export default function HomePage() {
   const theme = useSelector((state) => state.theme.theme);
   const [activeTopNav, setActiveTopNav] = useState('configuration');
@@ -498,6 +542,57 @@ export default function HomePage() {
   const [isDataChecked, setIsDataChecked] = useState(false);
   const [selectedResource, setSelectedResource] = useState(null);
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [quantumRegisters, setQuantumRegisters] = useState([{ name: 'q', qubits: 4 }]);
+  const [classicalRegisters, setClassicalRegisters] = useState([{ name: 'c', bits: 4 }]);
+
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+
+  };
+
+  const handleCloseModal = () => {
+
+
+    setModalOpen(false);
+
+  };
+
+  const handleCloseModalOk = () => {
+
+
+    setModalOpen(false);
+
+
+    setProgress(0);
+    const interval = setInterval(() => {
+      setProgress((prevProgress) => {
+        if (prevProgress >= 100) {
+          clearInterval(interval);
+          setIsModelUploaded(true);
+          return 100;
+        }
+        return prevProgress + 5;
+      });
+    }, 100);
+  };
+
+  const handleAddQuantumRegister = () => {
+    setQuantumRegisters([...quantumRegisters, { name: '', qubits: 1 }]);
+  };
+
+  const handleAddClassicalRegister = () => {
+    setClassicalRegisters([...classicalRegisters, { name: '', bits: 1 }]);
+  };
+
+  const handleRemoveQuantumRegister = (index) => {
+    setQuantumRegisters(quantumRegisters.filter((_, i) => i !== index));
+  };
+
+  const handleRemoveClassicalRegister = (index) => {
+    setClassicalRegisters(classicalRegisters.filter((_, i) => i !== index));
+  };
   const handleNext = () => {
     if ((step === 2 || step === 3) && isDataChecked) {
       setStep(step + 1);
@@ -523,19 +618,19 @@ export default function HomePage() {
     setIsModelTypeSelected(e.target.value !== '');
   };
 
-  const handleModelUpload = () => {
-    setProgress(0);
-    const interval = setInterval(() => {
-      setProgress((prevProgress) => {
-        if (prevProgress >= 100) {
-          clearInterval(interval);
-          setIsModelUploaded(true);
-          return 100;
-        }
-        return prevProgress + 10;
-      });
-    }, 100);
-  };
+  // const handleModelUpload = () => {
+  //   setProgress(0);
+  //   const interval = setInterval(() => {
+  //     setProgress((prevProgress) => {
+  //       if (prevProgress >= 100) {
+  //         clearInterval(interval);
+  //         setIsModelUploaded(true);
+  //         return 100;
+  //       }
+  //       return prevProgress + 10;
+  //     });
+  //   }, 100);
+  // };
 
   const handleTrainingDataUpload = () => {
     setIsTrainingDataUploaded(true);
@@ -730,7 +825,7 @@ export default function HomePage() {
                 <CustomMenuItem value="type1" theme={theme}>Type 1</CustomMenuItem>
                 <CustomMenuItem value="type2" theme={theme}>Type 2</CustomMenuItem>
               </CustomSelect>
-              <UploadButton theme={theme} onClick={handleModelUpload}>
+              <UploadButton theme={theme} onClick={handleOpenModal}>
                 Upload Model
               </UploadButton>
               <ProgressBar theme={theme}>
@@ -743,6 +838,99 @@ export default function HomePage() {
                 <Progress theme={theme} progress={isTrainingDataUploaded ? 100 : 0} />
               </ProgressBar>
               <AdvancedMenuButton theme={theme}>Advanced Menu</AdvancedMenuButton>
+
+
+
+              <StyledDialog open={modalOpen} onClose={handleCloseModal} maxWidth="md" fullWidth theme={theme}>
+                <DialogTitle>Manage registers</DialogTitle>
+                <DialogContent dividers>
+                  <Typography gutterBottom>
+                    A quantum register is a collection of qubits on which gates and other operations act. A classical register consists of bits that can be written to and read within the quantum circuit's coherence time.
+                  </Typography>
+                  <Box mb={2}>
+                    <Typography variant="subtitle1" gutterBottom style={{ margin: '15px 0px' }}>Quantum registers</Typography>
+                    {quantumRegisters.map((register, index) => (
+                      <Box key={index} display="flex" alignItems="center" mb={1}>
+                        <TextField
+                          label="Name"
+                          variant="outlined"
+                          value={register.name}
+                          onChange={(e) => {
+                            const newRegisters = [...quantumRegisters];
+                            newRegisters[index].name = e.target.value;
+                            setQuantumRegisters(newRegisters);
+                          }}
+                          style={{ marginRight: 10 }}
+                        />
+                        <TextField
+                          label="Number of qubits"
+                          variant="outlined"
+                          type="number"
+                          value={register.qubits}
+                          onChange={(e) => {
+                            const newRegisters = [...quantumRegisters];
+                            newRegisters[index].qubits = parseInt(e.target.value, 10);
+                            setQuantumRegisters(newRegisters);
+                          }}
+                          style={{ marginRight: 10 }}
+                        />
+                        <IconButton onClick={() => handleRemoveQuantumRegister(index)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Box>
+                    ))}
+                    <Button variant="outlined" startIcon={<AddIcon />} onClick={handleAddQuantumRegister}>
+                      Add new
+                    </Button>
+                  </Box>
+                  <Box mb={2}>
+                    <Typography variant="subtitle1" gutterBottom style={{ margin: '15px 0px' }}>Classical registers</Typography>
+                    {classicalRegisters.map((register, index) => (
+                      <Box key={index} display="flex" alignItems="center" mb={1}>
+                        <TextField
+                          label="Name"
+                          variant="outlined"
+                          value={register.name}
+                          onChange={(e) => {
+                            const newRegisters = [...classicalRegisters];
+                            newRegisters[index].name = e.target.value;
+                            setClassicalRegisters(newRegisters);
+                          }}
+                          style={{ marginRight: 10 }}
+                        />
+                        <TextField
+                          label="Number of bits"
+                          variant="outlined"
+                          type="number"
+                          value={register.bits}
+                          onChange={(e) => {
+                            const newRegisters = [...classicalRegisters];
+                            newRegisters[index].bits = parseInt(e.target.value, 10);
+                            setClassicalRegisters(newRegisters);
+                          }}
+                          style={{ marginRight: 10 }}
+                        />
+                        <IconButton onClick={() => handleRemoveClassicalRegister(index)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Box>
+                    ))}
+                    <Button variant="outlined" startIcon={<AddIcon />} onClick={handleAddClassicalRegister}>
+                      Add new
+                    </Button>
+                  </Box>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleCloseModal} style={{ color: 'grey' }}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleCloseModalOk} variant="contained" style={{ backgroundColor: '#0071eb', color: 'white' }}>
+                    Ok
+                  </Button>
+                </DialogActions>
+              </StyledDialog>
+
+
             </>
           )}
 
