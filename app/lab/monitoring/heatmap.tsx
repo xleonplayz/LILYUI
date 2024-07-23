@@ -3,7 +3,6 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { Slider, MenuItem, Tooltip, IconButton } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-
 import { OutlinedInput, Select } from '@mui/material';
 import * as d3 from 'd3';
 
@@ -98,7 +97,6 @@ const CustomTooltip = styled(({ className, ...props }) => (
     border-radius: 4px;
     padding: 15px;
     max-width: 220px;
-  // min-height:00px;
   }
   & .MuiTooltip-arrow {
     color: ${({ theme }) => (theme === 'dark' ? '#333' : '#fff')};
@@ -209,7 +207,9 @@ const drawHeatmap = (data: number[][], container: HTMLDivElement, theme: string)
 
   colorBar.append('g')
     .attr('transform', `translate(${colorBarWidth}, 0)`)
-    .call(colorBarAxis);
+    .call(colorBarAxis)
+    .selectAll('text') // Select all text elements within the axis
+    .style('fill', labelColor); // Apply the label color based on the theme
 };
 
 export default function HeatmapComponent({ theme }: HeatmapComponentProps) {
