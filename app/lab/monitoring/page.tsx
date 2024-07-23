@@ -1042,7 +1042,7 @@ export default function HomePage() {
                 <AccuracyPrecisionRecall selectedMetric={activeOption} theme={theme} />
               </GridItem>
               <GridItem theme={theme}>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                {/* <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <GridTitle theme={theme}>Hyperparameter Tuning</GridTitle>
                   <CustomTooltip
                     title="This visualization shows a  of randomly generated values."
@@ -1053,7 +1053,7 @@ export default function HomePage() {
                       <InfoOutlinedIcon style={{ marginRight: "20px" }} />
                     </ThemedIconButton>
                   </CustomTooltip>
-                </div>
+                </div> */}
                 <Dendrogram theme={theme} />
               </GridItem>
             </GridContainer>

@@ -5,7 +5,9 @@ import { Slider, MenuItem, Tooltip, IconButton } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { OutlinedInput, Select } from '@mui/material';
 import * as d3 from 'd3';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 const HeatmapContainer = styled.div`
   width: 90%;
   margin: auto;
@@ -14,12 +16,12 @@ const HeatmapContainer = styled.div`
   height: 300px;
 `;
 
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-`;
+// const TitleContainer = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 10px 20px;
+// `;
 
 const ControlsContainer = styled.div`
   display: flex;
@@ -85,6 +87,7 @@ const ThemedIconButton = styled(IconButton) <{ theme: string }>`
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 `;
 
+
 // Custom tooltip styles
 const CustomTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} placement="bottom-end" arrow />
@@ -101,6 +104,27 @@ const CustomTooltip = styled(({ className, ...props }) => (
   & .MuiTooltip-arrow {
     color: ${({ theme }) => (theme === 'dark' ? '#333' : '#fff')};
   }
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 0px;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+  // border-bottom: 1px solid ${({ theme }) => (theme === 'dark' ? '#333' : '#ddd')};
+`;
+
+const HeaderSection = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ControlsSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content:space-around;
+  width:17%
 `;
 
 function generateRandomMatrix(rows: number, cols: number): number[][] {
@@ -236,15 +260,39 @@ export default function HeatmapComponent({ theme }: HeatmapComponentProps) {
 
   return (
     <>
-      <TitleContainer>
-        <GridTitle theme={theme}>Heatmap</GridTitle>
-        <CustomTooltip title="This visualization shows the probability of outputs across the computational basis states, for up to 8 qubits." theme={theme} arrow>
-          <ThemedIconButton size="small" theme={theme}>
-            <InfoOutlinedIcon />
-          </ThemedIconButton>
-        </CustomTooltip>
-      </TitleContainer>
 
+<TitleContainer theme={theme}>
+        <HeaderSection>
+          <CustomSelect
+            value={modelSphere}
+            onChange={handleModelSphereChange}
+            displayEmpty
+            input={<OutlinedInput />}
+            theme={theme}
+          >
+            <CustomMenuItem value="Statevector" theme={theme}>Statevector</CustomMenuItem>
+            <CustomMenuItem value="Probabilities" theme={theme}>Probabilities</CustomMenuItem>
+          </CustomSelect>
+        </HeaderSection>
+        <ControlsSection>
+          <ThemedIconButton size="small" theme={theme}>
+            <RefreshIcon />
+          </ThemedIconButton>
+          <CustomTooltip title="This visualization shows the probability of outputs across the computational basis states, for up to 8 qubits." theme={theme} arrow>
+            <ThemedIconButton size="small" theme={theme}>
+              <InfoOutlinedIcon />
+            </ThemedIconButton>
+          </CustomTooltip>
+
+
+          
+          {/* <MuiTooltip title="More options" placement="left"> */}
+            <ThemedIconButton  size='small' theme={theme}>
+              <MoreVertIcon />
+            </ThemedIconButton>
+          {/* </MuiTooltip> */}
+        </ControlsSection>
+      </TitleContainer>
       <HeatmapContainer id="heatmap-container" />
       <ControlsContainer>
         <Slider
