@@ -633,8 +633,9 @@ const CustomMenuItem = styled(MenuItem)`
 `;
 
 import { Tooltip, IconButton } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
+// import InfoIcon from "@mui/icons-material/Info";
 
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 const ThemedIconButton = styled(IconButton)`
   color: ${({ theme }) => (theme === "dark" ? "#fff" : "#000")};
 `;
@@ -990,7 +991,7 @@ export default function HomePage() {
                     arrow
                   >
                     <ThemedIconButton size="small" theme={theme}>
-                      <InfoIcon style={{ marginRight: "20px" }} />
+                      <InfoOutlinedIcon style={{ marginRight: "20px" }} />
                     </ThemedIconButton>
                   </CustomTooltip>
                 </div>
@@ -1034,7 +1035,7 @@ export default function HomePage() {
                     arrow
                   >
                     <ThemedIconButton size="small" theme={theme}>
-                      <InfoIcon style={{ marginRight: "20px" }} />
+                      <InfoOutlinedIcon style={{ marginRight: "20px" }} />
                     </ThemedIconButton>
                   </CustomTooltip>
                 </div>
@@ -1049,7 +1050,7 @@ export default function HomePage() {
                     arrow
                   >
                     <ThemedIconButton size="small" theme={theme}>
-                      <InfoIcon style={{ marginRight: "20px" }} />
+                      <InfoOutlinedIcon style={{ marginRight: "20px" }} />
                     </ThemedIconButton>
                   </CustomTooltip>
                 </div>

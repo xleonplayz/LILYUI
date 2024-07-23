@@ -31,18 +31,24 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 20px;
+  padding: 10px 0px;
 `;
 
 const ScatterPlotContainer = styled.div`
   width: 90%;
-  height: 310px;
+  height: 310px;  /* Adjusted height for better visibility */
   color: ${({ theme }) => (theme === 'dark' ? 'white' : 'black')};
   border-radius: 10px;
   position: relative;
   display: flex;
   justify-content: center;
+  margin: auto;
   align-items: center;
+`;
+
+const StyledScatter = styled(Scatter)`
+  width: 100% !important;
+  height: 100% !important;
 `;
 
 const HeaderContainer = styled.div`
@@ -50,7 +56,6 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  // margin-bottom: 0px;
   margin: auto;
   color: white;
   font-size: 24px;
@@ -178,6 +183,7 @@ const Scat = ({ theme, dataPoints }) => {
   };
 
   const options = {
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: true,
@@ -197,7 +203,7 @@ const Scat = ({ theme, dataPoints }) => {
           text: 'Income',
           color: textColor,
           font: {
-            size: 14,
+            size: 12,
             weight: '500',
           },
         },
@@ -220,7 +226,7 @@ const Scat = ({ theme, dataPoints }) => {
           text: 'Metro Health Index',
           color: textColor,
           font: {
-            size: 14,
+            size: 12,
             weight: '500',
           },
         },
@@ -247,9 +253,8 @@ const Scat = ({ theme, dataPoints }) => {
 
   return (
     <Container theme={theme}>
-
       <ScatterPlotContainer theme={theme}>
-        <Scatter data={data} options={options} />
+        <StyledScatter data={data} options={options} />
       </ScatterPlotContainer>
     </Container>
   );
