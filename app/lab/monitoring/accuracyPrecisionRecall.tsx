@@ -34,7 +34,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
   }
 `;
 
-const ThemedIconButton = styled(IconButton) <{ theme: string }>`
+const ThemedIconButton = styled(IconButton)<{ theme: string }>`
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   text-align:right;
   position:relative;
@@ -76,8 +76,23 @@ interface AccuracyPrecisionRecallProps {
   theme: string;
 }
 
+const ChartContainer = styled.div`
+  position: relative;
+  width: 90%;
+  // margin-top:4%;
+  margin:2% auto;
+  // padding-bottom: 0%;
+  height: 68%;
+`;
+
+const ResponsiveChart = styled(Line)`
+  position: absolute !important;
+  width: 100% !important;
+  height:100% !important;
+`;
+
 const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selectedMetric, theme }) => {
-  const textColor = theme === 'dark' ? 'white' : '##000';
+  const textColor = theme === 'dark' ? 'white' : '#000';
   const borderColor = theme === 'dark' ? 'white' : 'black';
   const options = {
     responsive: true,
@@ -138,7 +153,7 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
             family: 'Arial, sans-serif',
             style: 'normal',
           },
-          callback: function(value) {
+          callback: function (value) {
             return value + ' %';
           },
         },
@@ -176,7 +191,7 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
                 weight: 'lighter',
                 family: 'Arial, sans-serif',
                 style: 'normal',
-              }
+              },
             }));
           },
         },
@@ -216,9 +231,9 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
   };
 
   return (
-    <div style={{ height: '300px', width: '90%', margin: "1.5% auto" }}>
-      <Line data={dummyData[selectedMetric]} options={options} />
-    </div>
+    <ChartContainer>
+      <ResponsiveChart data={dummyData[selectedMetric]} options={options} />
+    </ChartContainer>
   );
 };
 
