@@ -106,11 +106,14 @@ const ContentBox = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
+  justify-content:space-between;
   .search-div {
-    width: 89%;
+    width: 90.5%;
   }
   .btn-div {
-    width: 10%;
+    width:9.5%;
+    display:flex;
+    justify-content:flex-end;
   }
 `;
 

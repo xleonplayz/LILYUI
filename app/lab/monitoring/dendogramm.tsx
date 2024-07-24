@@ -7,8 +7,8 @@ import { Slider, MenuItem, Tooltip, IconButton } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { OutlinedInput, Select } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
-
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 interface NodeData {
   name: string;
   children?: NodeData[];
@@ -17,10 +17,9 @@ interface NodeData {
 const DendrogramContainer = styled.div`
   display: flex;
   justify-content: center;
-  height: 100%;
+  height: 90%;
+  width: 100%;
 `;
-
-
 
 const ControlsContainer = styled.div`
   display: flex;
@@ -28,7 +27,6 @@ const ControlsContainer = styled.div`
   align-items: center;
   padding: 10px 30px;
 `;
-
 
 const CustomSelect = styled(Select)`
   outline: none;
@@ -77,12 +75,10 @@ const CustomMenuItem = styled(MenuItem)`
   }
 `;
 
-const ThemedIconButton = styled(IconButton) <{ theme: string }>`
+const ThemedIconButton = styled(IconButton)<{ theme: string }>`
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 `;
 
-
-// Custom tooltip styles
 const CustomTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} placement="bottom-end" arrow />
 ))`
@@ -106,7 +102,6 @@ const TitleContainer = styled.div`
   align-items: center;
   padding: 0px 0px;
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
-  // border-bottom: 1px solid ${({ theme }) => (theme === 'dark' ? '#333' : '#ddd')};
 `;
 
 const HeaderSection = styled.div`
@@ -117,53 +112,59 @@ const HeaderSection = styled.div`
 const ControlsSection = styled.div`
   display: flex;
   align-items: center;
-  justify-content:space-around;
-  width:17%
+  justify-content: space-around;
+  width: 17%;
 `;
+
 const Dendrogram: React.FC<{ theme: string }> = ({ theme }) => {
   const ref = useRef<SVGSVGElement>(null);
 
   const [selected, setSelected] = useState('Probabilities');
   useEffect(() => {
     const data: NodeData = {
-      name: "root",
+      name: 'root',
       children: [
         {
-          name: "1",
+          name: '1',
           children: [
-            { name: "2" },
-            { name: "10" },
+            { name: '2' },
+            { name: '10' },
           ],
         },
         {
-          name: "3",
+          name: '3',
           children: [
-            { name: "4" },
-            { name: "6" },
-            { name: "7" },
+            { name: '4' },
+            { name: '6' },
+            { name: '7' },
           ],
         },
         {
-          name: "5",
+          name: '5',
           children: [
-            { name: "8" },
-            { name: "9" },
+            { name: '8' },
+            { name: '9' },
           ],
         },
       ],
     };
 
-    const width = 500;
-    const height = 320;
+    const containerWidth = ref.current?.parentElement?.clientWidth || 500;
+    const containerHeight = ref.current?.parentElement?.clientHeight || 280;
+
+    const margin = { top: 20, right: 100, bottom: 80, left: 100 };
+    const width = containerWidth - margin.right - margin.left;
+    const height = containerHeight - margin.top - margin.bottom;
 
     const svg = d3.select(ref.current)
-      .attr('width', width)
-      .attr('height', height)
+      .attr('width', '100%')
+      .attr('height', '100%')
+      .attr('viewBox', `0 0 ${containerWidth} ${containerHeight}`)
       .append('g')
-      .attr('transform', 'translate(40,0)');
+      .attr('transform', `translate(${margin.left},${margin.top})`);
 
     const cluster = d3.cluster<NodeData>()
-      .size([height, width - 160]);
+      .size([height, width]);
 
     const root = d3.hierarchy(data);
 
@@ -200,13 +201,12 @@ const Dendrogram: React.FC<{ theme: string }> = ({ theme }) => {
       .text(d => d.data.name);
   }, [theme]);
 
-
-
   const [modelTypeDendogramm, setModelTypeDendogramm] = useState('Statevector');
 
   const handleDropdownChangeShape = (e) => {
     setModelTypeDendogramm(e.target.value);
   };
+
   return (
     <>
       <TitleContainer theme={theme}>
@@ -231,14 +231,9 @@ const Dendrogram: React.FC<{ theme: string }> = ({ theme }) => {
               <InfoOutlinedIcon />
             </ThemedIconButton>
           </CustomTooltip>
-
-
-
-          {/* <MuiTooltip title="More options" placement="left"> */}
           <ThemedIconButton size='small' theme={theme}>
             <MoreVertIcon />
           </ThemedIconButton>
-          {/* </MuiTooltip> */}
         </ControlsSection>
       </TitleContainer>
 

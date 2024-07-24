@@ -216,7 +216,7 @@ const AccuracyPrecisionRecall: React.FC<AccuracyPrecisionRecallProps> = ({ selec
   };
 
   return (
-    <div style={{ height: '310px', width: '90%', margin: "1.5% auto" }}>
+    <div style={{ height: '300px', width: '90%', margin: "1.5% auto" }}>
       <Line data={dummyData[selectedMetric]} options={options} />
     </div>
   );
