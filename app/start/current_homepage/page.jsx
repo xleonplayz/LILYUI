@@ -24,9 +24,9 @@ const ContentSection = styled.div`
   position: relative;
   width: 100%;
   background-color: #e0e0e0;
-  height: 92vh;
+  height: 87vh;
   background: url(${backgroundImage.src}) no-repeat right;
-  background-size:65%;
+  background-size:60%;
   top:30px;
 // padding:50px;
   right: -300px;
@@ -51,7 +51,7 @@ const TextContent = styled.div`
   left:-200px;
   h1 {
     // font-size: 3rem;
-    font-weight: 300;
+    font-weight: 200;
     color: #000;
     // line-height:1.19rem;
             font-size: calc(3.375rem + .375*(100vw - 66rem)/16);
