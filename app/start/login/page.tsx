@@ -15,7 +15,8 @@ const Container = styled.div`
   min-height: 100vh;
   width: 100%;
  
-  background-color:  ${({ theme }) => (theme === 'dark' ? '#21272a' : '#e0e0e0')};;
+  background-color:   ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')};
+  // background-color:  ${({ theme }) => (theme === 'dark' ? '#21272a' : '#e0e0e0')};;
   // background-color:   ${({ theme }) => (theme === 'dark' ? '#2b272a' : '#f4f4f4')};
   overflow-x: hidden;
 `;

@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FaArrowRight, FaPlay, FaWrench, FaCompressArrowsAlt, FaCheck, FaServer } from 'react-icons/fa';
 
-import './style.css';
+import '../style.css';
 
 const Container = styled.div`
   display: flex;

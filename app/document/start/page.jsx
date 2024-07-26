@@ -1,8 +1,8 @@
 "use client";
 
 import styled from 'styled-components';
-import Header from '../../../../components/LabHeader';
-import Footer from '../../../../components/Footer';
+import Header from '../../../components/LabHeader';
+import Footer from '../../../components/Footer';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FaArrowRight, FaPlay, FaWrench, FaCompressArrowsAlt, FaCheck, FaServer } from 'react-icons/fa';

@@ -184,10 +184,10 @@ export default function HomePage() {
         <RightSection theme={theme}>
           <SignInContainer theme={theme}>
             <SignInTitle theme={theme}>Sign in to LILY QML</SignInTitle>
-            <SignInButton href="/login" theme={theme}>Continue with Login</SignInButton>
+            <SignInButton href="/start/login" theme={theme}>Continue with Login</SignInButton>
             <AdditionalInfo theme={theme}>
               <NewToLily>New to LILY QML?</NewToLily>
-              <CreateAccount href="/create">Create a LILY QML Account</CreateAccount>
+              <CreateAccount href="/start/create">Create a LILY QML Account</CreateAccount>
               <TroubleSigningIn theme={theme}>
                 Having trouble signing in? Try signing in with a LILY QML Account. If you are still having issues, contact the <HelpDesk href="#">LILY QML Help Desk</HelpDesk>.
               </TroubleSigningIn>

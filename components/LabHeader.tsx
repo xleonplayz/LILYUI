@@ -226,18 +226,18 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
                  )}
             {activeSidebar === 'docs' && (
               <>
-                <NavLink href="/lab/document" isActive={activeTopNav === 'overview'} onClick={() => onTopNavClick('overview')} theme={theme}>Overview</NavLink>
-                <NavLink href="/lab/document/start" isActive={activeTopNav === 'start'} onClick={() => onTopNavClick('start')} theme={theme}>Start</NavLink>
+                <NavLink href="/document/overview" isActive={activeTopNav === 'overview'} onClick={() => onTopNavClick('overview')} theme={theme}>Overview</NavLink>
+                <NavLink href="/document/start" isActive={activeTopNav === 'start'} onClick={() => onTopNavClick('start')} theme={theme}>Start</NavLink>
                 
-                <NavLink href="/lab/document/build" isActive={activeTopNav === 'build'} onClick={() => onTopNavClick('build')} theme={theme}>Build</NavLink>
-                <NavLink href="/lab/document/transpile" isActive={activeTopNav === 'transpile'} onClick={() => onTopNavClick('transpile')} theme={theme}>Transpilation</NavLink>
+                <NavLink href="/document/build" isActive={activeTopNav === 'build'} onClick={() => onTopNavClick('build')} theme={theme}>Build</NavLink>
+                <NavLink href="/document/transpile" isActive={activeTopNav === 'transpile'} onClick={() => onTopNavClick('transpile')} theme={theme}>Transpilation</NavLink>
 
                 
-                <NavLink href="/lab/document/verify" isActive={activeTopNav === 'verify'} onClick={() => onTopNavClick('verify')} theme={theme}>Verify</NavLink>
+                <NavLink href="/document/verify" isActive={activeTopNav === 'verify'} onClick={() => onTopNavClick('verify')} theme={theme}>Verify</NavLink>
                 
-                <NavLink href="/lab/document/run" isActive={activeTopNav === 'run'} onClick={() => onTopNavClick('run')} theme={theme}>Run</NavLink>
+                <NavLink href="/document/run" isActive={activeTopNav === 'run'} onClick={() => onTopNavClick('run')} theme={theme}>Run</NavLink>
 
-                <NavLink href="/lab/document/apireference" isActive={activeTopNav === 'apireference'} onClick={() => onTopNavClick('apireference')} theme={theme}>API Reference </NavLink>
+                <NavLink href="/document/apireference" isActive={activeTopNav === 'apireference'} onClick={() => onTopNavClick('apireference')} theme={theme}>API Reference </NavLink>
 
 
               </>
@@ -260,14 +260,14 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
           </div>
           <HorizontalLine />
         </SidebarOption>
-        <SidebarOption href="/lab/document" $isActive={activeSidebar === 'docs'} onClick={() => onSidebarClick('docs')} theme={theme}>
+        <SidebarOption href="/document" $isActive={activeSidebar === 'docs'} onClick={() => onSidebarClick('docs')} theme={theme}>
           <div>
             <FontAwesomeIcon icon={faBook} style={{ marginRight: '10px', position: 'absolute', right: '20px' }} /> DOCS
             <SidebarDescription theme={theme}>Documentation about LILY and using the platform</SidebarDescription>
           </div>
           <HorizontalLine />
         </SidebarOption>
-        <SidebarOption href="#road" $isActive={activeSidebar === 'road'} onClick={() => onSidebarClick('road')} theme={theme}>
+        <SidebarOption href="/road" $isActive={activeSidebar === 'road'} onClick={() => onSidebarClick('road')} theme={theme}>
           <div>
             <FontAwesomeIcon icon={faRoad} style={{ marginRight: '10px', position: 'absolute', right: '20px' }} /> ROAD
             <SidebarDescription theme={theme}>Roadmap of the LILY QML project, information, contact, etc.</SidebarDescription>
