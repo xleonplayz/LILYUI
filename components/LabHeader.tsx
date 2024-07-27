@@ -93,7 +93,7 @@ const InvisibleText = styled.div`
 
 const Sidebar = styled.div`
   position: fixed;
-  top: 46px;
+  top: 40px;
   right: 0px;
   height: 100%;
   width: 300px;

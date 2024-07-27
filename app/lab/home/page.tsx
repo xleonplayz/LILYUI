@@ -205,6 +205,9 @@ const DataItem = styled.div`
 
 const SmallBoxContainer = styled.div`
   display: flex;
+  // padding: 20px;
+  // border-radius: 5px; /* Optional: abgerundete Ecken */
+  margin: 10px; /* Abstand zu den Rändern */
   gap: 20px; /* Abstand zwischen den Boxen */
 `;
 
@@ -476,13 +479,19 @@ const WhatsNewContainer = styled.div`
   flex-direction: column;
   gap: 20px; /* Abstand zwischen den Abschnitten */
   margin-top: 20px;
-  color: white;
+  
+// color: ${({ theme }) => (theme === 'dark' ? '#f2f4f8' : '#000')};
+
 `;
 
 const WhatsNewTitle = styled.h3`
   margin: 0;
   font-weight: 300;
   font-size: 1.5rem;
+  
+  
+color: ${({ theme }) => (theme === 'dark' ? '#f2f4f8' : '#161616')};
+
 `;
 
 const BulletPoint = styled.div`
@@ -508,7 +517,7 @@ const BulletTitle = styled.h4`
   font-weight: 300;
   // color: white;
   
-color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+color: ${({ theme }) => (theme === 'dark' ? '#f2f4f8' : '#000')};
 `;
 
 const BulletDescription = styled.p`
@@ -870,7 +879,7 @@ export default function HomePage() {
         </LeftSection>
         <RightSection>
           <WhatsNewContainer>
-            <WhatsNewTitle>What's New</WhatsNewTitle>
+            <WhatsNewTitle theme={theme}>What's New</WhatsNewTitle>
             {[...Array(5)].map((_, index) => (
               <BulletPoint key={index}>
                 <Bullet>•</Bullet>

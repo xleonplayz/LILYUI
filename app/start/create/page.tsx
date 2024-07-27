@@ -167,7 +167,7 @@ const ImageContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   height: auto;
-  margin-left: 100px;
+  margin-left: 180px;
   
 `;
 
@@ -176,7 +176,7 @@ export default function LoginPage() {
   const theme = useSelector((state)=>state.theme.theme);
   const handleLogin=()=>{
     console.log('login')
-    router.push('/login')
+    router.push('/start/login')
   }
   return (
     <Container theme={theme}>

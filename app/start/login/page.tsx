@@ -171,7 +171,7 @@ const ImageContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   height: auto;
-  margin-left: 100px;
+  margin-left: 180px;
   
 `;
 
@@ -202,7 +202,7 @@ export default function LoginPage() {
   };
 
   const handleCreate=()=>{
-    router.push('/create')
+    router.push('/start/create')
     console.log('create')
   }
   const theme =useSelector((state)=>state.theme.theme)

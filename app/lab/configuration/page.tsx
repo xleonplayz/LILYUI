@@ -83,11 +83,14 @@ const LeftSide = styled.div`
 
 
 const MenuItemButton = styled.div`
-  padding: 10px;
+  padding: 0px 15px;
   cursor: pointer;
   position: relative;
   line-height:3.0rem;
-  font-size:1.2rem;
+  
+align-item:center;
+justify-content:center;
+  font-size:1.0rem;
   &:hover {
     // background-color: #f0f0f0;
     
@@ -101,7 +104,10 @@ const MenuItemButton = styled.div`
       position: absolute;
       left: 0px;
       top: 0;
-      height: 100%;
+      height: 95%;
+      margin:auto;
+align-item:center;
+justify-content:center;
       width: 4px;
       background-color: #0e62fe;
 
@@ -237,7 +243,7 @@ const VerticalLineLeftBar = styled.div`
   position: absolute;
   left: 12px;
   top: 55px;
-  height: 35vh;
+  height: 26vh;
   width: 2px;
   background-color: #ddd; /* Light gray vertical line */
 `;
@@ -254,7 +260,7 @@ const AdvancedMenuButton = styled.button`
   position:absolute;
   bottom:113px;
  left:18.7%; 
- width: 62.65%;
+ width: 62.75%;
   padding: 10px 0px;
   // margin: 20px auto;
   // border-radius: 4px;
@@ -406,6 +412,7 @@ const ButtonContainer = styled.div`
  bottom:63.5px;
  left:18.7%; 
  width: 62.75%;
+ 
   background-color: ${({ theme }) => (theme === 'dark' ? '#4d5357' : '#fff')};
   box-sizing: border-box;
   height: 50px;
