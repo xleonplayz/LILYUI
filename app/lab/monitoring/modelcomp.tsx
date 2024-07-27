@@ -8,7 +8,6 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartOptions,
 } from 'chart.js';
 import {
   Box,
@@ -31,7 +30,6 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import styled from 'styled-components';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiPaper-root': {
@@ -56,11 +54,23 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
         borderColor: theme === 'dark' ? 'white' : 'black',
       },
     },
+    '& input[type=number]': {
+      '-moz-appearance': 'textfield', // Firefox
+      '&::-webkit-outer-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
+      '&::-webkit-inner-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
+    },
   },
   '& .MuiSvgIcon-root': {
     color: theme === 'dark' ? 'white' : 'black',
   },
 }));
+
 const CustomSelect = styled(Select)`
   padding: 4px 8px;
   position: relative;

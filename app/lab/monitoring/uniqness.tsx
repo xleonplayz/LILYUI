@@ -1,4 +1,3 @@
-'use client'
 import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -9,9 +8,7 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartOptions,
 } from 'chart.js';
-import { FaChevronDown } from 'react-icons/fa';
 import {
   Box,
   Tooltip as MuiTooltip,
@@ -24,14 +21,14 @@ import {
   Typography,
   IconButton,
   Select,
-  MenuItem
-
+  MenuItem,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import styled from 'styled-components';
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
@@ -57,76 +54,28 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
         borderColor: theme === 'dark' ? 'white' : 'black',
       },
     },
+    '& input[type=number]': {
+      '-moz-appearance': 'textfield', // Firefox
+      '&::-webkit-outer-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
+      '&::-webkit-inner-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
+    },
   },
   '& .MuiSvgIcon-root': {
     color: theme === 'dark' ? 'white' : 'black',
   },
 }));
-// const DropdownContainer = styled.div`
-//   position: relative;
-//   display: inline-block;
-//   color: white;
-//   font-size: 16px;
-//   padding: 10px;
-//   &:hover {
-//     background-color: ${({ theme }) => (theme === 'dark' ? '#2b3236' : '#e0e0e0')};
-//   }
-// `;
-
-// const Dropdown = styled.div`
-//   position: relative;
-//   display: inline-block;
-//   margin-right: 10px;
-
-//   &:hover .dropdown-content {
-//     display: block;
-//   }
-// `;
-
-// const DropdownButton = styled.button`
-//   background: none;
-//   border: none;
-//   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-//   cursor: pointer;
-//   display: flex;
-//   align-items: center;
-
-//   svg {
-//     margin-left: 20px;
-//   }
-// `;
-
-// const DropdownContent = styled.div`
-//   display: none;
-//   position: absolute;
-//   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#e0e0e0')};
-//   min-width: 160px;
-//   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-//   z-index: 1;
-
-//   &.dropdown-content {
-//     display: none;
-//   }
-// `;
-
-// const DropdownItem = styled.a`
-//   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-//   padding: 12px 16px;
-//   text-decoration: none;
-//   display: block;
-
-//   &:hover {
-//     background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#ddd')};
-//   }
-// `;
-
 
 const CustomSelect = styled(Select)`
-  // padding: 4px 8px;
+  padding: 4px 8px;
   position: relative;
   display: inline-block;
   margin-right: 10px;
-
   font-size: 0.87rem;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
@@ -171,11 +120,15 @@ const CustomMenuItem = styled(MenuItem)`
   }
 `;
 
-const Unique: React.FC<{ theme: string }> = ({ theme }) => {
+const Unique = ({ theme }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [quantumRegisters, setQuantumRegisters] = useState([{ name: 'q', qubits: 4 }]);
   const [classicalRegisters, setClassicalRegisters] = useState([{ name: 'c', bits: 4 }]);
+  const [selected, setSelected] = useState('Statevector');
 
+  const handleDropdownSelected = (e) => {
+    setSelected(e.target.value);
+  };
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -193,23 +146,17 @@ const Unique: React.FC<{ theme: string }> = ({ theme }) => {
     setClassicalRegisters([...classicalRegisters, { name: '', bits: 1 }]);
   };
 
-  const handleRemoveQuantumRegister = (index: number) => {
+  const handleRemoveQuantumRegister = (index) => {
     setQuantumRegisters(quantumRegisters.filter((_, i) => i !== index));
   };
 
-  const handleRemoveClassicalRegister = (index: number) => {
+  const handleRemoveClassicalRegister = (index) => {
     setClassicalRegisters(classicalRegisters.filter((_, i) => i !== index));
   };
 
-
-
-
-  const handleSelect = (value) => {
-    setSelected(value);
-  };
   const isDarkTheme = theme === 'dark';
   const textColor = isDarkTheme ? 'white' : 'black';
-  const borderColor = '#888'; // Light grey for axis lines
+  const borderColor = '#888';
 
   const data = {
     labels: [
@@ -227,7 +174,7 @@ const Unique: React.FC<{ theme: string }> = ({ theme }) => {
     ],
   };
 
-  const options: ChartOptions<'bar'> = {
+  const options = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -269,8 +216,8 @@ const Unique: React.FC<{ theme: string }> = ({ theme }) => {
             size: 12,
             color: textColor,
           },
-          maxRotation: 45,  // Tilt the labels
-          minRotation: 45,  // Minimum rotation angle for tilting
+          maxRotation: 45,
+          minRotation: 45,
         },
         grid: {
           display: false,
@@ -310,19 +257,12 @@ const Unique: React.FC<{ theme: string }> = ({ theme }) => {
     },
   };
 
-
-
-  const [selected, setSelected] = useState('Statevector');
-
-  const handleDropdownUniqness = (e) => {
-    setSelected(e.target.value);
-  };
   return (
     <Box sx={{ padding: 2, minHeight: '100%', color: textColor }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
         <CustomSelect
           value={selected}
-          onChange={handleDropdownUniqness}
+          onChange={handleDropdownSelected}
           displayEmpty
           theme={theme}
         >
@@ -333,6 +273,7 @@ const Unique: React.FC<{ theme: string }> = ({ theme }) => {
             Probabilities
           </CustomMenuItem>
         </CustomSelect>
+
         <Box display="flex" alignItems="center">
           <MuiTooltip
             title={
@@ -357,7 +298,7 @@ const Unique: React.FC<{ theme: string }> = ({ theme }) => {
           </MuiTooltip>
         </Box>
       </Box>
-      <Box style={{ height: '230px', width: '100%' }}>
+      <Box style={{ height: '270px', width: '100%' }}>
         <Bar data={data} options={options} />
       </Box>
 

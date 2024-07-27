@@ -25,7 +25,7 @@ const HeatmapContainer = styled.div`
 
 const ControlsContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 10px 30px;
 `;
@@ -302,10 +302,10 @@ export default function HeatmapComponent({ theme }: HeatmapComponentProps) {
           min={1}
           max={10}
           onChange={handleSliderChange}
-          style={{ width: '30%' }}
+          style={{ width: '85%' }}
         />
 
-        <CustomSelect
+        {/* <CustomSelect
           value={modelSphere}
           onChange={handleModelSphereChange}
           displayEmpty
@@ -314,7 +314,7 @@ export default function HeatmapComponent({ theme }: HeatmapComponentProps) {
         >
           <CustomMenuItem value="Statevector" theme={theme}>Statevector</CustomMenuItem>
           <CustomMenuItem value="Probabilities" theme={theme}>Probabilities</CustomMenuItem>
-        </CustomSelect>
+        </CustomSelect> */}
       </ControlsContainer>
     </>
   );

@@ -8,7 +8,6 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartOptions,
 } from 'chart.js';
 import {
   Box,
@@ -53,6 +52,17 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
       },
       '&:hover fieldset': {
         borderColor: theme === 'dark' ? 'white' : 'black',
+      },
+    },
+    '& input[type=number]': {
+      '-moz-appearance': 'textfield', // Firefox
+      '&::-webkit-outer-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
+      '&::-webkit-inner-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
       },
     },
   },
