@@ -162,10 +162,10 @@ export default function HomePage() {
         </ContentSection>
       </Maincontainer>
       <NewSection>
-        <h2>Making the <span>world quantum safe</span></h2>
+        <h2>Making the world <span>quantum safe</span></h2>
         <p>Quantum computers make most of the world’s existing encryption algorithms obsolete. IBM developed many of the foundational technologies that will secure the world in the quantum era, and now offers the tools and services needed to implement them.
 
-</p>
+        </p>
       </NewSection>
       <Footer />
     </Container>
