@@ -26,9 +26,8 @@ const ContentSection = styled.div`
   background-color: #e0e0e0;
   height: 87vh;
   background: url(${backgroundImage.src}) no-repeat right;
-  background-size:60%;
-  top:30px;
-// padding:50px;
+  background-size: 60%;
+  top: 30px;
   right: -300px;
 `;
 
@@ -45,46 +44,86 @@ const TextContent = styled.div`
   width: 40%;
   padding: 0 5%;
   z-index: 1; // Ensure text is on top of the background
+  position: relative;
+  top: 50px;
+  left: -200px;
 
-  position:absolute;
-  top:150px;
-  left:-200px;
   h1 {
-    // font-size: 3rem;
     font-weight: 200;
     color: #000;
-    // line-height:1.19rem;
-            font-size: calc(3.375rem + .375*(100vw - 66rem)/16);
-
+    font-size: calc(3.375rem + .375*(100vw - 66rem)/16);
   }
-span {
+
+  span {
     display: block;
     font-weight: 300;
-    background: linear-gradient(90deg, #e0e0e0, #ee5396);
+      background: linear-gradient(90deg, #9b5cff 0%, #ee5396 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     width: 100%;
     font-size: calc(3.375rem + .375*(100vw - 66rem)/16);
   }
-
-  button {
-    margin-top: 50px;
-    background-color: #343a3f;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-right: 10px;
-
-    &:hover {
-      background-color: #333;
-    }
-  }
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 50px;
+  display: flex;
+  gap: 10px;
+`;
+
+const StyledButton = styled.button`
+  background-color: ${({ primary }) => (primary ? '#343a3f' : 'transparent')};
+  color: ${({ primary }) => (primary ? '#fff' : '#343a3f')};
+  padding: 10px 20px;
+  border: ${({ primary }) => (primary ? 'none' : 'none')};
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: ${({ primary }) => (primary ? '#333' : 'transparent')};
+    color: ${({ primary }) => (primary ? '#fff' : '#343a3f')};
+  }
+
+  svg {
+    margin-left: 5px;
+  }
+`;
+
+const NewSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align to the start for better control */
+  margin: 6% 0;
+  width: 100%;
+  padding-left: 10%; /* Match the left padding of TextContent */
+
+  h2 {
+    font-weight: 100;
+    width: 100%;
+    padding: 0px;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    font-size: calc(3.375rem + .375*(100vw - 66rem)/16);
+    margin: 0px;
+    color: #000;
+
+    span {
+      background: linear-gradient(90deg, #9b5cff 0%, #ee5396 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  p {
+    font-size: 1rem;
+    color: #333;
+    width:30%;
+    max-width: 800px;
+    margin: 3%  40%;
+  }
 `;
 
 export default function HomePage() {
@@ -116,12 +155,18 @@ export default function HomePage() {
               <span>now even more powerful</span>
             </h1>
             <ButtonContainer>
-              <button>Read the Qiskit SDK v1.0 announcement</button>
-              <button>Watch the video</button>
+              <StyledButton primary>Read the Qiskit SDK v1.0 announcement</StyledButton>
+              <StyledButton>Watch the video <svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></StyledButton>
             </ButtonContainer>
           </TextContent>
         </ContentSection>
       </Maincontainer>
+      <NewSection>
+        <h2>Making the <span>world quantum safe</span></h2>
+        <p>Quantum computers make most of the world’s existing encryption algorithms obsolete. IBM developed many of the foundational technologies that will secure the world in the quantum era, and now offers the tools and services needed to implement them.
+
+</p>
+      </NewSection>
       <Footer />
     </Container>
   );
