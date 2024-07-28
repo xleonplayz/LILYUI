@@ -170,38 +170,58 @@ const HeaderItem = styled.div`
     padding-right: 20px; /* Abstand zum rechten Rand */
   }
 `;
+const Tooltip = styled.div`
+  display: none;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#e0e0e0')};
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+`;
 
 const DataRow = styled.div`
   width: 100%;
-  // background-color: #21272a;
-
   display: flex;
   flex: 1;
   justify-content: space-between;
   color: ${({ theme }) => (theme === 'dark' ? '#FFF' : '#000')};
-  
   background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
   padding: 10px 0;
-  border-top: 1px solid  ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#fff')}; /* Trennstrich */
+  border-top: 1px solid ${({ theme }) => (theme === 'dark' ? '#4a4a4a' : '#fff')}; /* Trennstrich */
   font-size: 0.875rem; /* Kleinere Schrift */
- 
+  position: relative;
+
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#343a3f' : '#e0e0e0')};
+  }
+
+  &:hover .tooltip {
+    display: block;
+  }
 `;
 
 const DataItem = styled.div`
   flex: 1;
   text-align: left;
-  
   color: ${({ theme }) => (theme === 'dark' ? '#FFF' : '#000')};
+
   &:first-child {
     text-align: left;
     padding-left: 20px; /* Abstand zum linken Rand */
   }
+
   &:last-child {
     text-align: left;
-    
     padding-right: 20px; /* Abstand zum rechten Rand */
   }
 `;
+
 
 const SmallBoxContainer = styled.div`
   display: flex;
@@ -708,30 +728,29 @@ export default function HomePage() {
             </BoxLeft>
             <BoxRight theme={theme}>
               <ContentBox theme={theme}>
-                <div  className='content-inner' style={{display:'flex',justifyContent:'space-between'}}>
-                <div>
-                <Title theme={theme}>Monthly usage</Title>
-                </div>
-                <div>
-                <UsageContainer theme={theme}>
-                  <UsageInfo theme={theme} >
-                    <span  className='text-span'>Used</span>
-                    <span className='span-sec span'>10ms</span>
-                  </UsageInfo>
-                  <UsageInfo>
-                    <span  className='text-span'>Remaining</span>
-                    <span className='span-sec span'>9m</span>
-                  </UsageInfo>
-                </UsageContainer>
-                </div>
+                <div className='content-inner' style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div>
+                    <Title theme={theme}>Monthly usage</Title>
+                  </div>
+                  <div>
+                    <UsageContainer theme={theme}>
+                      <UsageInfo theme={theme} >
+                        <span className='text-span'>Used</span>
+                        <span className='span-sec span'>10ms</span>
+                      </UsageInfo>
+                      <UsageInfo>
+                        <span className='text-span'>Remaining</span>
+                        <span className='span-sec span'>9m</span>
+                      </UsageInfo>
+                    </UsageContainer>
+                  </div>
                 </div>
                 <ProgressBarContainer>
                   <ProgressBar />
                 </ProgressBarContainer>
               </ContentBox>
             </BoxRight>
-          </BoxContainer>
-          <LargeBox theme={theme}>
+          </BoxContainer><LargeBox theme={theme}>
             <JobSectionTitle theme={theme}>Recent Jobs</JobSectionTitle>
             <ViewAll theme={theme}>View All</ViewAll>
             <JobInfoContainer>
@@ -753,16 +772,31 @@ export default function HomePage() {
             </HeaderBar>
             {[...Array(5)].map((_, index) => (
               <DataRow key={index} theme={theme}>
-                <DataItem theme={theme}>Job {index + 1}</DataItem>
+                <DataItem theme={theme}>
+                  Job {index + 1}
+                  <Tooltip className="tooltip" theme={theme}>
+                    {`2024-05-20 ${index === 2 ? `3:44:00 AM` : ''}`}
+                  </Tooltip>
+                </DataItem>
                 <DataItem theme={theme}>
                   {index % 2 === 0 ? <FaCheckCircle /> : <FaTimesCircle />}
                 </DataItem>
-                <DataItem theme={theme}>2024-05-20</DataItem>
-                <DataItem theme={theme}>2024-05-21</DataItem>
-                <DataItem theme={theme}>{100 + index}</DataItem>
+                <DataItem theme={theme}>
+                  2024-05-20
+                  <Tooltip className="tooltip" theme={theme}>
+                    {`2024-05-20 ${index === 2 ? `3:44:00 AM` : ''}`}
+                  </Tooltip>
+                </DataItem>
+                <DataItem theme={theme}>
+                  2024-05-21
+                </DataItem>
+                <DataItem theme={theme}>
+                  {100 + index}
+                </DataItem>
               </DataRow>
             ))}
           </LargeBox>
+
           <SmallBoxContainer>
             <SmallBox style={{ background: "transparent" }} theme={theme}>
 
@@ -833,32 +867,32 @@ export default function HomePage() {
 
 
             <SmallBox theme={theme}>
-            <Doc theme={theme} >
-              <SmallBoxTitle theme={theme}>Documentation</SmallBoxTitle>
-              <OpenAppLink>Open App</OpenAppLink>
+              <Doc theme={theme} >
+                <SmallBoxTitle theme={theme}>Documentation</SmallBoxTitle>
+                <OpenAppLink>Open App</OpenAppLink>
 
               </Doc>
               <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 1</SegmentTitle>
                 <SegmentText>Details for section 1</SegmentText>
               </SmallBoxSegment>
-              <Divider  theme={theme}/>
+              <Divider theme={theme} />
               <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 2</SegmentTitle>
                 <SegmentText>Details for section 2</SegmentText>
               </SmallBoxSegment >
-              <Divider  theme={theme}/>
+              <Divider theme={theme} />
               <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 3</SegmentTitle>
                 <SegmentText>Details for section 3</SegmentText>
               </SmallBoxSegment>
             </SmallBox>
             <SmallBox theme={theme}>
-            <Doc theme={theme} >
-              <SmallBoxTitle theme={theme}>Lab</SmallBoxTitle>
-              <OpenAppLink>Open App</OpenAppLink>
+              <Doc theme={theme} >
+                <SmallBoxTitle theme={theme}>Lab</SmallBoxTitle>
+                <OpenAppLink>Open App</OpenAppLink>
               </Doc  >
-              
+
               <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 1</SegmentTitle>
                 <SegmentText>Details for section 1</SegmentText>
@@ -868,7 +902,7 @@ export default function HomePage() {
                 <SegmentTitle>Section 2</SegmentTitle>
                 <SegmentText>Details for section 2</SegmentText>
               </SmallBoxSegment>
-              <Divider  theme={theme}/>
+              <Divider theme={theme} />
               <SmallBoxSegment theme={theme}>
                 <SegmentTitle>Section 3</SegmentTitle>
                 <SegmentText>Details for section 3</SegmentText>
