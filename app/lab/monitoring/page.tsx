@@ -742,6 +742,25 @@ export default function HomePage() {
     setModelType(e.target.value);
   };
 
+
+  const [modelTypeQml, setModelTypeQml] = useState('Statevector');
+
+  const handleDropdownChangeQML = (e) => {
+    setModelTypeQml(e.target.value);
+  };
+
+  const [modelQml1, setModelQml1] = useState('Statevector');
+
+  const handleChangeQML1 = (e) => {
+    setModelQml1(e.target.value);
+  };
+
+  const [modelTypeQml2, setModelTypeQml2] = useState('Statevector');
+
+  const handleDropdownChangeQML2 = (e) => {
+    setModelTypeQml2(e.target.value);
+  };
+
   const [modelTypeShape, setModelTypeShape] = useState('Statevector');
 
   const handleDropdownChangeShape = (e) => {
@@ -1061,14 +1080,95 @@ export default function HomePage() {
           {activeSegment === "QML" && (
             <GridContainer theme={theme}>
               <GridItem theme={theme}>
-                <GridTitle theme={theme}>Quantum Heatmap</GridTitle>
+
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <HeaderContainerAccu theme={theme}>
+                    <Button theme={theme}>
+                      <GrUndo className="undo" />
+                    </Button>
+                    <Button theme={theme}>
+                      <GrRedo className="redo" />
+                    </Button>
+                    <DividerAccu theme={theme} />
+
+
+                    <CustomSelect
+                      className="customselectz"
+                      value={modelTypeQml}
+                      onChange={handleDropdownChangeQML}
+                      displayEmpty
+                      renderValue={(selected) => selected || 'Select Model Type'}
+                      theme={theme}
+                    >
+                      <CustomMenuItem value="Statevector" theme={theme}>Statevector</CustomMenuItem>
+                      <CustomMenuItem value="Probabilities" theme={theme}>Probabilities</CustomMenuItem>
+                    </CustomSelect>
+                    <DividerAccu theme={theme} />
+                    <ToggleContainer>
+                      <ToggleLabel theme={theme}>Inspect</ToggleLabel>
+                      <ToggleSwitch>
+                        <input type="checkbox" />
+                        <span className="slider"></span>
+                      </ToggleSwitch>
+                    </ToggleContainer>
+                  </HeaderContainerAccu>
+                  <CustomTooltip
+                    title="This visualization shows a  of randomly generated values."
+                    theme={theme}
+                    arrow
+                  >
+                    <ThemedIconButton size="small" theme={theme}>
+                      <InfoOutlinedIcon style={{ marginRight: "20px" }} />
+                    </ThemedIconButton>
+                  </CustomTooltip>
+                </div>
                 <ProbabilityChart theme={theme} />
               </GridItem>
               <FullHeightGridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum SHAP</GridTitle>
               </FullHeightGridItem>
               <GridItem theme={theme}>
-                <GridTitle theme={theme}>Quantum Header</GridTitle>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <HeaderContainerAccu theme={theme}>
+                    <Button theme={theme}>
+                      <GrUndo className="undo" />
+                    </Button>
+                    <Button theme={theme}>
+                      <GrRedo className="redo" />
+                    </Button>
+                    <DividerAccu theme={theme} />
+
+
+                    <CustomSelect
+                      className="customselectz"
+                      value={modelQml1}
+                      onChange={handleChangeQML1}
+                      displayEmpty
+                      renderValue={(selected) => selected || 'Select Model Type'}
+                      theme={theme}
+                    >
+                      <CustomMenuItem value="Statevector" theme={theme}>Statevector</CustomMenuItem>
+                      <CustomMenuItem value="Probabilities" theme={theme}>Probabilities</CustomMenuItem>
+                    </CustomSelect>
+                    <DividerAccu theme={theme} />
+                    <ToggleContainer>
+                      <ToggleLabel theme={theme}>Inspect</ToggleLabel>
+                      <ToggleSwitch>
+                        <input type="checkbox" />
+                        <span className="slider"></span>
+                      </ToggleSwitch>
+                    </ToggleContainer>
+                  </HeaderContainerAccu>
+                  <CustomTooltip
+                    title="This visualization shows a  of randomly generated values."
+                    theme={theme}
+                    arrow
+                  >
+                    <ThemedIconButton size="small" theme={theme}>
+                      <InfoOutlinedIcon style={{ marginRight: "20px" }} />
+                    </ThemedIconButton>
+                  </CustomTooltip>
+                </div>
                 <Plot theme={theme} />
               </GridItem>
             </GridContainer>
@@ -1079,7 +1179,49 @@ export default function HomePage() {
                 <GridTitle theme={theme}>Advanced Quantum Heatmap</GridTitle>
               </FullWidthGridItem>
               <GridItem theme={theme}>
-                <GridTitle theme={theme}>Advanced Quantum SHAP</GridTitle>
+
+
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <HeaderContainerAccu theme={theme}>
+                    <Button theme={theme}>
+                      <GrUndo className="undo" />
+                    </Button>
+                    <Button theme={theme}>
+                      <GrRedo className="redo" />
+                    </Button>
+                    <DividerAccu theme={theme} />
+
+
+                    <CustomSelect
+                      className="customselectz"
+                      value={modelTypeQml2}
+                      onChange={handleDropdownChangeQML2}
+                      displayEmpty
+                      renderValue={(selected) => selected || 'Select Model Type'}
+                      theme={theme}
+                    >
+                      <CustomMenuItem value="Statevector" theme={theme}>Statevector</CustomMenuItem>
+                      <CustomMenuItem value="Probabilities" theme={theme}>Probabilities</CustomMenuItem>
+                    </CustomSelect>
+                    <DividerAccu theme={theme} />
+                    <ToggleContainer>
+                      <ToggleLabel theme={theme}>Inspect</ToggleLabel>
+                      <ToggleSwitch>
+                        <input type="checkbox" />
+                        <span className="slider"></span>
+                      </ToggleSwitch>
+                    </ToggleContainer>
+                  </HeaderContainerAccu>
+                  <CustomTooltip
+                    title="This visualization shows a  of randomly generated values."
+                    theme={theme}
+                    arrow
+                  >
+                    <ThemedIconButton size="small" theme={theme}>
+                      <InfoOutlinedIcon style={{ marginRight: "20px" }} />
+                    </ThemedIconButton>
+                  </CustomTooltip>
+                </div>
                 <Unique theme={theme} />
               </GridItem>
               <GridItem theme={theme}>

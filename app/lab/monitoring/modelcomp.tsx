@@ -120,6 +120,18 @@ const CustomMenuItem = styled(MenuItem)`
   }
 `;
 
+
+const ResponsiveBox = styled(Box)`
+  height: 40vh; /* 50% of the viewport height */
+  min-height: 250px; /* Minimum height */
+  max-height: 500px; /* Maximum height */
+  width: 95%;
+
+  margin:10px auto;
+  align-item:center;
+  justify-content:center;
+`;
+
 const Plot = ({ theme }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [quantumRegisters, setQuantumRegisters] = useState([{ name: 'q', qubits: 4 }]);
@@ -258,139 +270,11 @@ const Plot = ({ theme }) => {
   };
 
   return (
-    <Box sx={{ padding: 2, minHeight: '100%', color: textColor }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <CustomSelect
-          value={selected}
-          onChange={handleDropdownSelected}
-          displayEmpty
-          theme={theme}
-        >
-          <CustomMenuItem value="Statevector" theme={theme} selected={selected === 'Statevector'}>
-            Statevector
-          </CustomMenuItem>
-          <CustomMenuItem value="Probabilities" theme={theme} selected={selected === 'Probabilities'}>
-            Probabilities
-          </CustomMenuItem>
-        </CustomSelect>
+    <ResponsiveBox >
+      <Bar data={data} options={options} />
+    </ResponsiveBox>
 
-        <Box display="flex" alignItems="center">
-          <MuiTooltip
-            title={
-              <Box p={2} sx={{ color: 'white', maxWidth: 300 }}>
-                <Typography variant="subtitle1">About visualization</Typography>
-                <Typography variant="body2">
-                  This visualization shows the probability of outputs across the computational basis states, for up to 8 qubits. Learn more.
-                </Typography>
-              </Box>
-            }
-            placement="bottom"
-            arrow
-          >
-            <IconButton style={{ color: textColor }}>
-              <InfoOutlinedIcon />
-            </IconButton>
-          </MuiTooltip>
-          <MuiTooltip title="More options" placement="left">
-            <IconButton onClick={handleOpenModal} style={{ color: textColor }}>
-              <MoreVertIcon />
-            </IconButton>
-          </MuiTooltip>
-        </Box>
-      </Box>
-      <Box style={{ height: '270px', width: '100%' }}>
-        <Bar data={data} options={options} />
-      </Box>
 
-      <StyledDialog open={modalOpen} onClose={handleCloseModal} maxWidth="md" fullWidth theme={theme}>
-        <DialogTitle>Manage registers</DialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            A quantum register is a collection of qubits on which gates and other operations act. A classical register consists of bits that can be written to and read within the quantum circuit's coherence time.
-          </Typography>
-          <Box mb={2}>
-            <Typography variant="subtitle1" gutterBottom style={{ margin: '15px 0px' }}>Quantum registers</Typography>
-            {quantumRegisters.map((register, index) => (
-              <Box key={index} display="flex" alignItems="center" mb={1}>
-                <TextField
-                  label="Name"
-                  variant="outlined"
-                  value={register.name}
-                  onChange={(e) => {
-                    const newRegisters = [...quantumRegisters];
-                    newRegisters[index].name = e.target.value;
-                    setQuantumRegisters(newRegisters);
-                  }}
-                  style={{ marginRight: 10 }}
-                />
-                <TextField
-                  label="Number of qubits"
-                  variant="outlined"
-                  type="number"
-                  value={register.qubits}
-                  onChange={(e) => {
-                    const newRegisters = [...quantumRegisters];
-                    newRegisters[index].qubits = parseInt(e.target.value, 10);
-                    setQuantumRegisters(newRegisters);
-                  }}
-                  style={{ marginRight: 10 }}
-                />
-                <IconButton onClick={() => handleRemoveQuantumRegister(index)}>
-                  <DeleteIcon />
-                </IconButton>
-              </Box>
-            ))}
-            <Button variant="outlined" startIcon={<AddIcon />} onClick={handleAddQuantumRegister}>
-              Add new
-            </Button>
-          </Box>
-          <Box mb={2}>
-            <Typography variant="subtitle1" gutterBottom style={{ margin: '15px 0px' }}>Classical registers</Typography>
-            {classicalRegisters.map((register, index) => (
-              <Box key={index} display="flex" alignItems="center" mb={1}>
-                <TextField
-                  label="Name"
-                  variant="outlined"
-                  value={register.name}
-                  onChange={(e) => {
-                    const newRegisters = [...classicalRegisters];
-                    newRegisters[index].name = e.target.value;
-                    setClassicalRegisters(newRegisters);
-                  }}
-                  style={{ marginRight: 10 }}
-                />
-                <TextField
-                  label="Number of bits"
-                  variant="outlined"
-                  type="number"
-                  value={register.bits}
-                  onChange={(e) => {
-                    const newRegisters = [...classicalRegisters];
-                    newRegisters[index].bits = parseInt(e.target.value, 10);
-                    setClassicalRegisters(newRegisters);
-                  }}
-                  style={{ marginRight: 10 }}
-                />
-                <IconButton onClick={() => handleRemoveClassicalRegister(index)}>
-                  <DeleteIcon />
-                </IconButton>
-              </Box>
-            ))}
-            <Button variant="outlined" startIcon={<AddIcon />} onClick={handleAddClassicalRegister}>
-              Add new
-            </Button>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseModal} style={{ color: 'grey' }}>
-            Cancel
-          </Button>
-          <Button onClick={handleCloseModal} variant="contained" style={{ backgroundColor: '#0071eb', color: 'white' }}>
-            Ok
-          </Button>
-        </DialogActions>
-      </StyledDialog>
-    </Box>
   );
 };
 

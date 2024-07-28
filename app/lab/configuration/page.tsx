@@ -499,7 +499,6 @@ const CResource = styled.h2`
   margin: 20px 20px 0px;
   // padding: 230px;
 `;
-
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiPaper-root': {
     backgroundColor: theme === 'dark' ? '#21272a' : '#f4f4f4',
@@ -511,6 +510,16 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiTextField-root': {
     '& .MuiInputBase-input': {
       color: theme === 'dark' ? 'white' : 'black',
+      '-webkit-appearance': 'none', // Remove arrows in WebKit browsers
+      '-moz-appearance': 'textfield', // Remove arrows in Firefox
+      '&::-webkit-outer-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
+      '&::-webkit-inner-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
     },
     '& .MuiInputLabel-root': {
       color: theme === 'dark' ? 'white' : 'black',
@@ -528,6 +537,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
     color: theme === 'dark' ? 'white' : 'black',
   },
 }));
+
 export default function HomePage() {
   const theme = useSelector((state) => state.theme.theme);
   const [activeTopNav, setActiveTopNav] = useState('configuration');
