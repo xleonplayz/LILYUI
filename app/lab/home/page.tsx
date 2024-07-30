@@ -266,11 +266,14 @@ const FooterSpacing = styled.div`
 const Banner = styled.div`
   // display: flex;
   
+  flex: 1;
   display: flex;
   flex-direction: row; /* Zeilenweise Anordnung für linke und rechte Sektionen */
-  // justify-content: space-between;
+  display: flex;
+  flex-direction: row; /* Zeilenweise Anordnung für linke und rechte Sektionen */
+  justify-content: space-between;
   // align-items: flex-end;
-  padding: 90px 70px 40px 70px;
+  padding: 90px 70px 40px 30px;
   // padding-top:70px
   background: linear-gradient(25deg, #0f62fe 25%, #a56eff 80%, #ff7eb6 100%);
   background-attachment: fixed;
@@ -281,7 +284,7 @@ const Banner = styled.div`
 const UserInfo = styled.div`
   position: absolute;
   top: 9%;
-  left: 1.7%;
+  left: 2%;
   color:white;
   font-size: .875rem;
   letter-spacing: .16px;
@@ -292,7 +295,7 @@ const BannerText = styled.div`
   position: absolute;
   display: flex;
   // top: 18%;
-  left: 1.5%;
+  // left: 1.5%;
    flex: 6;
   // display: flex;  
   flex-direction: column;
@@ -313,7 +316,7 @@ const APIToken = styled.div`
   font-weight: 300;
   
    flex: 2;
-  margin-left: 76.8%; /* Schiebt das Element nach rechts */
+  margin-left: 77.5%; /* Schiebt das Element nach rechts */
 
 `;
 
