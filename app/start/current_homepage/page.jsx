@@ -13,6 +13,8 @@ import Image from 'next/image';
 // Import the SVG file from the public directory
 import quantumg from '@/assests/quantum.svg';
 
+import quantumnetwork from '@/assests/join-quantum-network-feature.jpeg';
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -121,7 +123,6 @@ const StyledButtonIbm = styled.div`
 `;
 
 const StyledButtonQuantum = styled.div`
-  // background-color: ${({ primary }) => (primary ? 'transparent' : 'transparent')};
   color: ${({ primary }) => (primary ? '#525252' : '#343a3f')};
   padding: 13px 20px;
   width: 120px;
@@ -220,7 +221,8 @@ const IBMSection = styled.div`
   }
 `;
 
-const QuantumSection = styled.div`  display: flex;
+const QuantumSection = styled.div`
+  display: flex;
   flex-direction: row; /* Align items in a row */
   align-items: center; /* Center align items vertically */
   margin: 10% 0;
@@ -228,7 +230,6 @@ const QuantumSection = styled.div`  display: flex;
   width: 80%;
   margin: auto;
   justify-content: space-around;
-
 
   .text {
     width: 40%;
@@ -249,13 +250,110 @@ const QuantumSection = styled.div`  display: flex;
 
   .image {
     width: 50%;
-    // display: flex;
-    // justify-content: center;
     
     img {
       width: auto;
       height: 100%;
       max-height: 500px; /* Ensure the image is displayed at its actual height */
+      object-fit: contain;
+    }
+  }
+`;
+
+const FooterSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 4% 0% 7% 10%;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#1c1f23' : '#f4f4f4')};
+  color: ${({ theme }) => (theme === 'dark' ? '#ffffff' : '#000000')};
+  // border-top: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ccc')};
+
+  .header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .columns {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+
+    .column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      // margin: 0 10px;
+
+      h3 {
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+      }
+
+      a {
+        color: ${({ theme }) => (theme === 'dark' ? '#a9a9a9' : '#000')};
+        text-decoration: none;
+        margin-bottom: 10px;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .column-footer {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    border-top: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ccc')};
+    padding-top: 20px;
+    text-align: center;
+  }
+`;
+
+const QuantumNetworkSection = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10% 0;
+  // padding:0px  5%;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#3a3a3a' : '#f7f7f7')};
+  width: 100%;
+  margin: auto;
+  justify-content: center;
+
+  .text {
+    width: 40%;
+    // padding:2rem;
+    
+    h2 {
+      font-weight: 200;
+      font-size: 2.625rem;
+      margin: 0;
+      color: #161616;
+    }
+    
+    p {
+      font-size: 1rem;
+      color: #525252;
+      margin: 20px auto;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+  }
+
+  .image {
+    width: 40%;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      max-height: 500px;
       object-fit: contain;
     }
   }
@@ -322,6 +420,52 @@ export default function HomePage() {
           <StyledButtonQuantum primary>Learn More <MdOutlineArrowOutward /></StyledButtonQuantum>
         </div>
       </QuantumSection>
+
+      <QuantumNetworkSection theme={theme}>
+        <div className="text">
+          <h2>Join the IBM Quantum Network</h2>
+          <p>There are 270+ Fortune 500 companies, universities, laboratories, and startups in the Network, with access to exclusive meetings and select channels. IBM Quantum Network members collaborate widely, and benefit from close working relationships with our in-house experts.</p>
+          <div className="button-container">
+            <StyledButton primary>Learn more</StyledButton>
+            <StyledButton>Hear from the Network <svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></StyledButton>
+          </div>
+        </div>
+        <div className="image">
+        <Image src={quantumnetwork} alt="Quantum Computing" />
+        </div>
+      </QuantumNetworkSection>
+
+      <FooterSection theme={theme}>
+        <div className="header">IBM Quantum</div>
+        <div className="columns">
+          <div className="column">
+            <h3>Featured</h3>
+            <a href="#">Technology</a>
+            <a href="#">IBM Quantum Safe</a>
+            <a href="#">IBM Quantum Network</a>
+            <a href="#">Research</a>
+          </div>
+          <div className="column">
+            <h3>Get access</h3>
+            <a href="#">Pricing</a>
+            <a href="#">IBM Quantum Platform</a>
+          </div>
+          <div className="column">
+            <h3>Get started</h3>
+            <a href="#">Qiskit</a>
+            <a href="#">Documentation</a>
+            <a href="#">Learning</a>
+          </div>
+          <div className=" column">
+            <h3>Stay connected</h3>
+            <a href="#">Blog</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">YouTube</a>
+            <a href="#">Community</a>
+            <a href="#">Careers</a>
+          </div>
+        </div>
+      </FooterSection>
 
       <Footer />
     </Container>
