@@ -24,7 +24,8 @@ import {
   MenuItem,
 } from '@mui/material';
 import styled from 'styled-components';
-
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 
@@ -40,7 +41,48 @@ const ResponsiveBox = styled(Box)`
   justify-content:center;
 `;
 
-const Unique = ({ theme }) => {
+
+
+const StyledDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiPaper-root': {
+    backgroundColor: theme === 'dark' ? '#21272a' : '#f4f4f4',
+    color: theme === 'dark' ? 'white' : 'black',
+  },
+  '& .MuiButton-root': {
+    color: theme === 'dark' ? 'white' : 'black',
+  },
+  '& .MuiTextField-root': {
+    '& .MuiInputBase-input': {
+      color: theme === 'dark' ? 'white' : 'black',
+      '-webkit-appearance': 'none', // Remove arrows in WebKit browsers
+      '-moz-appearance': 'textfield', // Remove arrows in Firefox
+      '&::-webkit-outer-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
+      '&::-webkit-inner-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
+    },
+    '& .MuiInputLabel-root': {
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: theme === 'dark' ? 'white' : 'black',
+      },
+      '&:hover fieldset': {
+        borderColor: theme === 'dark' ? 'white' : 'black',
+      },
+    },
+  },
+  '& .MuiSvgIcon-root': {
+    color: theme === 'dark' ? 'white' : 'black',
+  },
+}));
+
+const Unique = ({ theme, modalOpenQml2, handleOpenModalQml2, handleCloseModalQml2 })  => {
   const [modalOpen, setModalOpen] = useState(false);
   const [quantumRegisters, setQuantumRegisters] = useState([{ name: 'q', qubits: 4 }]);
   const [classicalRegisters, setClassicalRegisters] = useState([{ name: 'c', bits: 4 }]);
@@ -50,13 +92,6 @@ const Unique = ({ theme }) => {
     setSelected(e.target.value);
   };
 
-  const handleOpenModal = () => {
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
 
   const handleAddQuantumRegister = () => {
     setQuantumRegisters([...quantumRegisters, { name: '', qubits: 1 }]);
@@ -177,10 +212,100 @@ const Unique = ({ theme }) => {
     },
   };
 
-  return (
+  return ( 
+    <Box sx={{ minHeight: '100%', color: textColor }}>
     <ResponsiveBox >
-      <Bar data={data} options={options} />
-    </ResponsiveBox>
+    <Bar data={data} options={options} />
+  </ResponsiveBox>
+  <StyledDialog open={modalOpenQml2} onClose={handleOpenModalQml2} maxWidth="md" fullWidth theme={theme}>
+    <DialogTitle>Manage registers</DialogTitle>
+    <DialogContent dividers>
+      <Typography gutterBottom>
+        A quantumzzzzzzzz register is a collection of qubits on which gates and other operations act. A classical register consists of bits that can be written to and read within the quantum circuit's coherence time.
+      </Typography>
+      <Box mb={2}>
+        <Typography variant="subtitle1" gutterBottom style={{ margin: '15px 0px' }}>Quantum registers</Typography>
+        {quantumRegisters.map((register, index) => (
+          <Box key={index} display="flex" alignItems="center" mb={1}>
+            <TextField
+              label="Name"
+              variant="outlined"
+              value={register.name}
+              onChange={(e) => {
+                const newRegisters = [...quantumRegisters];
+                newRegisters[index].name = e.target.value;
+                setQuantumRegisters(newRegisters);
+              }}
+              style={{ marginRight: 10 }}
+            />
+            <TextField
+              label="Number of qubits"
+              variant="outlined"
+              type="number"
+              value={register.qubits}
+              onChange={(e) => {
+                const newRegisters = [...quantumRegisters];
+                newRegisters[index].qubits = parseInt(e.target.value, 10);
+                setQuantumRegisters(newRegisters);
+              }}
+              style={{ marginRight: 10 }}
+            />
+            <IconButton onClick={() => handleRemoveQuantumRegister(index)}>
+              <DeleteIcon />
+            </IconButton>
+          </Box>
+        ))}
+        <Button variant="outlined" startIcon={<AddIcon />} onClick={handleAddQuantumRegister}>
+          Add new
+        </Button>
+      </Box>
+      <Box mb={2}>
+        <Typography variant="subtitle1" gutterBottom style={{ margin: '15px 0px' }}>Classical registers</Typography>
+        {classicalRegisters.map((register, index) => (
+          <Box key={index} display="flex" alignItems="center" mb={1}>
+            <TextField
+              label="Name"
+              variant="outlined"
+              value={register.name}
+              onChange={(e) => {
+                const newRegisters = [...classicalRegisters];
+                newRegisters[index].name = e.target.value;
+                setClassicalRegisters(newRegisters);
+              }}
+              style={{ marginRight: 10 }}
+            />
+            <TextField
+              label="Number of bits"
+              variant="outlined"
+              type="number"
+              value={register.bits}
+              onChange={(e) => {
+                const newRegisters = [...classicalRegisters];
+                newRegisters[index].bits = parseInt(e.target.value, 10);
+                setClassicalRegisters(newRegisters);
+              }}
+              style={{ marginRight: 10 }}
+            />
+            <IconButton onClick={() => handleRemoveClassicalRegister(index)}>
+              <DeleteIcon />
+            </IconButton>
+          </Box>
+        ))}
+        <Button variant="outlined" startIcon={<AddIcon />} onClick={handleAddClassicalRegister}>
+          Add new
+        </Button>
+      </Box>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={handleCloseModalQml2} style={{ color: 'grey' }}>
+        Cancel
+      </Button>
+      <Button onClick={handleCloseModalQml2} variant="contained" style={{ backgroundColor: '#0071eb', color: 'white' }}>
+        Ok
+      </Button>
+    </DialogActions>
+  </StyledDialog>
+</Box>
 
   );
 };

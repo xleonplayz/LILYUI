@@ -16,6 +16,7 @@ import Unique from "./uniqness";
 import { GrRedo, GrUndo } from 'react-icons/gr';
 // import { BiRedo } from 'react-icons/bi';
 
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Select, MenuItem, OutlinedInput } from '@mui/material';
 const Container = styled.div`
   display: flex;
@@ -672,6 +673,13 @@ export default function HomePage() {
     results: true,
   });
 
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const [modalOpenQml1, setModalOpenQml1] = useState(false);
+
+  
+  
+  const [modalOpenQml2, setModalOpenQml2] = useState(false);
   const handleInputChange = (event) => {
     setInputJob(event.target.value);
   };
@@ -696,6 +704,30 @@ export default function HomePage() {
     setActiveSidebar(option);
   };
 
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  
+  const handleOpenModalQml1 = () => {
+    setModalOpenQml1(true);
+  };
+
+  const handleCloseModalQml1 = () => {
+    setModalOpenQml1(false);
+  };
+  
+  const handleOpenModalQml2 = () => {
+    setModalOpenQml2(true);
+  };
+
+  const handleCloseModalQml2 = () => {
+    setModalOpenQml2(false);
+  };
   const toggleJobDetails = (jobId) => {
     const job = jobsData.find((job) => job.id === jobId);
     setSelectedJob(selectedJob === job ? null : job);
@@ -1081,6 +1113,8 @@ export default function HomePage() {
             <GridContainer theme={theme}>
               <GridItem theme={theme}>
 
+
+
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <HeaderContainerAccu theme={theme}>
                     <Button theme={theme}>
@@ -1112,18 +1146,27 @@ export default function HomePage() {
                       </ToggleSwitch>
                     </ToggleContainer>
                   </HeaderContainerAccu>
-                  <CustomTooltip
-                    title="This visualization shows a  of randomly generated values."
-                    theme={theme}
-                    arrow
-                  >
-                    <ThemedIconButton size="small" theme={theme}>
-                      <InfoOutlinedIcon style={{ marginRight: "20px" }} />
-                    </ThemedIconButton>
-                  </CustomTooltip>
+
+                  <HeaderContainerAccu>
+                    <CustomTooltip
+                      title="This visualization shows a  of randomly generated values."
+                      theme={theme}
+                      arrow
+                    >
+                      <ThemedIconButton size="small" theme={theme}>
+                        <InfoOutlinedIcon style={{ marginRight: "20px" }} />
+                      </ThemedIconButton>
+                    </CustomTooltip>
+
+
+                    <IconButton onClick={handleOpenModal} style={{ color: theme === 'dark' ? 'white' : 'black' }}>
+                      <MoreVertIcon />
+                    </IconButton>
+
+                  </HeaderContainerAccu>
                 </div>
-                <ProbabilityChart theme={theme} />
-              </GridItem>
+                <ProbabilityChart theme={theme} modalOpen={modalOpen} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} />
+                            </GridItem>
               <FullHeightGridItem theme={theme}>
                 <GridTitle theme={theme}>Quantum SHAP</GridTitle>
               </FullHeightGridItem>
@@ -1159,17 +1202,27 @@ export default function HomePage() {
                       </ToggleSwitch>
                     </ToggleContainer>
                   </HeaderContainerAccu>
-                  <CustomTooltip
-                    title="This visualization shows a  of randomly generated values."
-                    theme={theme}
-                    arrow
-                  >
-                    <ThemedIconButton size="small" theme={theme}>
-                      <InfoOutlinedIcon style={{ marginRight: "20px" }} />
-                    </ThemedIconButton>
-                  </CustomTooltip>
+
+                  <HeaderContainerAccu>
+                    <CustomTooltip
+                      title="This visualization shows a  of randomly generated values."
+                      theme={theme}
+                      arrow
+                    >
+                      <ThemedIconButton size="small" theme={theme}>
+                        <InfoOutlinedIcon style={{ marginRight: "20px" }} />
+                      </ThemedIconButton>
+                    </CustomTooltip>
+
+
+                    <IconButton onClick={handleOpenModalQml1} style={{ color: theme === 'dark' ? 'white' : 'black' }}>
+                      <MoreVertIcon />
+                    </IconButton>
+
+                  </HeaderContainerAccu>
                 </div>
-                <Plot theme={theme} />
+                <Plot theme={theme} modalOpenQml1={modalOpenQml1} handleOpenModalQml1={handleOpenModalQml1} handleCloseModalQml1={handleCloseModalQml1} />
+
               </GridItem>
             </GridContainer>
           )}
@@ -1212,17 +1265,26 @@ export default function HomePage() {
                       </ToggleSwitch>
                     </ToggleContainer>
                   </HeaderContainerAccu>
-                  <CustomTooltip
-                    title="This visualization shows a  of randomly generated values."
-                    theme={theme}
-                    arrow
-                  >
-                    <ThemedIconButton size="small" theme={theme}>
-                      <InfoOutlinedIcon style={{ marginRight: "20px" }} />
-                    </ThemedIconButton>
-                  </CustomTooltip>
+ 
+                  <HeaderContainerAccu>
+                    <CustomTooltip
+                      title="This visualization shows a  of randomly generated values."
+                      theme={theme}
+                      arrow
+                    >
+                      <ThemedIconButton size="small" theme={theme}>
+                        <InfoOutlinedIcon style={{ marginRight: "20px" }} />
+                      </ThemedIconButton>
+                    </CustomTooltip>
+
+
+                    <IconButton onClick={handleOpenModalQml2} style={{ color: theme === 'dark' ? 'white' : 'black' }}>
+                      <MoreVertIcon />
+                    </IconButton>
+
+                  </HeaderContainerAccu>
                 </div>
-                <Unique theme={theme} />
+                <Unique theme={theme} modalOpenQml2={modalOpenQml2} handleOpenModalQml2={handleOpenModalQml2} handleCloseModalQml2={handleCloseModalQml2}  />
               </GridItem>
               <GridItem theme={theme}>
                 <GridTitle theme={theme}>Advanced Quantum Header</GridTitle>
