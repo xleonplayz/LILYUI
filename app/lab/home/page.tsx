@@ -264,9 +264,12 @@ const FooterSpacing = styled.div`
 `;
 
 const Banner = styled.div`
+  // display: flex;
+  
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: row; /* Zeilenweise Anordnung für linke und rechte Sektionen */
+  // justify-content: space-between;
+  // align-items: flex-end;
   padding: 90px 70px 40px 70px;
   // padding-top:70px
   background: linear-gradient(25deg, #0f62fe 25%, #a56eff 80%, #ff7eb6 100%);
@@ -290,6 +293,8 @@ const BannerText = styled.div`
   display: flex;
   // top: 18%;
   left: 1.5%;
+   flex: 6;
+  // display: flex;  
   flex-direction: column;
   font-size: 12px;
   align-items: flex-start;
@@ -306,7 +311,9 @@ const APIToken = styled.div`
   flex-direction: column;
   align-items: flex-start;
   font-weight: 300;
-  margin-left: 75%; /* Schiebt das Element nach rechts */
+  
+   flex: 2;
+  margin-left: 76.8%; /* Schiebt das Element nach rechts */
 
 `;
 
@@ -328,7 +335,7 @@ const APIInput = styled.input`
   border: 1px solid transparent;
   border-radius: 0; /* Eckige Kanten */
   font-size: 0.875rem;
-  width: 300px;
+  min-width: 320px;
   max-width: 500px; /* Länger */
   background-color: rgba(255, 255, 255, 0.7); /* Viel transparenter */
   color: black;
