@@ -44,7 +44,9 @@ const Maincontainer = styled.div`
   align-items: center;
   position: relative;
   width: 100%;
-  background-color: #e0e0e0;
+  // background-color: #e0e0e0;
+  
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#e0e0e0')};
   height: 94vh;
 `;
 
@@ -58,7 +60,9 @@ const TextContent = styled.div`
 
   h1 {
     font-weight: 200;
-    color: #000;
+    // color: #000;
+
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
     font-size: calc(3.375rem + .375*(100vw - 66rem)/16);
   }
 
@@ -80,6 +84,51 @@ const ButtonContainer = styled.div`
 `;
 
 const StyledButton = styled.button`
+  background-color: ${({ primary }) => (primary ? '#343a3f' : 'transparent')};
+  color: ${({ primary }) => (primary ? '#ffff' : '#343a3f')};
+  padding: 13px 20px;
+  border: ${({ primary }) => (primary ? 'none' : 'none')};
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: ${({ primary }) => (primary ? '#333' : 'transparent')};
+    color: ${({ primary }) => (primary ? '#fff' : '#343a3f')};
+  }
+
+  svg {
+    margin-left: 5px;
+  }
+`;
+
+
+const StyledButtonVideo = styled.button`
+  background-color: ${({ primary }) => (primary ? '#343a3f' : 'transparent')};
+ 
+color : ${({ theme }) => (theme === 'dark' ? '#fff' : '#343a3f')};
+ padding: 13px 20px;
+  border: ${({ primary }) => (primary ? 'none' : 'none')};
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: ${({ primary }) => (primary ? '#333' : 'transparent')};
+    color: ${({ primary }) => (primary ? '#fff' : '#343a3f')};
+  }
+
+  svg {
+    margin-left: 5px;
+    
+color : ${({ theme }) => (theme === 'dark' ? '#fff' : '#343a3f')};
+  }
+`;
+
+
+const StyledButtonsvg = styled.button`
   background-color: ${({ primary }) => (primary ? '#343a3f' : 'transparent')};
   color: ${({ primary }) => (primary ? '#fff' : '#343a3f')};
   padding: 13px 20px;
@@ -123,10 +172,11 @@ const StyledButtonIbm = styled.div`
 `;
 
 const StyledButtonQuantum = styled.div`
-  color: ${({ primary }) => (primary ? '#525252' : '#343a3f')};
+  
+color : ${({ theme }) => (theme === 'dark' ? '#fff' : '#343a3f')};
   padding: 13px 20px;
   width: 120px;
-  border:1px solid  ${({ primary }) => (primary ? '#525252' : 'none')};
+  border:1px solid   ${({ theme }) => (theme === 'dark' ? '#fff' : '#525252')};
   cursor: pointer;
   font-size: 1rem;
   display: flex;
@@ -135,7 +185,7 @@ const StyledButtonQuantum = styled.div`
 
   &:hover {
     background-color: ${({ primary }) => (primary ? '#333' : 'transparent')};
-    color: ${({ primary }) => (primary ? '#fff' : '#343a3f')};
+    // color: ${({ primary }) => (primary ? '#fff' : '#343a3f')};
   }
 
   svg {
@@ -160,8 +210,9 @@ const NewSection = styled.div`
     top: 0px;
     left: 0px;
     font-size: calc(3.375rem + .375*(100vw - 66rem)/16);
+    
     margin: 0px;
-    color: #000;
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 
     span {
       background: linear-gradient(90deg, #9b5cff 0%, #ee5396 100%);
@@ -172,8 +223,10 @@ const NewSection = styled.div`
 
   p {
     font-size: 1rem;
-    color: #333;
+    // color: #333;
     width: 30%;
+    
+    color: ${({ theme }) => (theme === 'dark' ? '#e0e0e0' : '#333')};
     max-width: 800px;
     margin: 3% 40%;
   }
@@ -197,12 +250,16 @@ const IBMSection = styled.div`
       font-weight: 200;
       font-size: 2.625rem;
       margin: 0;
-      color: #161616;
+      // color: #161616;
+      
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#161616')};
     }
     
     p {
       font-size: 1rem;
-      color: #525252;
+      
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#525252')};
+      // color: #525252;
       margin: 20px auto;
     }
   }
@@ -238,13 +295,21 @@ const QuantumSection = styled.div`
       font-weight: 200;
       font-size: 2.625rem;
       margin: 0;
-      color: #161616;
+      // color: #161616;
+
+      //  color: ${({ primary }) => (primary ? '#fff' : '#161616')};
+       
+      color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#161616')};
+ 
     }
     
     p {
       font-size: 1rem;
-      color: #525252;
+      // color: #525252;
+      color: ${({ theme }) => (theme === 'dark' ? '#e0e0e0' : '#525252')};
+      //  color: ${({ theme }) => (theme ? '#e0e0e0' : '#525252')};
       margin: 20px auto;
+      // padding-right:20px;
     }
   }
 
@@ -288,7 +353,8 @@ const FooterSection = styled.div`
 
       h3 {
         margin-bottom: 20px;
-        font-size: 1.1rem;
+        font-size: .875rem;
+        font-weight:600;
       }
 
       a {
@@ -296,6 +362,8 @@ const FooterSection = styled.div`
         text-decoration: none;
         margin-bottom: 10px;
 
+        
+        font-size:.875rem;
         &:hover {
           text-decoration: underline;
         }
@@ -318,7 +386,7 @@ const QuantumNetworkSection = styled.div`
   align-items: center;
   margin: 10% 0;
   // padding:0px  5%;
-  background-color: ${({ theme }) => (theme === 'dark' ? '#3a3a3a' : '#f7f7f7')};
+  background-color: ${({ theme }) => (theme === 'dark' ? '#3a3a3a' : '#525252')};
   width: 100%;
   margin: auto;
   justify-content: center;
@@ -328,21 +396,24 @@ const QuantumNetworkSection = styled.div`
     // padding:2rem;
     
     h2 {
-      font-weight: 200;
-      font-size: 2.625rem;
-      margin: 0;
-      color: #161616;
+      font-weight: 300;
+      font-size:2.625rem;
+      margin:0 auto;
+      color:  ${({ theme }) => (theme === 'dark' ? '#fff' : '#fff')};
     }
     
     p {
       font-size: 1rem;
-      color: #525252;
+      color:  ${({ theme }) => (theme === 'dark' ? '#fff' : '#fff')};
       margin: 20px auto;
+// width:600px;
+padding:0px 100px 20px 0px; 
+font-weight:400;
     }
 
     .button-container {
       display: flex;
-      gap: 10px;
+      // gap: 10px;
       margin-top: 20px;
     }
   }
@@ -353,12 +424,58 @@ const QuantumNetworkSection = styled.div`
     img {
       width: 100%;
       height: 100%;
-      max-height: 500px;
+      max-height: 600px;
       object-fit: contain;
     }
   }
 `;
 
+
+
+
+const StyledButtonNetwork = styled.button`
+  background-color: ${({ primary }) => (primary ? '#343a3f' : 'transparent')};
+  color: ${({ primary }) => (primary ? '#fff' : '#fff')};
+  padding: 13px 20px;
+  border: ${({ primary }) => (primary ? 'none' : 'none')};
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    // background-color: ${({ primary }) => (primary ? '#333' : 'transparent')};
+    color: ${({ primary }) => (primary ? '#fff' : '#000')};
+  }
+
+  svg {
+    margin-left: 10px;
+color:#fff;
+    }
+`;
+
+const StyledButtonQuantumNetwork = styled.div`
+  background-color: ${({ primary }) => (primary ? '#fff' : 'transparent')};
+  color: ${({ primary }) => (primary ? '#161616' : '#161616')};
+  padding: 12px 20px;
+  // width: 120px;
+  border: ${({ primary }) => (primary ? 'none' : 'none')};
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:hover {
+    // background-color: ${({ primary }) => (primary ? '#333' : 'transparent')};
+    // color: ${({ primary }) => (primary ? '#fff' : '#343a3f')};
+  }
+
+  svg {
+    margin-left: 5px;
+    font-size: 20px;
+  }
+`;
 export default function HomePage() {
   const [activeTopNav, setActiveTopNav] = useState('start');
   const [activeSidebar, setActiveSidebar] = useState('docs');
@@ -381,25 +498,25 @@ export default function HomePage() {
         onTopNavClick={handleTopNavClick}
         onSidebarClick={handleSidebarClick}
       />
-      <Maincontainer>
+      <Maincontainer theme={theme}>
         <ContentSection>
-          <TextContent>
+          <TextContent theme={theme}>
             <h1>The most popular quantum software,<br />
               <span>now even more powerful</span>
             </h1>
-            <ButtonContainer>
-              <StyledButton primary>Read the Qiskit SDK v1.0 announcement</StyledButton>
-              <StyledButton>Watch the video <svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></StyledButton>
+            <ButtonContainer theme={theme}>
+              <StyledButtonsvg primary>Read the Qiskit SDK v1.0 announcement</StyledButtonsvg>
+              <StyledButtonVideo theme={theme}>Watch the video <svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></StyledButtonVideo>
             </ButtonContainer>
           </TextContent>
         </ContentSection>
       </Maincontainer>
-      <NewSection>
+      <NewSection theme={theme}>
         <h2>Making the world <span>quantum safe</span></h2>
         <p>Quantum computers make most of the world’s existing encryption algorithms obsolete. IBM developed many of the foundational technologies that will secure the world in the quantum era, and now offers the tools and services needed to implement them.</p>
       </NewSection>
 
-      <IBMSection>
+      <IBMSection theme={theme}>
         <div className="text">
           <h2>Start using 127-qubit systems for <br />free</h2>
           <p>IBM Quantum Platform provides access to systems, documentation, and learning <br />resources all in one place. Sign up today to get 10 free minutes of execution time <br />per month on our utility-scale systems.</p>
@@ -410,14 +527,14 @@ export default function HomePage() {
         </div>
       </IBMSection>
 
-      <QuantumSection>
+      <QuantumSection theme={theme}>
         <div className="image">
           <Image src={quantumg} alt="Quantum Computing" />
         </div>
         <div className="text">
-          <h2>Our commitment to responsible quantum computing</h2>
-          <p>We defined a set of principles to ensure the responsible development, deployment, and<br />use of quantum computing technologies at IBM and beyond.</p>
-          <StyledButtonQuantum primary>Learn More <MdOutlineArrowOutward /></StyledButtonQuantum>
+          <h2 theme={theme}>Our commitment to responsible quantum computing</h2>
+          <p>We defined a set of principles to ensure the responsible development, deployment, and use of quantum computing technologies at IBM and beyond.</p>
+          <StyledButtonQuantum theme={theme}>Learn More <MdOutlineArrowOutward /></StyledButtonQuantum>
         </div>
       </QuantumSection>
 
@@ -426,12 +543,12 @@ export default function HomePage() {
           <h2>Join the IBM Quantum Network</h2>
           <p>There are 270+ Fortune 500 companies, universities, laboratories, and startups in the Network, with access to exclusive meetings and select channels. IBM Quantum Network members collaborate widely, and benefit from close working relationships with our in-house experts.</p>
           <div className="button-container">
-            <StyledButton primary>Learn more</StyledButton>
-            <StyledButton>Hear from the Network <svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></StyledButton>
+            <StyledButtonQuantumNetwork primary>Learn more</StyledButtonQuantumNetwork>
+            <StyledButtonNetwork>Hear from the Network <svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></StyledButtonNetwork>
           </div>
         </div>
         <div className="image">
-        <Image src={quantumnetwork} alt="Quantum Computing" />
+          <Image src={quantumnetwork} alt="Quantum Computing" />
         </div>
       </QuantumNetworkSection>
 
