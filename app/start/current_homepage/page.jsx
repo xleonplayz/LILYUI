@@ -501,7 +501,7 @@ export default function HomePage() {
       <Maincontainer theme={theme}>
         <ContentSection>
           <TextContent theme={theme}>
-            <h1>The most popular quantum software,<br />
+            <h1>The most intelligent quantum model,<br />
               <span>now even more powerful</span>
             </h1>
             <ButtonContainer theme={theme}>
@@ -518,8 +518,8 @@ export default function HomePage() {
 
       <IBMSection theme={theme}>
         <div className="text">
-          <h2>Start using 127-qubit systems for <br />free</h2>
-          <p>IBM Quantum Platform provides access to systems, documentation, and learning <br />resources all in one place. Sign up today to get 10 free minutes of execution time <br />per month on our utility-scale systems.</p>
+          <h2>Start using Quantum Ki models <br />free</h2>
+          <p>LILY provides a lot of power free of charge to test and partially train Quantum AI models. To get an insight into the Quantum AI world. LILY also offers a variety of documentation, explanatory videos and publications as free resources.</p>
           <StyledButtonIbm primary>Get started <MdOutlineArrowOutward /></StyledButtonIbm>
         </div>
         <div className="image">
@@ -532,16 +532,16 @@ export default function HomePage() {
           <Image src={quantumg} alt="Quantum Computing" />
         </div>
         <div className="text">
-          <h2 theme={theme}>Our commitment to responsible quantum computing</h2>
-          <p>We defined a set of principles to ensure the responsible development, deployment, and use of quantum computing technologies at IBM and beyond.</p>
+          <h2 theme={theme}>Our plans and task to improve LILY</h2>
+          <p>We try to constantly improve and develop LILY through many parallel work areas and collaborations. Where exactly we are involved and what our tasks are.</p>
           <StyledButtonQuantum theme={theme}>Learn More <MdOutlineArrowOutward /></StyledButtonQuantum>
         </div>
       </QuantumSection>
 
       <QuantumNetworkSection theme={theme}>
         <div className="text">
-          <h2>Join the IBM Quantum Network</h2>
-          <p>There are 270+ Fortune 500 companies, universities, laboratories, and startups in the Network, with access to exclusive meetings and select channels. IBM Quantum Network members collaborate widely, and benefit from close working relationships with our in-house experts.</p>
+          <h2>Join the LILY-Project</h2>
+          <p>In order to continually develop LILY, we are always looking for collaborations and people who are interested in this area and would contribute.</p>
           <div className="button-container">
             <StyledButtonQuantumNetwork primary>Learn more</StyledButtonQuantumNetwork>
             <StyledButtonNetwork>Hear from the Network <svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></StyledButtonNetwork>
