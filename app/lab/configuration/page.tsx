@@ -158,8 +158,10 @@ const RightSide = styled.div`
 `;
 
 const CustomSelect = styled(Select)`
-  width: 97%;
+  width: 100%;
   margin: 20px auto;
+  
+  // height:0px;
   display: inline-block;
   // margin-right: 10px;
   font-size: 0.87rem;
@@ -193,6 +195,8 @@ const CustomSelect = styled(Select)`
 `;
 
 const CustomMenuItem = styled(MenuItem)`
+
+  // height:40px;
   background-color: ${({ theme, selected }) => (theme === 'dark' ? (selected ? '#2b3236' : '#21272a') : '#fff')};
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   &:hover {
@@ -207,15 +211,23 @@ const CustomMenuItem = styled(MenuItem)`
 `;
 
 const InputField = styled.input`
-  width: 96%;
-  padding: 10px 5px;
-  margin-bottom: 20px;
+  width: 99%;
+  height:47px;
+  padding:0px ;
+  padding-left:5px;
+  // margin: 20px;
   border-radius: 2px;
+   margin: 20px auto;
   border: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
   background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   outline: ${({ theme }) => (theme === 'dark' ? 'none' : '1px solid #0e62fe')};
-  margin: 20px auto;
+
+  .inputcheck{
+   width:50px;
+  // margin:20px 0px;
+  }
+  
 `;
 
 const UploadButton = styled.button`
@@ -487,6 +499,56 @@ const ResourceItem = styled.div`
   }
 `;
 
+const Step2 = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  // div{
+  // width:50%;
+  // }
+ .spinner {
+ margin-left:50%;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #0070f3;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    align-item:center;
+    justify-content:center;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+`;
+
+
+const UploadButtonStep2 = styled.button`
+ 
+  background-color: ${({  theme }) => (  theme === 'dark' ? '#444' : '#ccc')};
+    width: 100%;
+  height:47px;
+  // padding:0px 5px;
+  // margin: 20px;
+  border-radius: 2px;
+   margin: 20px auto;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center;
+
+  &:hover {
+    background-color: rgba(0, 112, 243, 0.1);
+  }
+`;
 const Line = styled.hr`
   width: 100%;
   border: 0;
@@ -696,6 +758,21 @@ export default function HomePage() {
       setSelectedResource(item);
     }
   };
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleUpload = () => {
+      setIsLoading(true);
+      // Simulate a network request
+      setTimeout(() => {
+          setIsLoading(false);
+          alert('Upload complete');
+      }, 2000);
+  };
+
+  const [isModelUpload, setIsModelUpload] = useState(false);
+  const handleCheckboxChange = (e) => {
+    setIsModelUpload(e.target.checked);
+  };
 
   const isFormComplete = isModelTypeSelected && isModelUploaded && isTrainingDataUploaded;
 
@@ -820,14 +897,18 @@ export default function HomePage() {
 
           {step === 2 && (
             <>
+            <Step2 style={{display:"flex",width:'100%'}}>
+              <div className='inputField'>
               <InputField
                 theme={theme}
-                placeholder="SOB Nom"
+                placeholder="Job Nom"
                 value={sobNom}
                 onChange={(e) => setSobNom(e.target.value)}
                 onBlur={checkAvailability}
               />
               <div className="available-not">{availability}</div>
+              </div>
+              <div className='selectmenufield'>
               <CustomSelect
                 value={modelType}
                 onChange={handleDropdownChange}
@@ -842,7 +923,110 @@ export default function HomePage() {
                 <CustomMenuItem value="type1" theme={theme}>Type 1</CustomMenuItem>
                 <CustomMenuItem value="type2" theme={theme}>Type 2</CustomMenuItem>
               </CustomSelect>
-              <UploadButton theme={theme} onClick={handleOpenModal}>
+              </div>
+              </Step2>
+              
+
+              
+            <Step2 style={{display:"flex",width:'100%'}}>
+              <div className='inputField'>
+              <InputField
+                theme={theme}
+                placeholder="Input"
+                value={sobNom}
+                onChange={(e) => setSobNom(e.target.value)}
+                onBlur={checkAvailability}
+              />
+              {/* <div className="available-not">{availability}</div> */}
+              </div>
+              <div className='selectmenufield'>
+              <CustomSelect
+                value={modelType}
+                onChange={handleDropdownChange}
+                displayEmpty
+                input={<OutlinedInput />}
+                renderValue={(selected) => selected || 'DWN Menu'}
+                theme={theme}
+              >
+                <CustomMenuItem value="" theme={theme} disabled>
+                  Select Model Type
+                </CustomMenuItem>
+                <CustomMenuItem value="type1" theme={theme}>Type 1</CustomMenuItem>
+                <CustomMenuItem value="type2" theme={theme}>Type 2</CustomMenuItem>
+              </CustomSelect>
+              </div>
+              </Step2>
+
+
+              
+              
+            <Step2 style={{display:"flex",width:'100%'}}>
+            {/* <Step2Wrapper> */}
+            <div className="inputFieldCheck">
+        <div>Would you like to upload your own model?</div>
+        <label>
+          <input
+          className='inputcheck'
+            type="checkbox"
+            checked={isModelUpload}
+            onChange={handleCheckboxChange}
+          />
+          {/* Yes */}
+        </label>
+      </div>
+              
+              <div className='selectmenufield'></div>
+              </Step2>
+
+
+            {/* <Step2 style={{display:"flex",width:'100%'}}>
+              <div className='inputField'>
+              <InputField
+                theme={theme}
+                placeholder="SOB Nom"
+                value={sobNom}
+                onChange={(e) => setSobNom(e.target.value)}
+                onBlur={checkAvailability}
+              />
+              </div>
+              <div className='selectmenufield'>
+              <CustomSelect
+                value={modelType}
+                onChange={handleDropdownChange}
+                displayEmpty
+                input={<OutlinedInput />}
+                renderValue={(selected) => selected || 'Select Model Type'}
+                theme={theme}
+              >
+                <CustomMenuItem value="" theme={theme} disabled>
+                  Select Model Type
+                </CustomMenuItem>
+                <CustomMenuItem value="type1" theme={theme}>Type 1</CustomMenuItem>
+                <CustomMenuItem value="type2" theme={theme}>Type 2</CustomMenuItem>
+              </CustomSelect>
+              </div>
+              </Step2> */}
+
+
+              
+              
+            <Step2 style={{display:"flex",width:'100%'}}>
+            {/* <Step2Wrapper> */}
+      <div className="inputField">
+      <UploadButtonStep2 theme={theme} onClick={handleUpload}>
+          Upload
+        </UploadButtonStep2>
+      </div>
+      <div className="Spinner">
+        {isLoading ? (
+          <div className="spinner"></div>
+        ) : (
+          ''
+        )}
+      </div>
+              </Step2>
+              {/* </div> */}
+              {/* <UploadButton theme={theme} onClick={handleOpenModal}>
                 Upload Model
               </UploadButton>
               <ProgressBar theme={theme}>
@@ -854,7 +1038,8 @@ export default function HomePage() {
               <ProgressBar theme={theme}>
                 <Progress theme={theme} progress={isTrainingDataUploaded ? 100 : 0} />
               </ProgressBar>
-              <AdvancedMenuButton theme={theme}>Advanced Menu</AdvancedMenuButton>
+             
+              <AdvancedMenuButton theme={theme}>Advanced Menu</AdvancedMenuButton> */}
 
 
 
