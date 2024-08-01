@@ -476,6 +476,8 @@ const StyledButtonQuantumNetwork = styled.div`
     font-size: 20px;
   }
 `;
+
+
 export default function HomePage() {
   const [activeTopNav, setActiveTopNav] = useState('start');
   const [activeSidebar, setActiveSidebar] = useState('docs');
