@@ -217,11 +217,12 @@ const InputField = styled.input`
   padding-left:5px;
   // margin: 20px;
   border-radius: 2px;
+
    margin: 20px auto;
-  border: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
+  // border: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
   background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-  outline: ${({ theme }) => (theme === 'dark' ? 'none' : '1px solid #0e62fe')};
+  // outline: ${({ theme }) => (theme === 'dark' ? 'none' : '1px solid #0e62fe')};
 
   .inputcheck{
    width:50px;
