@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Select, MenuItem, OutlinedInput } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
+
 import CancelIcon from '@mui/icons-material/Cancel';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -288,6 +290,14 @@ const AdvancedMenuButton = styled.button`
 `;
 
 const StatusItem = styled.p`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size:0.9rem;
+`;
+
+
+const StatusHead = styled.h2`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -604,24 +614,28 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 
-
 const Step2Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: auto;
-  
   padding: 2rem;
-  // box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   background-color: ${({ theme }) => (theme === 'dark' ? 'transparent' : 'transparent')};
 `;
 
 const FormTitle = styled.h2`
-  margin-bottom: 0.5rem;
+  margin-bottom: 0rem;
+  
+  font-size:2rem;
+  font-wight:400;
+  letter-spacing:0.16;
 `;
 
 const FormDescription = styled.p`
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  
+  font-size:0.87rem;
+  font-wight:300;
 
   a {
     color: ${({ theme }) => (theme === 'dark' ? '#0096ff' : '#0070f3')};
@@ -637,25 +651,43 @@ const HorizontalLine = styled.hr`
 
 const FormGroup = styled.div`
   display: flex;
+  margin:20px 0;
   flex-direction: column;
-  // margin-bottom: 1.5rem;
-
   label {
-    margin-bottom: 0.35rem;
+    margin-bottom: .55rem;
     font-size: 0.7rem;
     color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#333')};
   }
 
-  input {
-    padding:1rem;
+  input, select {
+    padding: 1rem;
     font-size: 1rem;
-    
     border: 0.5px solid #ccc;
-    border-radius: 0px;
     background-color: ${({ theme }) => (theme === 'dark' ? '#3c3c3c' : '#f9f9f9')};
     color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#333')};
   }
 `;
+
+
+const FormGroupUpload = styled.div`
+  display: flex;
+  margin:0px 0;
+  flex-direction: column;
+  label {
+    margin-bottom: .55rem;
+    font-size: 0.7rem;
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#333')};
+  }
+
+  input, select {
+    padding: 1rem;
+    font-size: 1rem;
+    border: 0.5px solid #ccc;
+    background-color: ${({ theme }) => (theme === 'dark' ? '#3c3c3c' : '#f9f9f9')};
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#333')};
+  }
+`;
+
 
 const FormRow = styled.div`
   display: flex;
@@ -666,17 +698,16 @@ const FormRow = styled.div`
 const HalfWidthFormGroup = styled(FormGroup)`
   width: 49%;
 
-  margin:20px auto;
   .spinner {
- margin-left:50%;
+    margin-left: 50%;
     border: 4px solid rgba(0, 0, 0, 0.1);
     border-left-color: #0070f3;
-    // border-radius: 50%;
+    border-radius: 50%;
     width: 30px;
     height: 30px;
     animation: spin 1s linear infinite;
-    align-item:center;
-    justify-content:center;
+    align-items: center;
+    justify-content: center;
   }
 
   @keyframes spin {
@@ -686,7 +717,7 @@ const HalfWidthFormGroup = styled(FormGroup)`
     100% {
       transform: rotate(360deg);
     }
-  
+  }
 `;
 
 const RadioGroup = styled.div`
@@ -709,22 +740,27 @@ const ErrorText = styled.span`
 `;
 
 const SubmitButton = styled.button`
-  background-color: transparent;
-  border: 1px solid #0070f3;
-  color: #0070f3;
-  
-    padding:1rem;
-  // border-radius: 4px;
+  background-color: ${({ theme }) => (theme === 'dark' ? 'grey' : 'grey')};
+  width: 100%;
+  height: 47px;
+  border: none;
+  color: #fff;
   cursor: pointer;
   font-size: 1rem;
+  // padding:10px 0px 10px 10px;
   text-align: center;
-  width: 100%;
 
-  &:hover {
-    background-color: rgba(0, 112, 243, 0.1);
+  // &:hover {
+  //   background-color: rgba(0, 112, 243, 0.1);
+  // }
+
+  &:disabled {
+    background-color: ${({ theme }) => (theme === 'dark' ? 'transparent' : 'transparent')};
+    border:1px solid #0f62fe;
+    cursor: not-allowed;
+    color:${({ theme }) => (theme === 'dark' ? '#0f62fe' : '#0f62fe')};
   }
 `;
-
 
 
 const MainContainerStep2 = styled.div`
@@ -744,6 +780,8 @@ export default function HomePage() {
   const [modelType, setModelType] = useState('');
   const [isModelTypeSelected, setIsModelTypeSelected] = useState(false);
   const [isModelUploaded, setIsModelUploaded] = useState(false);
+  const [uploadComplete, setUploadComplete] = useState(false);
+
   const [isTrainingDataUploaded, setIsTrainingDataUploaded] = useState(false);
   const [status, setStatus] = useState({
     modelFound: false,
@@ -895,20 +933,24 @@ export default function HomePage() {
     }
   };
   const [isLoading, setIsLoading] = useState(false);
-
   const handleUpload = () => {
     setIsLoading(true);
-    // Simulate a network request
     setTimeout(() => {
       setIsLoading(false);
-      alert('Upload complete');
+      setUploadComplete(true);
     }, 2000);
   };
 
+
+  const handleDelete = () => {
+    setUploadComplete(false);
+    setIsModelUpload(false);
+  };
   const [isModelUpload, setIsModelUpload] = useState(false);
   const handleCheckboxChange = (e) => {
-    setIsModelUpload(e.target.checked);
+    setIsModelUpload(e.target.value === "Yes");
   };
+
 
   const isFormComplete = isModelTypeSelected && isModelUploaded && isTrainingDataUploaded;
 
@@ -1033,113 +1075,101 @@ export default function HomePage() {
 
           {step === 2 && (
             <>
-<MainContainerStep2>
-              <Step2Wrapper theme={theme}>
-                <FormTitle>Erstellen Sie eine IBMid</FormTitle>
-                <FormDescription theme={theme}>
-                  Sie haben bereits ein IBM Konto? <a href="#">Anmelden</a>
-                </FormDescription>
-                <HorizontalLine />
+              <MainContainerStep2>
+                <Step2Wrapper theme={theme}>
+                  <FormTitle>Erstellen Sie eine IBMid</FormTitle>
+                  <FormDescription theme={theme}>
+                    Sie haben bereits ein IBM Konto? <a href="#">Anmelden</a>
+                  </FormDescription>
+                  <HorizontalLine />
 
-                <FormRow>
-                  <HalfWidthFormGroup theme={theme}>
-                    <label htmlFor="jobName">Job Name</label>
-                    <input type="text" id="jobName" placeholder="Job Name" required />
-                  </HalfWidthFormGroup>
+                  <FormRow>
+                    <HalfWidthFormGroup theme={theme}>
+                      <label htmlFor="jobName">Job Name</label>
+                      <input type="text" id="jobName" placeholder="Job Name" required />
+                    </HalfWidthFormGroup>
 
-                  <HalfWidthFormGroup theme={theme}>
-                    <label htmlFor="modelType">Model Type</label>
-                    <CustomSelect
-                      value={modelType}
-                      onChange={handleDropdownChange}
-                      displayEmpty
-                      input={<OutlinedInput />}
-                      renderValue={(selected) => selected || 'Select Model Type'}
-                      theme={theme}
-                    >
-                      <CustomMenuItem value="" theme={theme} disabled>
-                        Select Model Type
-                      </CustomMenuItem>
-                      <CustomMenuItem value="type1" theme={theme}>Type 1</CustomMenuItem>
-                      <CustomMenuItem value="type2" theme={theme}>Type 2</CustomMenuItem>
-                    </CustomSelect>
-                  </HalfWidthFormGroup>
-                </FormRow>
+                    <HalfWidthFormGroup theme={theme}>
+                      <label htmlFor="modelType">Model Type</label>
+                      <CustomSelect
+                        value={modelType}
+                        onChange={handleDropdownChange}
+                        displayEmpty
+                        input={<OutlinedInput />}
+                        renderValue={(selected) => selected || 'Select Model Type'}
+                        theme={theme}
+                      >
+                        <CustomMenuItem value="" theme={theme} disabled>
+                          Select Model Type
+                        </CustomMenuItem>
+                        <CustomMenuItem value="type1" theme={theme}>Type 1</CustomMenuItem>
+                        <CustomMenuItem value="type2" theme={theme}>Type 2</CustomMenuItem>
+                      </CustomSelect>
+                    </HalfWidthFormGroup>
+                  </FormRow>
 
-                <FormRow>
-                  <HalfWidthFormGroup theme={theme}>
-                    <label htmlFor="dataInput">Input</label>
-                    <input type="text" id="dataInput" placeholder="Input" required />
-                  </HalfWidthFormGroup>
+                  <FormRow>
+                    <HalfWidthFormGroup theme={theme}>
+                      <label htmlFor="dataInput">Input</label>
+                      <input type="text" id="dataInput" placeholder="Input" required />
+                    </HalfWidthFormGroup>
 
-                  <HalfWidthFormGroup theme={theme}>
-                    <label htmlFor="dataStructure">Data Structure</label>
-                    <CustomSelect
-                      value={modelType}
-                      onChange={handleDropdownChange}
-                      displayEmpty
-                      input={<OutlinedInput />}
-                      renderValue={(selected) => selected || 'Select Data Structure'}
-                      theme={theme}
-                    >
-                      <CustomMenuItem value="" theme={theme} disabled>
-                        Select Data Structure
-                      </CustomMenuItem>
-                      <CustomMenuItem value="ds1" theme={theme}>Data Structure 1</CustomMenuItem>
-                      <CustomMenuItem value="ds2" theme={theme}>Data Structure 2</CustomMenuItem>
-                    </CustomSelect>
-                  </HalfWidthFormGroup>
-                </FormRow>
+                    <HalfWidthFormGroup theme={theme}>
+                      <label htmlFor="dataStructure">Data Structure</label>
+                      <CustomSelect
+                        value={modelType}
+                        onChange={handleDropdownChange}
+                        displayEmpty
+                        input={<OutlinedInput />}
+                        renderValue={(selected) => selected || 'Select Data Structure'}
+                        theme={theme}
+                      >
+                        <CustomMenuItem value="" theme={theme} disabled>
+                          Select Data Structure
+                        </CustomMenuItem>
+                        <CustomMenuItem value="ds1" theme={theme}>Data Structure 1</CustomMenuItem>
+                        <CustomMenuItem value="ds2" theme={theme}>Data Structure 2</CustomMenuItem>
+                      </CustomSelect>
+                    </HalfWidthFormGroup>
+                  </FormRow>
+
                   <FormGroup theme={theme}>
-                  <label>Would you like to upload your own model type?</label>
-                  <RadioGroup>
-                    <label>
-                      <input type="radio" name="uploadModel" value="Yes" onChange={handleCheckboxChange} /> Yes
-                    </label>
-                    <label>
-                      <input type="radio" name="uploadModel" value="No" onChange={handleCheckboxChange} /> No
-                    </label>
-                  </RadioGroup>
-                </FormGroup>
-
-
-
-{isModelUpload && (
-                  <FormGroup theme={theme}>
-                    <FormRow>
-                      <HalfWidthFormGroup theme={theme}>
-                        <SubmitButton onClick={handleUpload}>Upload Model</SubmitButton>
-                      </HalfWidthFormGroup>
-
-                      <HalfWidthFormGroup theme={theme}>
-                        {isLoading ? (
-                          <div className="spinner"></div>
-                        ) : (
-                          ''
-                        )}
-                      </HalfWidthFormGroup>
-                    </FormRow>
+                    <label>Use own model type?</label>
+                    <RadioGroup>
+                      <label>
+                        <input type="radio" name="uploadModel" value="Yes" onChange={handleCheckboxChange} /> Yes
+                      </label>
+                      <label>
+                        <input type="radio" name="uploadModel" value="No" onChange={handleCheckboxChange} /> No
+                      </label>
+                    </RadioGroup>
                   </FormGroup>
-                )}
+
+                  {isModelUpload && (
+                    <FormGroupUpload theme={theme}>
+                      <FormRow>
+                        <HalfWidthFormGroup theme={theme}>
+                          <SubmitButton onClick={handleUpload} disabled={uploadComplete}>
+                            {uploadComplete ? 'Uploaded' : 'Upload'}
+                          </SubmitButton>
+                        </HalfWidthFormGroup>
+
+                        <HalfWidthFormGroup theme={theme}>
+                          {isLoading ? (
+                            <div className="spinner"></div>
+                          ) : (
+                            uploadComplete && (
+                              <IconButton onClick={handleDelete}>
+                                <CloseIcon style={{ color: 'red' }} />
+                              </IconButton>
+                            )
+                          )}
+                        </HalfWidthFormGroup>
+                      </FormRow>
+                    </FormGroupUpload>
+                  )}
                 </Step2Wrapper>
               </MainContainerStep2>
-              {/* </div> */}
-              {/* <UploadButton theme={theme} onClick={handleOpenModal}>
-                Upload Model
-              </UploadButton>
-              <ProgressBar theme={theme}>
-                <Progress theme={theme} progress={progress} />
-              </ProgressBar>
-              <UploadButton theme={theme} onClick={handleTrainingDataUpload}>
-                Upload Training Data
-              </UploadButton>
-              <ProgressBar theme={theme}>
-                <Progress theme={theme} progress={isTrainingDataUploaded ? 100 : 0} />
-              </ProgressBar>
-             
-              <AdvancedMenuButton theme={theme}>Advanced Menu</AdvancedMenuButton> */}
-
-
 
               <StyledDialog open={modalOpen} onClose={handleCloseModal} maxWidth="md" fullWidth theme={theme}>
                 <DialogTitle>Manage registers</DialogTitle>
@@ -1315,15 +1345,15 @@ export default function HomePage() {
 
           {step === 2 && (
             <>
- <StatusItem>
-             
-Willkommen bei IBM
-</StatusItem>
+              <StatusHead>
+
+                Willkommen bei IBM
+              </StatusHead>
 
               <StatusItem>
-              Erstellen Sie ein Konto, um auf Testversionen, Demos und Services zuzugreifen.
-</StatusItem>
-               </>
+                Erstellen Sie ein Konto, um auf Testversionen, Demos und Services zuzugreifen.
+              </StatusItem>
+            </>
           )}
 
           {step === 3 && (
