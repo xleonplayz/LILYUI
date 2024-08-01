@@ -669,7 +669,7 @@ const FormGroup = styled.div`
 `;
 
 
-const FormGroupUpload = styled.div`
+const FormGroupUpload= styled.div`
   display: flex;
   margin:0px 0;
   flex-direction: column;
@@ -719,20 +719,49 @@ const HalfWidthFormGroup = styled(FormGroup)`
     }
   }
 `;
-
-const RadioGroup = styled.div`
+const CustomRadioGroup = styled.div`
   display: flex;
   align-items: center;
 
   label {
+    display: flex;
+    align-items: center;
     margin-right: 1rem;
     font-size: 1rem;
+    cursor: pointer;
   }
 
-  input {
-    margin-right: 0.5rem;
+  input[type='radio'] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: inline-block;
+    // width: 10px; /* Adjusted size */
+    // height: 10px; /* Adjusted size */
+    border-radius: 50%;
+    border: 1.5px solid ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    margin-right: 8px;
+    position: relative;
+    cursor: pointer;
+    background: transparent;
+
+    &:checked::before {
+      content: '';
+      display: block;
+      width: 60%; /* Adjusted size */
+      height: 60%; /* Adjusted size */
+      border-radius: 50%;
+      background: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+      position: absolute;
+      alignment-item:center;
+      justify-content:center;
+      // margin:auto
+      top: 6px;
+      left: 6px;
+    }
   }
 `;
+
 
 const ErrorText = styled.span`
   color: red;
@@ -1135,14 +1164,14 @@ export default function HomePage() {
 
                   <FormGroup theme={theme}>
                     <label>Use own model type?</label>
-                    <RadioGroup>
+                    <CustomRadioGroup theme={theme}>
                       <label>
                         <input type="radio" name="uploadModel" value="Yes" onChange={handleCheckboxChange} /> Yes
                       </label>
                       <label>
                         <input type="radio" name="uploadModel" value="No" onChange={handleCheckboxChange} /> No
                       </label>
-                    </RadioGroup>
+                    </CustomRadioGroup>
                   </FormGroup>
 
                   {isModelUpload && (
@@ -1160,7 +1189,7 @@ export default function HomePage() {
                           ) : (
                             uploadComplete && (
                               <IconButton onClick={handleDelete}>
-                                <CloseIcon style={{ color: 'red' }} />
+                                <CloseIcon style={{color:'red'}} />
                               </IconButton>
                             )
                           )}
