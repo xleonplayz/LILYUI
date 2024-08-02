@@ -669,7 +669,7 @@ const FormGroup = styled.div`
 `;
 
 
-const FormGroupUpload= styled.div`
+const FormGroupUpload = styled.div`
   display: flex;
   margin:0px 0;
   flex-direction: column;
@@ -1189,7 +1189,7 @@ export default function HomePage() {
                           ) : (
                             uploadComplete && (
                               <IconButton onClick={handleDelete}>
-                                <CloseIcon style={{color:'red'}} />
+                                <CloseIcon style={{ color: 'red' }} />
                               </IconButton>
                             )
                           )}
