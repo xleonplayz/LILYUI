@@ -505,8 +505,8 @@ export default function HomePage() {
               <span>now even more powerful</span>
             </h1>
             <ButtonContainer theme={theme}>
-              <StyledButtonsvg primary>Read the Qiskit SDK v1.0 announcement</StyledButtonsvg>
-              <StyledButtonVideo theme={theme}>Watch the video <svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></StyledButtonVideo>
+              <StyledButtonsvg primary>Publiactions</StyledButtonsvg>
+              <StyledButtonVideo theme={theme}>Github<svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></StyledButtonVideo>
             </ButtonContainer>
           </TextContent>
         </ContentSection>
