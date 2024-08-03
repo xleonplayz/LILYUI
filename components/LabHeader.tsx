@@ -1,9 +1,8 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faFlask, faBook, faRoad } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faFlask, faBook, faRoad, faUser, faTimes } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLightTheme, setDarkTheme } from '../redux/slices/themesSlice';
@@ -84,11 +83,50 @@ const Icon = styled.div`
   cursor: pointer;
   display: flex;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 48px;
 `;
 
-const InvisibleText = styled.div`
-  visibility: hidden;
+const UserIcon = styled.div`
+  color: #bbb;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+  // position: relative;
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 40px;
+  right:100px;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#333' : '#fff')};
+  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 1000;
+  width: 200px;
+`;
+
+const DropdownHeader = styled.div`
+  padding: 10px 20px;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#444' : '#f0f0f0')};
+  font-weight: bold;
+`;
+
+const DropdownItem = styled.a`
+  display: block;
+  // position:absolute;
+  // top:40px;
+  // left:50px;
+  padding: 10px 20px;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    background-color: ${({ theme }) => (theme === 'dark' ? '#444' : '#f0f0f0')};
+  }
 `;
 
 const Sidebar = styled.div`
@@ -113,7 +151,7 @@ const SidebarOption = styled(Link)`
   padding: 10px;
   position: relative;
   padding-left: 20px;
-   font-size: 13px;
+  font-size: 13px;
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   border-left: ${({ $isActive }) => ($isActive ? '5px solid #0f62fe' : '5px solid transparent')};
   text-decoration: none;
@@ -145,7 +183,7 @@ const SidebarDescription = styled.p`
 const HorizontalLine = styled.hr`
   border: none;
   border-top: 1px solid #444;
-  margin: 10px 0;
+  margin: 0;
 `;
 
 const Overlay = styled.div`
@@ -168,6 +206,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavClick, onSidebarClick }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
 
@@ -179,17 +218,27 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
     setSidebarOpen(false);
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
+  const closeDropdown = () => {
+    setDropdownOpen(false);
+  };
+
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (
         (event.target as HTMLElement).closest('.sidebar') === null &&
-        (event.target as HTMLElement).closest('.icon') === null
+        (event.target as HTMLElement).closest('.icon') === null &&
+        (event.target as HTMLElement).closest('.user-icon') === null
       ) {
         closeSidebar();
+        closeDropdown();
       }
     };
 
-    if (isSidebarOpen) {
+    if (isSidebarOpen || isDropdownOpen) {
       document.addEventListener('mousedown', handleOutsideClick);
     } else {
       document.removeEventListener('mousedown', handleOutsideClick);
@@ -198,7 +247,7 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
-  }, [isSidebarOpen]);
+  }, [isSidebarOpen, isDropdownOpen]);
 
   useEffect(() => {
     document.body.className = theme;
@@ -214,42 +263,48 @@ const Header: React.FC<HeaderProps> = ({ activeTopNav, activeSidebar, onTopNavCl
           </Title>
           <VerticalLine />
           <BannerOptions>
-          {activeSidebar === 'lab' && (
-            <>
-            
-            <NavLink href="/lab/home" isActive={activeTopNav === 'home'} onClick={() => onTopNavClick('home')} theme={theme}>Home</NavLink>
-            <NavLink href="/lab/jobs" isActive={activeTopNav === 'jobs'} onClick={() => onTopNavClick('jobs')} theme={theme}>Jobs</NavLink>
-            <NavLink href="/lab/configuration" isActive={activeTopNav === 'configuration'} onClick={() => onTopNavClick('configuration')} theme={theme}>Configuration</NavLink>
-            <NavLink href="/lab/monitoring" isActive={activeTopNav === 'monitoring'} onClick={() => onTopNavClick('monitoring')} theme={theme}>Monitoring</NavLink>
-            
-            </>
-                 )}
+            {activeSidebar === 'lab' && (
+              <>
+                <NavLink href="/lab/home" isActive={activeTopNav === 'home'} onClick={() => onTopNavClick('home')} theme={theme}>Home</NavLink>
+                <NavLink href="/lab/jobs" isActive={activeTopNav === 'jobs'} onClick={() => onTopNavClick('jobs')} theme={theme}>Jobs</NavLink>
+                <NavLink href="/lab/configuration" isActive={activeTopNav === 'configuration'} onClick={() => onTopNavClick('configuration')} theme={theme}>Configuration</NavLink>
+                <NavLink href="/lab/monitoring" isActive={activeTopNav === 'monitoring'} onClick={() => onTopNavClick('monitoring')} theme={theme}>Monitoring</NavLink>
+              </>
+            )}
             {activeSidebar === 'docs' && (
               <>
                 <NavLink href="/document/overview" isActive={activeTopNav === 'overview'} onClick={() => onTopNavClick('overview')} theme={theme}>Overview</NavLink>
                 <NavLink href="/document/start" isActive={activeTopNav === 'start'} onClick={() => onTopNavClick('start')} theme={theme}>Start</NavLink>
-                
                 <NavLink href="/document/build" isActive={activeTopNav === 'build'} onClick={() => onTopNavClick('build')} theme={theme}>Build</NavLink>
                 <NavLink href="/document/transpile" isActive={activeTopNav === 'transpile'} onClick={() => onTopNavClick('transpile')} theme={theme}>Transpilation</NavLink>
-
-                
                 <NavLink href="/document/verify" isActive={activeTopNav === 'verify'} onClick={() => onTopNavClick('verify')} theme={theme}>Verify</NavLink>
-                
                 <NavLink href="/document/run" isActive={activeTopNav === 'run'} onClick={() => onTopNavClick('run')} theme={theme}>Run</NavLink>
-
-                <NavLink href="/document/apireference" isActive={activeTopNav === 'apireference'} onClick={() => onTopNavClick('apireference')} theme={theme}>API Reference </NavLink>
-
-
+                <NavLink href="/document/apireference" isActive={activeTopNav === 'apireference'} onClick={() => onTopNavClick('apireference')} theme={theme}>API Reference</NavLink>
               </>
             )}
           </BannerOptions>
         </TitleContainer>
         <div style={{ display: 'flex', alignItems: 'center' }}>
+          <UserIcon className="user-icon" onClick={toggleDropdown}>
+            <FontAwesomeIcon icon={isDropdownOpen ? faTimes : faUser} />
+          </UserIcon>
           <Icon className="icon" onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faBars} />
-            <InvisibleText>Se</InvisibleText>
           </Icon>
         </div>
+        {isDropdownOpen && (
+          <DropdownMenu theme={theme}>
+            <DropdownHeader theme={theme}>Leon Kaiser</DropdownHeader>
+            <HorizontalLine />
+            <DropdownItem theme={theme}>Manage account</DropdownItem>
+            <HorizontalLine />
+            <DropdownItem theme={theme}>Provide feedback</DropdownItem>
+            <HorizontalLine />
+            <DropdownItem theme={theme}>Support</DropdownItem>
+            <HorizontalLine />
+            <DropdownItem theme={theme}>Sign out</DropdownItem>
+          </DropdownMenu>
+        )}
       </HeaderContainer>
       <Sidebar className="sidebar" $isOpen={isSidebarOpen} theme={theme}>
         <SidebarOptionz theme={theme}>Switch Application</SidebarOptionz>

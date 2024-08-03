@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Select, MenuItem, OutlinedInput } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
+
 import CancelIcon from '@mui/icons-material/Cancel';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -158,8 +160,12 @@ const RightSide = styled.div`
 `;
 
 const CustomSelect = styled(Select)`
-  width: 97%;
-  margin: 20px auto;
+  width: 100%;
+  margin: 0px auto;
+  border-radius:0px;
+  // height:0px;
+  padding:0rem;
+  
   display: inline-block;
   // margin-right: 10px;
   font-size: 0.87rem;
@@ -193,6 +199,8 @@ const CustomSelect = styled(Select)`
 `;
 
 const CustomMenuItem = styled(MenuItem)`
+
+  // height:40px;
   background-color: ${({ theme, selected }) => (theme === 'dark' ? (selected ? '#2b3236' : '#21272a') : '#fff')};
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
   &:hover {
@@ -207,15 +215,24 @@ const CustomMenuItem = styled(MenuItem)`
 `;
 
 const InputField = styled.input`
-  width: 96%;
-  padding: 10px 5px;
-  margin-bottom: 20px;
+  width: 99%;
+  height:47px;
+  padding:0px ;
+  padding-left:5px;
+  // margin: 20px;
   border-radius: 2px;
-  border: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
+
+   margin: 20px auto;
+  // border: 1px solid ${({ theme }) => (theme === 'dark' ? '#444' : '#ddd')};
   background-color: ${({ theme }) => (theme === 'dark' ? '#2a2a2a' : '#fff')};
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-  outline: ${({ theme }) => (theme === 'dark' ? 'none' : '1px solid #0e62fe')};
-  margin: 20px auto;
+  // outline: ${({ theme }) => (theme === 'dark' ? 'none' : '1px solid #0e62fe')};
+
+  .inputcheck{
+   width:50px;
+  // margin:20px 0px;
+  }
+  
 `;
 
 const UploadButton = styled.button`
@@ -273,6 +290,14 @@ const AdvancedMenuButton = styled.button`
 `;
 
 const StatusItem = styled.p`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size:0.9rem;
+`;
+
+
+const StatusHead = styled.h2`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -487,6 +512,56 @@ const ResourceItem = styled.div`
   }
 `;
 
+const Step2 = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  // div{
+  // width:50%;
+  // }
+ .spinner {
+ margin-left:50%;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #0070f3;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    align-item:center;
+    justify-content:center;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+`;
+
+
+const UploadButtonStep2 = styled.button`
+ 
+  background-color: ${({ theme }) => (theme === 'dark' ? '#444' : '#ccc')};
+    width: 100%;
+  height:47px;
+  // padding:0px 5px;
+  // margin: 20px;
+  border-radius: 2px;
+   margin: 20px auto;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center;
+
+  &:hover {
+    background-color: rgba(0, 112, 243, 0.1);
+  }
+`;
 const Line = styled.hr`
   width: 100%;
   border: 0;
@@ -538,6 +613,194 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
+
+const Step2Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: ${({ theme }) => (theme === 'dark' ? 'transparent' : 'transparent')};
+`;
+
+const FormTitle = styled.h2`
+  margin-bottom: 0rem;
+  
+  font-size:2rem;
+  font-wight:400;
+  letter-spacing:0.16;
+`;
+
+const FormDescription = styled.p`
+  margin-bottom: 0.5rem;
+  
+  font-size:0.87rem;
+  font-wight:300;
+
+  a {
+    color: ${({ theme }) => (theme === 'dark' ? '#0096ff' : '#0070f3')};
+    text-decoration: none;
+  }
+`;
+
+const HorizontalLine = styled.hr`
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 1rem 0;
+`;
+
+const FormGroup = styled.div`
+  display: flex;
+  margin:20px 0;
+  flex-direction: column;
+  label {
+    margin-bottom: .55rem;
+    font-size: 0.7rem;
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#333')};
+  }
+
+  input, select {
+    padding: 1rem;
+    font-size: 1rem;
+    border: 0.5px solid #ccc;
+    background-color: ${({ theme }) => (theme === 'dark' ? '#3c3c3c' : '#f9f9f9')};
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#333')};
+  }
+`;
+
+
+const FormGroupUpload = styled.div`
+  display: flex;
+  margin:0px 0;
+  flex-direction: column;
+  label {
+    margin-bottom: .55rem;
+    font-size: 0.7rem;
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#333')};
+  }
+
+  input, select {
+    padding: 1rem;
+    font-size: 1rem;
+    border: 0.5px solid #ccc;
+    background-color: ${({ theme }) => (theme === 'dark' ? '#3c3c3c' : '#f9f9f9')};
+    color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#333')};
+  }
+`;
+
+
+const FormRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 5%;
+`;
+
+const HalfWidthFormGroup = styled(FormGroup)`
+  width: 49%;
+
+  .spinner {
+    margin-left: 50%;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #0070f3;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
+const CustomRadioGroup = styled.div`
+  display: flex;
+  align-items: center;
+
+  label {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  input[type='radio'] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: inline-block;
+    // width: 10px; /* Adjusted size */
+    // height: 10px; /* Adjusted size */
+    border-radius: 50%;
+    border: 1.5px solid ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+    margin-right: 8px;
+    position: relative;
+    cursor: pointer;
+    background: transparent;
+
+    &:checked::before {
+      content: '';
+      display: block;
+      width: 60%; /* Adjusted size */
+      height: 60%; /* Adjusted size */
+      border-radius: 50%;
+      background: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
+      position: absolute;
+      alignment-item:center;
+      justify-content:center;
+      // margin:auto
+      top: 6px;
+      left: 6px;
+    }
+  }
+`;
+
+
+const ErrorText = styled.span`
+  color: red;
+  font-size: 0.875rem;
+`;
+
+const SubmitButton = styled.button`
+  background-color: ${({ theme }) => (theme === 'dark' ? 'grey' : 'grey')};
+  width: 100%;
+  height: 47px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  // padding:10px 0px 10px 10px;
+  text-align: center;
+
+  // &:hover {
+  //   background-color: rgba(0, 112, 243, 0.1);
+  // }
+
+  &:disabled {
+    background-color: ${({ theme }) => (theme === 'dark' ? 'transparent' : 'transparent')};
+    border:1px solid #0f62fe;
+    cursor: not-allowed;
+    color:${({ theme }) => (theme === 'dark' ? '#0f62fe' : '#0f62fe')};
+  }
+`;
+
+
+const MainContainerStep2 = styled.div`
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // min-height: 100vh;
+  // background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#f4f4f4')};
+`;
+
+
 export default function HomePage() {
   const theme = useSelector((state) => state.theme.theme);
   const [activeTopNav, setActiveTopNav] = useState('configuration');
@@ -546,6 +809,8 @@ export default function HomePage() {
   const [modelType, setModelType] = useState('');
   const [isModelTypeSelected, setIsModelTypeSelected] = useState(false);
   const [isModelUploaded, setIsModelUploaded] = useState(false);
+  const [uploadComplete, setUploadComplete] = useState(false);
+
   const [isTrainingDataUploaded, setIsTrainingDataUploaded] = useState(false);
   const [status, setStatus] = useState({
     modelFound: false,
@@ -553,7 +818,7 @@ export default function HomePage() {
     trainingDataGood: false,
     trainingDataInRightFormat: false,
   });
-  const [sobNom, setSobNom] = useState('');
+  const [jobName, setJobName] = useState('');
   const [availability, setAvailability] = useState('');
   const [progress, setProgress] = useState(0);
   const [isDataChecked, setIsDataChecked] = useState(false);
@@ -686,7 +951,7 @@ export default function HomePage() {
   };
 
   const checkAvailability = () => {
-    setAvailability(dummyDatabase.includes(sobNom) ? 'Available' : 'Not Available');
+    setAvailability(dummyDatabase.includes(jobName) ? 'Available' : 'Not Available');
   };
 
   const handleResourceClick = (item) => {
@@ -696,6 +961,25 @@ export default function HomePage() {
       setSelectedResource(item);
     }
   };
+  const [isLoading, setIsLoading] = useState(false);
+  const handleUpload = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setUploadComplete(true);
+    }, 2000);
+  };
+
+
+  const handleDelete = () => {
+    setUploadComplete(false);
+    setIsModelUpload(false);
+  };
+  const [isModelUpload, setIsModelUpload] = useState(false);
+  const handleCheckboxChange = (e) => {
+    setIsModelUpload(e.target.value === "Yes");
+  };
+
 
   const isFormComplete = isModelTypeSelected && isModelUploaded && isTrainingDataUploaded;
 
@@ -820,43 +1104,101 @@ export default function HomePage() {
 
           {step === 2 && (
             <>
-              <InputField
-                theme={theme}
-                placeholder="SOB Nom"
-                value={sobNom}
-                onChange={(e) => setSobNom(e.target.value)}
-                onBlur={checkAvailability}
-              />
-              <div className="available-not">{availability}</div>
-              <CustomSelect
-                value={modelType}
-                onChange={handleDropdownChange}
-                displayEmpty
-                input={<OutlinedInput />}
-                renderValue={(selected) => selected || 'Select Model Type'}
-                theme={theme}
-              >
-                <CustomMenuItem value="" theme={theme} disabled>
-                  Select Model Type
-                </CustomMenuItem>
-                <CustomMenuItem value="type1" theme={theme}>Type 1</CustomMenuItem>
-                <CustomMenuItem value="type2" theme={theme}>Type 2</CustomMenuItem>
-              </CustomSelect>
-              <UploadButton theme={theme} onClick={handleOpenModal}>
-                Upload Model
-              </UploadButton>
-              <ProgressBar theme={theme}>
-                <Progress theme={theme} progress={progress} />
-              </ProgressBar>
-              <UploadButton theme={theme} onClick={handleTrainingDataUpload}>
-                Upload Training Data
-              </UploadButton>
-              <ProgressBar theme={theme}>
-                <Progress theme={theme} progress={isTrainingDataUploaded ? 100 : 0} />
-              </ProgressBar>
-              <AdvancedMenuButton theme={theme}>Advanced Menu</AdvancedMenuButton>
+              <MainContainerStep2>
+                <Step2Wrapper theme={theme}>
+                  <FormTitle>Erstellen Sie eine IBMid</FormTitle>
+                  <FormDescription theme={theme}>
+                    Sie haben bereits ein IBM Konto? <a href="#">Anmelden</a>
+                  </FormDescription>
+                  <HorizontalLine />
 
+                  <FormRow>
+                    <HalfWidthFormGroup theme={theme}>
+                      <label htmlFor="jobName">Job Name</label>
+                      <input type="text" id="jobName" placeholder="Job Name" required />
+                    </HalfWidthFormGroup>
 
+                    <HalfWidthFormGroup theme={theme}>
+                      <label htmlFor="modelType">Model Type</label>
+                      <CustomSelect
+                        value={modelType}
+                        onChange={handleDropdownChange}
+                        displayEmpty
+                        input={<OutlinedInput />}
+                        renderValue={(selected) => selected || 'Select Model Type'}
+                        theme={theme}
+                      >
+                        <CustomMenuItem value="" theme={theme} disabled>
+                          Select Model Type
+                        </CustomMenuItem>
+                        <CustomMenuItem value="type1" theme={theme}>Type 1</CustomMenuItem>
+                        <CustomMenuItem value="type2" theme={theme}>Type 2</CustomMenuItem>
+                      </CustomSelect>
+                    </HalfWidthFormGroup>
+                  </FormRow>
+
+                  <FormRow>
+                    <HalfWidthFormGroup theme={theme}>
+                      <label htmlFor="dataInput">Input</label>
+                      <input type="text" id="dataInput" placeholder="Input" required />
+                    </HalfWidthFormGroup>
+
+                    <HalfWidthFormGroup theme={theme}>
+                      <label htmlFor="dataStructure">Data Structure</label>
+                      <CustomSelect
+                        value={modelType}
+                        onChange={handleDropdownChange}
+                        displayEmpty
+                        input={<OutlinedInput />}
+                        renderValue={(selected) => selected || 'Select Data Structure'}
+                        theme={theme}
+                      >
+                        <CustomMenuItem value="" theme={theme} disabled>
+                          Select Data Structure
+                        </CustomMenuItem>
+                        <CustomMenuItem value="ds1" theme={theme}>Data Structure 1</CustomMenuItem>
+                        <CustomMenuItem value="ds2" theme={theme}>Data Structure 2</CustomMenuItem>
+                      </CustomSelect>
+                    </HalfWidthFormGroup>
+                  </FormRow>
+
+                  <FormGroup theme={theme}>
+                    <label>Use own model type?</label>
+                    <CustomRadioGroup theme={theme}>
+                      <label>
+                        <input type="radio" name="uploadModel" value="Yes" onChange={handleCheckboxChange} /> Yes
+                      </label>
+                      <label>
+                        <input type="radio" name="uploadModel" value="No" onChange={handleCheckboxChange} /> No
+                      </label>
+                    </CustomRadioGroup>
+                  </FormGroup>
+
+                  {isModelUpload && (
+                    <FormGroupUpload theme={theme}>
+                      <FormRow>
+                        <HalfWidthFormGroup theme={theme}>
+                          <SubmitButton onClick={handleUpload} disabled={uploadComplete}>
+                            {uploadComplete ? 'Uploaded' : 'Upload'}
+                          </SubmitButton>
+                        </HalfWidthFormGroup>
+
+                        <HalfWidthFormGroup theme={theme}>
+                          {isLoading ? (
+                            <div className="spinner"></div>
+                          ) : (
+                            uploadComplete && (
+                              <IconButton onClick={handleDelete}>
+                                <CloseIcon style={{ color: 'red' }} />
+                              </IconButton>
+                            )
+                          )}
+                        </HalfWidthFormGroup>
+                      </FormRow>
+                    </FormGroupUpload>
+                  )}
+                </Step2Wrapper>
+              </MainContainerStep2>
 
               <StyledDialog open={modalOpen} onClose={handleCloseModal} maxWidth="md" fullWidth theme={theme}>
                 <DialogTitle>Manage registers</DialogTitle>
@@ -1032,34 +1374,14 @@ export default function HomePage() {
 
           {step === 2 && (
             <>
+              <StatusHead>
+
+                Willkommen bei IBM
+              </StatusHead>
+
               <StatusItem>
-                Model Found
-                <StatusIcon>
-                  {status.modelFound ? <CheckCircleIcon style={{ color: 'green' }} /> : <CancelIcon style={{ color: 'red' }} />}
-                </StatusIcon>
+                Erstellen Sie ein Konto, um auf Testversionen, Demos und Services zuzugreifen.
               </StatusItem>
-              <StatusItem>
-                Model Configurable
-                <StatusIcon>
-                  {status.modelConfigurable ? <CheckCircleIcon style={{ color: 'green' }} /> : <CancelIcon style={{ color: 'red' }} />}
-                </StatusIcon>
-              </StatusItem>
-              <StatusItem>
-                Training Data Good
-                <StatusIcon>
-                  {status.trainingDataGood ? <CheckCircleIcon style={{ color: 'green' }} /> : <CancelIcon style={{ color: 'red' }} />}
-                </StatusIcon>
-              </StatusItem>
-              <StatusItem>
-                Training Data in Right Format
-                <StatusIcon>
-                  {status.trainingDataInRightFormat ? <CheckCircleIcon style={{ color: 'green' }} /> : <CancelIcon style={{ color: 'red' }} />}
-                </StatusIcon>
-              </StatusItem>
-              {status.modelFound &&
-                status.modelConfigurable &&
-                status.trainingDataGood &&
-                status.trainingDataInRightFormat && <p>Job created successfully</p>}
             </>
           )}
 

@@ -44,3 +44,57 @@ margin-bottom: 0px !important;
 .btn-div{
   justify-content: flex-end;
 }
+
+
+/*  */
+
+
+.inputField{
+  width: 47%;
+  margin:0px;
+  padding:0px;
+  height: 100px;
+
+}
+.selectmenufield{
+  width: 47%;
+  margin:0px;
+  padding:0px;
+  
+  height: 100px;
+}
+
+
+.Spinner{
+  /* width: 40%; */
+  /* margin:0px; */
+  /* padding:0px; */
+  
+  /* height: 30px; */
+  /* align-items: center; */
+  /* justify-content: center; */
+}
+.inputFieldCheck{
+  width: 47%;
+  margin:0px;
+  padding:0px;
+  
+  height: 30px;
+
+}
+
+
+.inputcheck{
+    
+  /* padding:40px; */
+margin:20px 5px;
+  width:20px;
+  height:20px
+}
+
+.spinner{
+  
+  align-items: center;
+  justify-content: center;
+
+}
