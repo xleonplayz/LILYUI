@@ -1,27 +1,20 @@
-'use client';
-import React, { useState, useEffect, ChangeEvent } from 'react';
+'use client'
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Slider, MenuItem, Tooltip, IconButton } from '@mui/material';
+import { Slider, MenuItem, Tooltip, IconButton, Select, OutlinedInput } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { OutlinedInput, Select } from '@mui/material';
-import * as d3 from 'd3';
 import RefreshIcon from '@mui/icons-material/Refresh';
-
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 const HeatmapContainer = styled.div`
   width: 90%;
+  height: 300px;
+  display: flex;
   margin: auto;
   justify-content: center;
   align-items: center;
-  height: 300px;
+  position: relative;
 `;
-
-// const TitleContainer = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   padding: 10px 20px;
-// `;
 
 const ControlsContainer = styled.div`
   display: flex;
@@ -30,10 +23,24 @@ const ControlsContainer = styled.div`
   padding: 10px 30px;
 `;
 
-const GridTitle = styled.h3<{ theme: string }>`
-  color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
-  font-weight: 300;
-  margin: 0;
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 0px;
+  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
+`;
+
+const HeaderSection = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ControlsSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 17%;
 `;
 
 const CustomSelect = styled(Select)`
@@ -87,8 +94,6 @@ const ThemedIconButton = styled(IconButton) <{ theme: string }>`
   color: ${({ theme }) => (theme === 'dark' ? '#fff' : '#000')};
 `;
 
-
-// Custom tooltip styles
 const CustomTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} placement="bottom-end" arrow />
 ))`
@@ -106,162 +111,122 @@ const CustomTooltip = styled(({ className, ...props }) => (
   }
 `;
 
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 0px;
-  background-color: ${({ theme }) => (theme === 'dark' ? '#21272a' : '#fff')};
-  // border-bottom: 1px solid ${({ theme }) => (theme === 'dark' ? '#333' : '#ddd')};
-`;
-
-const HeaderSection = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const ControlsSection = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content:space-around;
-  width:17%
-`;
-
 function generateRandomMatrix(rows: number, cols: number): number[][] {
   return Array.from({ length: rows }, () => Array.from({ length: cols }, () => Math.random()));
 }
 
-interface HeatmapComponentProps {
-  theme: string;
-}
+const drawHeatmap = (data: number[][], canvas: HTMLCanvasElement, colorBarCanvas: HTMLCanvasElement, theme: string) => {
+  const ctx = canvas.getContext('2d');
+  const colorBarCtx = colorBarCanvas.getContext('2d');
+  if (!ctx || !colorBarCtx) return;
 
-const drawHeatmap = (data: number[][], container: HTMLDivElement, theme: string) => {
-  const margin = { top: 20, right: 80, bottom: 30, left: 50 }; // Increased right margin for color bar
-  const width = container.clientWidth - margin.left - margin.right;
-  const height = container.clientHeight - margin.top - margin.bottom;
-
-  // Remove the old svg if it exists
-  d3.select(container).select('svg').remove();
-
-  const svg = d3.select(container).append('svg')
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom)
-    .append('g')
-    .attr('transform', `translate(${margin.left},${margin.top})`);
-
+  const width = canvas.width;
+  const height = canvas.height;
   const rows = data.length;
   const cols = data[0].length;
+  const cellWidth = width / cols;
+  const cellHeight = height / rows;
 
-  const xScale = d3.scaleBand()
-    .domain(d3.range(cols).map(String))
-    .range([0, width]);
+  const colorScale = (value: number) => {
+    if (value <= 0.1) return '#08306b';
+    if (value <= 0.2) return '#2171b5';
+    if (value <= 0.3) return '#6baed6';
+    if (value <= 0.4) return '#bdd7e7';
+    if (value <= 0.5) return '#f7fbff';
+    if (value <= 0.6) return '#fee0d2';
+    if (value <= 0.7) return '#fcae91';
+    if (value <= 0.8) return '#fb6a4a';
+    if (value <= 0.9) return '#de2d26';
+    return '#a50f15';
+  };
 
-  const yScale = d3.scaleBand()
-    .domain(d3.range(rows).map(String))
-    .range([0, height]);
+  ctx.clearRect(0, 0, width, height);
 
-  const colorScale = d3.scaleSequential(d3.interpolateRdBu)
-    .domain([1, 0]); // Inverted to match the desired color scale
+  data.forEach((row, i) => {
+    row.forEach((value, j) => {
+      ctx.fillStyle = colorScale(value);
+      ctx.fillRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+    });
+  });
 
-  svg.selectAll()
-    .data(data.flat())
-    .enter()
-    .append('rect')
-    .attr('x', (_, i) => xScale(String(i % cols))!)
-    .attr('y', (_, i) => yScale(String(Math.floor(i / cols)))!)
-    .attr('width', xScale.bandwidth())
-    .attr('height', yScale.bandwidth())
-    .attr('fill', d => colorScale(d));
-
-  const labelColor = theme === 'dark' ? '#fff' : '#000';
-
-  // Add X Label
-  svg.append('text')
-    .attr('x', width / 2)
-    .attr('y', height + margin.bottom / 2)
-    .attr('text-anchor', 'middle')
-    .style('font-size', '12px')
-    .style('fill', labelColor)
-    .text('X LABEL');
-
-  // Add Y Label
-  svg.append('text')
-    .attr('transform', 'rotate(-90)')
-    .attr('x', -height / 2)
-    .attr('y', -margin.left / 2)
-    .attr('text-anchor', 'middle')
-    .style('font-size', '12px')
-    .style('fill', labelColor)
-    .text('Y LABEL');
-
-  // Add color bar
-  const colorBarHeight = height;
+  // Draw color bar
   const colorBarWidth = 20;
+  const colorBarHeight = height;
+  colorBarCanvas.width = colorBarWidth;
+  colorBarCanvas.height = colorBarHeight;
+  const gradient = colorBarCtx.createLinearGradient(0, 0, 0, colorBarHeight);
+  gradient.addColorStop(0, '#a50f15');
+  gradient.addColorStop(0.1, '#de2d26');
+  gradient.addColorStop(0.2, '#fb6a4a');
+  gradient.addColorStop(0.3, '#fcae91');
+  gradient.addColorStop(0.4, '#fee0d2');
+  gradient.addColorStop(0.5, '#f7fbff');
+  gradient.addColorStop(0.6, '#bdd7e7');
+  gradient.addColorStop(0.7, '#6baed6');
+  gradient.addColorStop(0.8, '#2171b5');
+  gradient.addColorStop(0.9, '#08306b');
+  gradient.addColorStop(1, '#08306b');
 
-  const colorBarScale = d3.scaleLinear()
-    .domain(colorScale.domain())
-    .range([colorBarHeight, 0]);
+  colorBarCtx.fillStyle = gradient;
+  colorBarCtx.fillRect(0, 0, colorBarWidth, colorBarHeight);
 
-  const colorBarAxis = d3.axisRight(colorBarScale)
-    .ticks(6);
+  // Add labels to the color bar
+  colorBarCtx.fillStyle = theme === 'dark' ? '#fff' : '#000';
+  colorBarCtx.textAlign = 'left';
+  colorBarCtx.textBaseline = 'middle';
+  colorBarCtx.font = '12px Arial';
+  const labels = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0];
+  labels.forEach((label, i) => {
+    colorBarCtx.fillText(label, colorBarWidth + 5, (i * colorBarHeight) / 10);
+  });
 
-  const colorBar = svg.append('g')
-    .attr('transform', `translate(${width + 10}, 0)`);
+  ctx.fillStyle = theme === 'dark' ? '#fff' : '#000';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = '12px Arial';
 
-  const gradient = svg.append('defs')
-    .append('linearGradient')
-    .attr('id', 'gradient')
-    .attr('x1', '0%')
-    .attr('y1', '100%')
-    .attr('x2', '0%')
-    .attr('y2', '0%');
+  // Position X and Y labels outside the heatmap
+  const xLabelOffset = 30;
+  const yLabelOffset = 50;
 
-  gradient.append('stop')
-    .attr('offset', '0%')
-    .attr('stop-color', d3.interpolateRdBu(0));
-
-  gradient.append('stop')
-    .attr('offset', '100%')
-    .attr('stop-color', d3.interpolateRdBu(1));
-
-  colorBar.append('rect')
-    .attr('width', colorBarWidth)
-    .attr('height', colorBarHeight)
-    .style('fill', 'url(#gradient)');
-
-  colorBar.append('g')
-    .attr('transform', `translate(${colorBarWidth}, 0)`)
-    .call(colorBarAxis)
-    .selectAll('text') // Select all text elements within the axis
-    .style('fill', labelColor); // Apply the label color based on the theme
+  ctx.fillText('X LABEL', width / 2, height + xLabelOffset);
+  ctx.save();
+  ctx.translate(-yLabelOffset, height / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Y LABEL', 0, 0);
+  ctx.restore();
 };
 
-export default function HeatmapComponent({ theme }: HeatmapComponentProps) {
+const HeatmapComponent = ({ theme }) => {
   const [matrix, setMatrix] = useState(generateRandomMatrix(10, 10));
   const [modelSphere, setModelSphere] = useState('Statevector');
+  const canvasRef = useRef(null);
+  const colorBarCanvasRef = useRef(null);
 
   useEffect(() => {
-    const container = document.getElementById('heatmap-container');
-    if (container) {
-      drawHeatmap(matrix, container, theme);
+    const canvas = canvasRef.current;
+    const colorBarCanvas = colorBarCanvasRef.current;
+    if (canvas && colorBarCanvas) {
+      canvas.width = canvas.parentElement.clientWidth - 50; // Leave space for color bar and padding
+      canvas.height = canvas.parentElement.clientHeight - 50; // Adjust height for labels
+      drawHeatmap(matrix, canvas, colorBarCanvas, theme);
     }
   }, [matrix, theme]);
 
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+  const handleSliderChange = (event, newValue) => {
     setMatrix(generateRandomMatrix(10, 10));
   };
 
-  const handleModelSphereChange = (event: ChangeEvent<{ value: unknown }>) => {
-    const newModelSphere = event.target.value as string;
+  const handleModelSphereChange = (event) => {
+    const newModelSphere = event.target.value;
     setModelSphere(newModelSphere);
-    const [rows, cols] = newModelSphere === 'Sphere 1' ? [10, 10] : [15, 5];
+    const [rows, cols] = newModelSphere === 'Statevector' ? [10, 10] : [15, 5];
     setMatrix(generateRandomMatrix(rows, cols));
   };
 
   return (
     <>
-
-<TitleContainer theme={theme}>
+      <TitleContainer theme={theme}>
         <HeaderSection>
           <CustomSelect
             value={modelSphere}
@@ -275,7 +240,7 @@ export default function HeatmapComponent({ theme }: HeatmapComponentProps) {
           </CustomSelect>
         </HeaderSection>
         <ControlsSection>
-          <ThemedIconButton size="small" theme={theme}>
+          <ThemedIconButton size="small" theme={theme} onClick={() => setMatrix(generateRandomMatrix(10, 10))}>
             <RefreshIcon />
           </ThemedIconButton>
           <CustomTooltip title="This visualization shows the probability of outputs across the computational basis states, for up to 8 qubits." theme={theme} arrow>
@@ -283,17 +248,15 @@ export default function HeatmapComponent({ theme }: HeatmapComponentProps) {
               <InfoOutlinedIcon />
             </ThemedIconButton>
           </CustomTooltip>
-
-
-          
-          {/* <MuiTooltip title="More options" placement="left"> */}
-            <ThemedIconButton  size='small' theme={theme}>
-              <MoreVertIcon />
-            </ThemedIconButton>
-          {/* </MuiTooltip> */}
+          <ThemedIconButton size='small' theme={theme}>
+            <MoreVertIcon />
+          </ThemedIconButton>
         </ControlsSection>
       </TitleContainer>
-      <HeatmapContainer id="heatmap-container" />
+      <HeatmapContainer>
+        <canvas ref={canvasRef} />
+        <canvas ref={colorBarCanvasRef} style={{ marginLeft: '10px' }} />
+      </HeatmapContainer>
       <ControlsContainer>
         <Slider
           defaultValue={1}
@@ -304,18 +267,9 @@ export default function HeatmapComponent({ theme }: HeatmapComponentProps) {
           onChange={handleSliderChange}
           style={{ width: '85%' }}
         />
-
-        {/* <CustomSelect
-          value={modelSphere}
-          onChange={handleModelSphereChange}
-          displayEmpty
-          input={<OutlinedInput />}
-          theme={theme}
-        >
-          <CustomMenuItem value="Statevector" theme={theme}>Statevector</CustomMenuItem>
-          <CustomMenuItem value="Probabilities" theme={theme}>Probabilities</CustomMenuItem>
-        </CustomSelect> */}
       </ControlsContainer>
     </>
   );
-}
+};
+
+export default HeatmapComponent;

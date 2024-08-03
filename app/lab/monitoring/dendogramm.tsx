@@ -1,7 +1,7 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import * as d3 from 'd3';
+import Tree from 'react-d3-tree';
 
 import { Slider, MenuItem, Tooltip, IconButton } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -116,95 +116,39 @@ const ControlsSection = styled.div`
   width: 17%;
 `;
 
-const Dendrogram: React.FC<{ theme: string }> = ({ theme }) => {
-  const ref = useRef<SVGSVGElement>(null);
-
-  const [selected, setSelected] = useState('Probabilities');
-  useEffect(() => {
-    const data: NodeData = {
-      name: 'root',
+const data: NodeData = {
+  name: 'root',
+  children: [
+    {
+      name: '1',
       children: [
-        {
-          name: '1',
-          children: [
-            { name: '2' },
-            { name: '10' },
-          ],
-        },
-        {
-          name: '3',
-          children: [
-            { name: '4' },
-            { name: '6' },
-            { name: '7' },
-          ],
-        },
-        {
-          name: '5',
-          children: [
-            { name: '8' },
-            { name: '9' },
-          ],
-        },
+        { name: '2' },
+        { name: '10' },
       ],
-    };
+    },
+    {
+      name: '3',
+      children: [
+        { name: '4' },
+        { name: '6' },
+        { name: '7' },
+      ],
+    },
+    {
+      name: '5',
+      children: [
+        { name: '8' },
+        { name: '9' },
+      ],
+    },
+  ],
+};
 
-    const containerWidth = ref.current?.parentElement?.clientWidth || 500;
-    const containerHeight = ref.current?.parentElement?.clientHeight || 280;
-
-    const margin = { top: 20, right: 100, bottom: 80, left: 100 };
-    const width = containerWidth - margin.right - margin.left;
-    const height = containerHeight - margin.top - margin.bottom;
-
-    const svg = d3.select(ref.current)
-      .attr('width', '100%')
-      .attr('height', '100%')
-      .attr('viewBox', `0 0 ${containerWidth} ${containerHeight}`)
-      .append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
-
-    const cluster = d3.cluster<NodeData>()
-      .size([height, width]);
-
-    const root = d3.hierarchy(data);
-
-    cluster(root);
-
-    const link = svg.selectAll('.link')
-      .data(root.descendants().slice(1))
-      .enter().append('path')
-      .attr('class', 'link')
-      .attr('d', d => `
-        M${d.y},${d.x}
-        C${(d.parent?.y ?? 0) + 100},${d.x}
-         ${(d.parent?.y ?? 0) + 100},${d.parent?.x ?? 0}
-         ${d.parent?.y ?? 0},${d.parent?.x ?? 0}
-      `)
-      .attr('stroke', 'blue')
-      .attr('fill', 'none');
-
-    const node = svg.selectAll('.node')
-      .data(root.descendants())
-      .enter().append('g')
-      .attr('class', d => `node${d.children ? ' node--internal' : ' node--leaf'}`)
-      .attr('transform', d => `translate(${d.y},${d.x})`);
-
-    node.append('circle')
-      .attr('r', 2.5)
-      .attr('stroke', 'blue');
-
-    node.append('text')
-      .attr('dy', 3)
-      .attr('x', d => d.children ? -8 : 8)
-      .style('text-anchor', d => d.children ? 'end' : 'start')
-      .style('fill', theme === 'dark' ? '#fff' : '#000') // Adjust text color based on theme
-      .text(d => d.data.name);
-  }, [theme]);
-
-  const [modelTypeDendogramm, setModelTypeDendogramm] = useState('Statevector');
+const Dendrogram: React.FC<{ theme: string }> = ({ theme }) => {
+  const [modelTypeDendrogram, setModelTypeDendrogram] = useState('Statevector');
 
   const handleDropdownChangeShape = (e) => {
-    setModelTypeDendogramm(e.target.value);
+    setModelTypeDendrogram(e.target.value);
   };
 
   return (
@@ -212,7 +156,7 @@ const Dendrogram: React.FC<{ theme: string }> = ({ theme }) => {
       <TitleContainer theme={theme}>
         <HeaderSection>
           <CustomSelect
-            value={modelTypeDendogramm}
+            value={modelTypeDendrogram}
             onChange={handleDropdownChangeShape}
             displayEmpty
             input={<OutlinedInput />}
@@ -237,9 +181,38 @@ const Dendrogram: React.FC<{ theme: string }> = ({ theme }) => {
         </ControlsSection>
       </TitleContainer>
 
-      <DendrogramContainer>
-        <svg ref={ref}></svg>
-      </DendrogramContainer>
+      {/* <DendrogramContainer>
+        <Tree
+          data={data}
+          orientation="horizontal"
+          pathFunc="step"
+          translate={{ x: 100, y: 200 }}
+          styles={{
+            links: {
+              stroke: 'blue',
+              strokeWidth: 2,
+            },
+            nodes: {
+              node: {
+                circle: {
+                  fill: 'blue',
+                },
+                name: {
+                  stroke: theme === 'dark' ? '#fff' : '#000',
+                },
+              },
+              leafNode: {
+                circle: {
+                  fill: 'blue',
+                },
+                name: {
+                  stroke: theme === 'dark' ? '#fff' : '#000',
+                },
+              },
+            },
+          }}
+        />
+      </DendrogramContainer> */}
     </>
   );
 };
